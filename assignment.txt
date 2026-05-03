@@ -1,0 +1,235 @@
+
+Assignment 1
+Business Process Modeling
+CSE346/CSE345
+Dr. Islam El-Maddah
+Spring 2026
+HAND one report for team of 1 or 2
+It is required to develop one business process of e-purchase like amazon or souq
+using BPMN 2 or petrinet using any of the online tools and you document it as
+much as possible allow the use of event intermediate to complain if the goods
+were delayed
+hand one zipped file or pdf containing report of the model + analysis before after
+enhancing it
+🧾 Evaluation Criteria for E-Purchase Business Process Assignment
+Criteria Category Details Marks
+1. Process Model
+Quality
+- Correct use of BPMN 2.0 or Petri Net
+standards
+- Clear representation of core e-purchase steps
+(e.g., order, payment, shipping)
+- Logical process flow and use of start/end
+events
+20
+2. Tool Proficiency
+- Model built using an online modeling tool
+(e.g., Camunda, Signavio, WoPeD)
+- Model exported and included properly in the
+submitted PDF/ZIP
+5
+3. Use of Intermediate
+Events
+- Proper implementation of “goods delay”
+intermediate event
+- Event-triggered complaint or escalation path
+modeled clearly
+10
+4. Documentation &
+Clarity
+- Comprehensive explanation of the process
+steps
+- Diagrams labeled and supported with text
+- Screenshots or model exports included
+15
+5. Analysis – Before
+Enhancement
+- Identification of potential inefficiencies or
+issues (e.g., bottlenecks, delays, redundancies)
+- Justification of observed issues
+10
+Criteria Category Details Marks
+6. Enhancement
+Suggestions
+- Improved version of the process model with
+logical enhancements
+- Clear description of what was changed and
+why
+10
+7. Comparative
+Analysis
+- Before vs. After model comparison with
+discussion of improvements
+- Expected outcomes from enhancements (e.g.,
+shorter processing time)
+10
+8. Report Quality &
+Submission
+- Neatly compiled PDF or zipped file
+- Includes all diagrams, analysis, and
+explanations
+- Clear formatting and professional
+presentation
+10
+9. Originality & Effort
+- Creativity in modeling an Amazon/Souq-like
+system
+- Use of realistic steps and data flow
+- Clear indication of student effort
+10
+🔚 Total: 100 Marks
+
+
+Assignment 2
+Process Mining
+CSE346 Business Process Modeling
+Spring 2026
+Dr. Islam El-Maddah
+Due to 10th of May 2026
+Teams of Four Students or individuals
+
+
+
+---
+
+### **Case 1**
+
+* Ch-4680555556-1 | 2012-07-30 11:14 | Check stock availability | SYS1
+* Re-5972222222-1 | 2012-07-30 14:20 | Retrieve product from warehouse | Rick
+* Co-6319444444-1 | 2012-07-30 15:10 | Confirm order | Chuck
+* Ge-6402777778-1 | 2012-07-30 15:22 | Get shipping address | SYS2
+* Em-6555555556-1 | 2012-07-30 15:44 | Emit invoice | SYS2
+* Re-4180555556-1 | 2012-08-04 10:02 | Receive payment | SYS2
+* Sh-4659722222-1 | 2012-08-05 11:11 | Ship product | Susi
+* Ar-3833333333-1 | 2012-08-06 09:12 | Archive order | DMS
+
+---
+
+### **Case 2**
+
+* Ch-4055555556-2 | 2012-08-01 09:44 | Check stock availability | SYS1
+* Ch-4208333333-2 | 2012-08-01 10:06 | Check materials availability | SYS1
+* Re-4666666667-2 | 2012-08-01 11:12 | Request raw materials | Ringo
+* Ob-3263888889-2 | 2012-08-03 07:50 | Obtain raw materials | Olaf
+* Ma-6131944444-2 | 2012-08-04 14:43 | Manufacture product | SYS1
+* Co-6187615741-2 | 2012-08-04 14:51 | Confirm order | Conny
+* Em-6388888889-2 | 2012-08-04 15:20 | Emit invoice | SYS2
+* Ge-6439814815-2 | 2012-08-04 15:27 | Get shipping address | SYS2
+* Sh-7277777778-2 | 2012-08-04 17:28 | Ship product | Sara
+* Re-3611111111-2 | 2012-08-07 08:40 | Receive payment | SYS2
+* Ar-3680555556-2 | 2012-08-07 08:50 | Archive order | DMS
+
+---
+
+### **Case 3**
+
+* Ch-4208333333-3 | 2012-08-02 10:06 | Check stock availability | SYS1
+* Ch-4243055556-3 | 2012-08-02 10:11 | Check materials availability | SYS1
+* Ma-6694444444-3 | 2012-08-02 16:04 | Manufacture product | SYS1
+* Co-6751157407-3 | 2012-08-02 16:12 | Confirm order | Chuck
+* Em-6895833333-3 | 2012-08-02 16:33 | Emit invoice | SYS2
+* Sh-7013888889-3 | 2012-08-02 16:50 | Get shipping address | SYS2
+* Ge-7069444444-3 | 2012-08-02 16:58 | Ship product | Emil
+* Re-4305555556-3 | 2012-08-06 10:20 | Receive payment | SYS2
+* Ar-4340277778-3 | 2012-08-06 10:25 | Archive order | DMS
+
+---
+
+### **Case 4**
+
+* Ch-3409722222-4 | 2012-08-04 08:11 | Check stock availability | SYS1
+* Re-5000115741-4 | 2012-08-04 12:00 | Retrieve product from warehouse | SYS1
+* Co-5041898148-4 | 2012-08-04 12:06 | Confirm order | Hans
+* Ge-5223148148-4 | 2012-08-04 12:32 | Get shipping address | SYS2
+* Em-4034837963-4 | 2012-08-08 09:41 | Emit invoice | SYS2
+* Re-4180555556-4 | 2012-08-08 10:02 | Receive payment | SYS2
+* Sh-5715277778-4 | 2012-08-08 13:43 | Ship product | Susi
+* Ar-5888888889-4 | 2012-08-08 14:08 | Archive order | DMS
+
+---
+
+
+
+
+
+DMS centralized data management system
+SYS1 separate computer system
+SYS2 separate computer system
+Hans, Sara, Susi are employee names
+In this assignment you have to do two main tasks
+Task One
+is to mine the given event log
+• Apply Alpha algorithm to determine the process model of the given log
+• Create the process model as event network diagram (PERT chart)
+Task Two
+Use VBA/Power bi/excel/other programming languages to automate the above steps
+given a data sheet of the event log
+Teams of two or individuals due to 10 May 2025
+Certainly, Islam! Here's a clear, structured Evaluation Criteria for this two-part assignment
+that involves process mining and automation. It’s designed to fairly assess analytical rigor,
+technical execution, and creativity across both tasks:
+Evaluation Criteria for Event Log Process Mining and Automation Assignment
+Criteria Category Details Marks
+Task 1: Event Log Mining
+(50 pts)
+1. Alpha Algorithm
+Application
+- Correct application of the Alpha algorithm steps
+- Clear identification of activities and causal
+relationships from the event log
+15
+2. Event Network (PERT
+Chart)
+- Accurate translation of the mined process into a
+PERT chart
+- Logical task sequencing and dependency mapping
+- Visual clarity of diagram
+15
+3. Process Understanding
+& Interpretation
+- Demonstrates insight into the process behavior from
+the log
+- Discusses concurrency, loops, or anomalies if
+present
+10
+Criteria Category Details Marks
+4. Clarity of
+Documentation
+- Clear explanation of how the model was built
+- Appropriate visual aids and screenshots
+- Well-organized and readable structure
+10
+|
+Task 2: Automation (50 pts)
+SECTION CRITERIA MARKS
+5. TOOL SELECTION &
+JUSTIFICATION
+• Suitable tool/language chosen (VBA, Excel, Power
+BI, Python, etc.)• Justification for tool choice based
+on task suitability
+5
+6. DATA
+PREPROCESSING
+• Clean import and structuring of the event log
+dataset• Handling of timestamps, case IDs, and
+activity columns
+10
+7. ALPHA ALGORITHM
+AUTOMATION
+• Functional implementation of Alpha logic through
+code or formulas• Outputs intermediate steps where
+needed for transparency
+15
+8. GENERATION OF
+PERT CHART
+• Automated or semi-automated generation of an
+event network or dependency graph• Validated
+against Task 1 model
+10
+9. USABILITY AND
+REUSABILITY
+• Code/modular structure allows user input of a
+different log• Explanation provided on how to re-run
+or apply to new data
+10
+Total: 100 Marks

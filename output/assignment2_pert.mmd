@@ -1,0 +1,31 @@
+flowchart LR
+    Start((Start))
+    End((End))
+    Archive_order["Archive order"]
+    Check_materials["Check materials"]
+    Check_stock["Check stock"]
+    Confirm_order["Confirm order"]
+    Emit_invoice["Emit invoice"]
+    Get_address["Get address"]
+    Manufacture["Manufacture"]
+    Obtain_materials["Obtain materials"]
+    Receive_payment["Receive payment"]
+    Request_materials["Request materials"]
+    Retrieve_item["Retrieve item"]
+    Ship_product["Ship product"]
+    Start --> Check_stock
+    Check_materials --> Manufacture
+    Check_materials --> Request_materials
+    Check_stock --> Check_materials
+    Check_stock --> Retrieve_item
+    Confirm_order --> Emit_invoice
+    Confirm_order --> Get_address
+    Emit_invoice --> Receive_payment
+    Get_address --> Ship_product
+    Manufacture --> Confirm_order
+    Obtain_materials --> Manufacture
+    Receive_payment --> Archive_order
+    Request_materials --> Obtain_materials
+    Retrieve_item --> Confirm_order
+    Ship_product --> Archive_order
+    Archive_order --> End

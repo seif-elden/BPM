@@ -1,0 +1,37 @@
+case_id,timestamp,activity,resource
+1,2012-07-30 11:14,Check stock availability,SYS1
+1,2012-07-30 14:20,Retrieve product from warehouse,Rick
+1,2012-07-30 15:10,Confirm order,Chuck
+1,2012-07-30 15:22,Get shipping address,SYS2
+1,2012-07-30 15:44,Emit invoice,SYS2
+1,2012-08-04 10:02,Receive payment,SYS2
+1,2012-08-05 11:11,Ship product,Susi
+1,2012-08-06 09:12,Archive order,DMS
+2,2012-08-01 09:44,Check stock availability,SYS1
+2,2012-08-01 10:06,Check materials availability,SYS1
+2,2012-08-01 11:12,Request raw materials,Ringo
+2,2012-08-03 07:50,Obtain raw materials,Olaf
+2,2012-08-04 14:43,Manufacture product,SYS1
+2,2012-08-04 14:51,Confirm order,Conny
+2,2012-08-04 15:20,Emit invoice,SYS2
+2,2012-08-04 15:27,Get shipping address,SYS2
+2,2012-08-04 17:28,Ship product,Sara
+2,2012-08-07 08:40,Receive payment,SYS2
+2,2012-08-07 08:50,Archive order,DMS
+3,2012-08-02 10:06,Check stock availability,SYS1
+3,2012-08-02 10:11,Check materials availability,SYS1
+3,2012-08-02 16:04,Manufacture product,SYS1
+3,2012-08-02 16:12,Confirm order,Chuck
+3,2012-08-02 16:33,Emit invoice,SYS2
+3,2012-08-02 16:50,Get shipping address,SYS2
+3,2012-08-02 16:58,Ship product,Emil
+3,2012-08-06 10:20,Receive payment,SYS2
+3,2012-08-06 10:25,Archive order,DMS
+4,2012-08-04 08:11,Check stock availability,SYS1
+4,2012-08-04 12:00,Retrieve product from warehouse,SYS1
+4,2012-08-04 12:06,Confirm order,Hans
+4,2012-08-04 12:32,Get shipping address,SYS2
+4,2012-08-08 09:41,Emit invoice,SYS2
+4,2012-08-08 10:02,Receive payment,SYS2
+4,2012-08-08 13:43,Ship product,Susi
+4,2012-08-08 14:08,Archive order,DMS

@@ -1,0 +1,34 @@
+digraph alpha_net {
+  rankdir=LR;
+  node [shape=box, style="rounded"];
+  start [label="Start", shape=circle];
+  end [label="End", shape=doublecircle];
+  "Archive order" [label="Archive order"];
+  "Check materials availability" [label="Check materials"];
+  "Check stock availability" [label="Check stock"];
+  "Confirm order" [label="Confirm order"];
+  "Emit invoice" [label="Emit invoice"];
+  "Get shipping address" [label="Get address"];
+  "Manufacture product" [label="Manufacture"];
+  "Obtain raw materials" [label="Obtain materials"];
+  "Receive payment" [label="Receive payment"];
+  "Request raw materials" [label="Request materials"];
+  "Retrieve product from warehouse" [label="Retrieve item"];
+  "Ship product" [label="Ship product"];
+  start -> "Check stock availability";
+  "Check materials availability" -> "Manufacture product";
+  "Check materials availability" -> "Request raw materials";
+  "Check stock availability" -> "Check materials availability";
+  "Check stock availability" -> "Retrieve product from warehouse";
+  "Confirm order" -> "Emit invoice";
+  "Confirm order" -> "Get shipping address";
+  "Emit invoice" -> "Receive payment";
+  "Get shipping address" -> "Ship product";
+  "Manufacture product" -> "Confirm order";
+  "Obtain raw materials" -> "Manufacture product";
+  "Receive payment" -> "Archive order";
+  "Request raw materials" -> "Obtain raw materials";
+  "Retrieve product from warehouse" -> "Confirm order";
+  "Ship product" -> "Archive order";
+  "Archive order" -> end;
+}

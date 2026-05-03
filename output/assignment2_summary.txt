@@ -1,0 +1,38 @@
+Alpha Algorithm Summary
+Cases: 4
+Activities: 12
+Direct succession pairs: 18
+Causal pairs: 14
+Parallel ordered pairs: 4
+Choice ordered pairs: 100
+Maximal Alpha places: 11
+Average cycle time: 5.28 days
+
+Causal relations:
+- Check materials availability -> Manufacture product
+- Check materials availability -> Request raw materials
+- Check stock availability -> Check materials availability
+- Check stock availability -> Retrieve product from warehouse
+- Confirm order -> Emit invoice
+- Confirm order -> Get shipping address
+- Emit invoice -> Receive payment
+- Get shipping address -> Ship product
+- Manufacture product -> Confirm order
+- Obtain raw materials -> Manufacture product
+- Receive payment -> Archive order
+- Request raw materials -> Obtain raw materials
+- Retrieve product from warehouse -> Confirm order
+- Ship product -> Archive order
+
+Maximal places:
+- {Check materials availability} -> {Manufacture product, Request raw materials}
+- {Check materials availability, Obtain raw materials} -> {Manufacture product}
+- {Check stock availability} -> {Check materials availability, Retrieve product from warehouse}
+- {Confirm order} -> {Emit invoice}
+- {Confirm order} -> {Get shipping address}
+- {Emit invoice} -> {Receive payment}
+- {Get shipping address} -> {Ship product}
+- {Manufacture product, Retrieve product from warehouse} -> {Confirm order}
+- {Receive payment} -> {Archive order}
+- {Request raw materials} -> {Obtain raw materials}
+- {Ship product} -> {Archive order}

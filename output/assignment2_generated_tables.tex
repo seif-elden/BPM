@@ -1,0 +1,98 @@
+\section{Generated Alpha-Algorithm Evidence}
+\subsection{Traces}
+\begin{longtable}{p{0.08\linewidth}p{0.80\linewidth}}
+\toprule
+Case & Trace \\
+\midrule
+1 & Check stock $\rightarrow$ Retrieve item $\rightarrow$ Confirm order $\rightarrow$ Get address $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Ship product $\rightarrow$ Archive order \\
+2 & Check stock $\rightarrow$ Check materials $\rightarrow$ Request materials $\rightarrow$ Obtain materials $\rightarrow$ Manufacture $\rightarrow$ Confirm order $\rightarrow$ Emit invoice $\rightarrow$ Get address $\rightarrow$ Ship product $\rightarrow$ Receive payment $\rightarrow$ Archive order \\
+3 & Check stock $\rightarrow$ Check materials $\rightarrow$ Manufacture $\rightarrow$ Confirm order $\rightarrow$ Emit invoice $\rightarrow$ Get address $\rightarrow$ Ship product $\rightarrow$ Receive payment $\rightarrow$ Archive order \\
+4 & Check stock $\rightarrow$ Retrieve item $\rightarrow$ Confirm order $\rightarrow$ Get address $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Ship product $\rightarrow$ Archive order \\
+\bottomrule
+\end{longtable}
+\subsection{Direct Succession and Causality}
+\begin{longtable}{p{0.30\linewidth}p{0.30\linewidth}r p{0.18\linewidth}}
+\toprule
+From & To & Count & Alpha relation \\
+\midrule
+Check materials & Manufacture & 1 & $\rightarrow$ \\
+Check materials & Request materials & 1 & $\rightarrow$ \\
+Check stock & Check materials & 2 & $\rightarrow$ \\
+Check stock & Retrieve item & 2 & $\rightarrow$ \\
+Confirm order & Emit invoice & 2 & $\rightarrow$ \\
+Confirm order & Get address & 2 & $\rightarrow$ \\
+Emit invoice & Get address & 2 & $\parallel$ \\
+Emit invoice & Receive payment & 2 & $\rightarrow$ \\
+Get address & Emit invoice & 2 & $\parallel$ \\
+Get address & Ship product & 2 & $\rightarrow$ \\
+Manufacture & Confirm order & 2 & $\rightarrow$ \\
+Obtain materials & Manufacture & 1 & $\rightarrow$ \\
+Receive payment & Archive order & 2 & $\rightarrow$ \\
+Receive payment & Ship product & 2 & $\parallel$ \\
+Request materials & Obtain materials & 1 & $\rightarrow$ \\
+Retrieve item & Confirm order & 2 & $\rightarrow$ \\
+Ship product & Archive order & 2 & $\rightarrow$ \\
+Ship product & Receive payment & 2 & $\parallel$ \\
+\bottomrule
+\end{longtable}
+\subsection{Alpha Sets}
+\begin{itemize}
+\item $T_W$ activities: Archive order, Check materials, Check stock, Confirm order, Emit invoice, Get address, Manufacture, Obtain materials, Receive payment, Request materials, Retrieve item, Ship product
+\item $T_I$ start activities: Check stock
+\item $T_O$ end activities: Archive order
+\item Parallel pairs: (Emit invoice, Get address), (Receive payment, Ship product)
+\item Main exclusive choices: available stock path versus manufacturing path; raw materials already available versus raw materials requested and obtained.
+\end{itemize}
+\subsection{Maximal Alpha Places}
+\begin{longtable}{p{0.45\linewidth}p{0.45\linewidth}}
+\toprule
+Input activity set $A$ & Output activity set $B$ \\
+\midrule
+$\{Check materials\}$ & $\{Manufacture, Request materials\}$ \\
+$\{Check materials, Obtain materials\}$ & $\{Manufacture\}$ \\
+$\{Check stock\}$ & $\{Check materials, Retrieve item\}$ \\
+$\{Confirm order\}$ & $\{Emit invoice\}$ \\
+$\{Confirm order\}$ & $\{Get address\}$ \\
+$\{Emit invoice\}$ & $\{Receive payment\}$ \\
+$\{Get address\}$ & $\{Ship product\}$ \\
+$\{Manufacture, Retrieve item\}$ & $\{Confirm order\}$ \\
+$\{Receive payment\}$ & $\{Archive order\}$ \\
+$\{Request materials\}$ & $\{Obtain materials\}$ \\
+$\{Ship product\}$ & $\{Archive order\}$ \\
+\bottomrule
+\end{longtable}
+\subsection{Timing Metrics}
+\begin{longtable}{p{0.10\linewidth}p{0.22\linewidth}p{0.22\linewidth}p{0.18\linewidth}}
+\toprule
+Case & Start & End & Cycle time \\
+\midrule
+1 & 2012-07-30 11:14 & 2012-08-06 09:12 & 6.92 days \\
+2 & 2012-08-01 09:44 & 2012-08-07 08:50 & 5.96 days \\
+3 & 2012-08-02 10:06 & 2012-08-06 10:25 & 4.01 days \\
+4 & 2012-08-04 08:11 & 2012-08-08 14:08 & 4.25 days \\
+\bottomrule
+\end{longtable}
+\begin{longtable}{p{0.32\linewidth}p{0.32\linewidth}r r}
+\toprule
+From & To & Occurrences & Average hours \\
+\midrule
+Ship product & Receive payment & 2 & 76.28 \\
+Emit invoice & Receive payment & 2 & 57.32 \\
+Get address & Emit invoice & 2 & 46.76 \\
+Request materials & Obtain materials & 1 & 44.63 \\
+Obtain materials & Manufacture & 1 & 30.88 \\
+Receive payment & Ship product & 2 & 14.42 \\
+Ship product & Archive order & 2 & 11.22 \\
+Check materials & Manufacture & 1 & 5.88 \\
+Check stock & Retrieve item & 2 & 3.46 \\
+Check materials & Request materials & 1 & 1.10 \\
+Get address & Ship product & 2 & 1.07 \\
+Retrieve item & Confirm order & 2 & 0.47 \\
+Confirm order & Emit invoice & 2 & 0.42 \\
+Confirm order & Get address & 2 & 0.32 \\
+Check stock & Check materials & 2 & 0.22 \\
+Emit invoice & Get address & 2 & 0.20 \\
+Manufacture & Confirm order & 2 & 0.13 \\
+Receive payment & Archive order & 2 & 0.12 \\
+\bottomrule
+\end{longtable}
