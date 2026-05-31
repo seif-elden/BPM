@@ -1,0 +1,286 @@
+<?xml version="1.0" ?>
+<pnml>
+  <net id="assignment1_to_be_petri" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <name>
+      <text>Assignment 1 To-Be E-Purchase Petri Net</text>
+    </name>
+    <page id="page1">
+      <place id="p_start">
+        <name>
+          <text>Checkout submitted</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="p_validated">
+        <name>
+          <text>Order validated</text>
+        </name>
+      </place>
+      <place id="p_stock_ready">
+        <name>
+          <text>Stock check ready</text>
+        </name>
+      </place>
+      <place id="p_payment_ready">
+        <name>
+          <text>Payment check ready</text>
+        </name>
+      </place>
+      <place id="p_stock_checked">
+        <name>
+          <text>Stock checked</text>
+        </name>
+      </place>
+      <place id="p_payment_checked">
+        <name>
+          <text>Payment checked</text>
+        </name>
+      </place>
+      <place id="p_order_decision">
+        <name>
+          <text>Order decision</text>
+        </name>
+      </place>
+      <place id="p_reject_ready">
+        <name>
+          <text>Reject path</text>
+        </name>
+      </place>
+      <place id="p_reserve_ready">
+        <name>
+          <text>Ready to reserve</text>
+        </name>
+      </place>
+      <place id="p_fulfillment_reserved">
+        <name>
+          <text>Fulfillment reserved</text>
+        </name>
+      </place>
+      <place id="p_invoice_ready">
+        <name>
+          <text>Invoice branch</text>
+        </name>
+      </place>
+      <place id="p_label_ready">
+        <name>
+          <text>Label branch</text>
+        </name>
+      </place>
+      <place id="p_invoice_done">
+        <name>
+          <text>Invoice emitted</text>
+        </name>
+      </place>
+      <place id="p_label_created">
+        <name>
+          <text>Label created</text>
+        </name>
+      </place>
+      <place id="p_packed">
+        <name>
+          <text>Packed</text>
+        </name>
+      </place>
+      <place id="p_shipped">
+        <name>
+          <text>Shipped</text>
+        </name>
+      </place>
+      <place id="p_tracking_ready">
+        <name>
+          <text>Tracking ready</text>
+        </name>
+      </place>
+      <place id="p_sla_wait">
+        <name>
+          <text>Waiting SLA event</text>
+        </name>
+      </place>
+      <place id="p_delay_case">
+        <name>
+          <text>Delay active</text>
+        </name>
+      </place>
+      <place id="p_complaint_open">
+        <name>
+          <text>Complaint open</text>
+        </name>
+      </place>
+      <place id="p_customer_notified">
+        <name>
+          <text>Customer notified</text>
+        </name>
+      </place>
+      <place id="p_delivery_ok">
+        <name>
+          <text>Delivery confirmed</text>
+        </name>
+      </place>
+      <place id="p_done">
+        <name>
+          <text>Case closed</text>
+        </name>
+      </place>
+      <transition id="t_validate_order">
+        <name>
+          <text>Validate order</text>
+        </name>
+      </transition>
+      <transition id="t_auto_checks_split">
+        <name>
+          <text>silent: automated checks split</text>
+        </name>
+      </transition>
+      <transition id="t_check_stock">
+        <name>
+          <text>Check stock</text>
+        </name>
+      </transition>
+      <transition id="t_authorize_payment">
+        <name>
+          <text>Authorize payment</text>
+        </name>
+      </transition>
+      <transition id="t_checks_join">
+        <name>
+          <text>silent: checks join</text>
+        </name>
+      </transition>
+      <transition id="t_invalid_order">
+        <name>
+          <text>silent: invalid order</text>
+        </name>
+      </transition>
+      <transition id="t_notify_rejection">
+        <name>
+          <text>Notify rejection</text>
+        </name>
+      </transition>
+      <transition id="t_valid_order">
+        <name>
+          <text>silent: valid order</text>
+        </name>
+      </transition>
+      <transition id="t_reserve_fulfillment">
+        <name>
+          <text>Reserve fulfillment</text>
+        </name>
+      </transition>
+      <transition id="t_fulfill_split">
+        <name>
+          <text>silent: fulfillment split</text>
+        </name>
+      </transition>
+      <transition id="t_emit_invoice">
+        <name>
+          <text>Emit invoice</text>
+        </name>
+      </transition>
+      <transition id="t_create_label">
+        <name>
+          <text>Create label</text>
+        </name>
+      </transition>
+      <transition id="t_pack_order">
+        <name>
+          <text>Pack order</text>
+        </name>
+      </transition>
+      <transition id="t_ship_product">
+        <name>
+          <text>Ship product</text>
+        </name>
+      </transition>
+      <transition id="t_fulfillment_join">
+        <name>
+          <text>silent: fulfillment join</text>
+        </name>
+      </transition>
+      <transition id="t_track_shipment">
+        <name>
+          <text>Track shipment</text>
+        </name>
+      </transition>
+      <transition id="t_delivery_confirmed">
+        <name>
+          <text>Message: delivery confirmed</text>
+        </name>
+      </transition>
+      <transition id="t_sla_breached">
+        <name>
+          <text>Timer: SLA breached</text>
+        </name>
+      </transition>
+      <transition id="t_open_complaint">
+        <name>
+          <text>Open complaint</text>
+        </name>
+      </transition>
+      <transition id="t_notify_customer">
+        <name>
+          <text>Notify customer</text>
+        </name>
+      </transition>
+      <transition id="t_expedite_courier">
+        <name>
+          <text>Expedite courier</text>
+        </name>
+      </transition>
+      <transition id="t_archive_order">
+        <name>
+          <text>Archive order</text>
+        </name>
+      </transition>
+      <arc id="a001" source="p_start" target="t_validate_order"/>
+      <arc id="a002" source="t_validate_order" target="p_validated"/>
+      <arc id="a003" source="p_validated" target="t_auto_checks_split"/>
+      <arc id="a004" source="t_auto_checks_split" target="p_stock_ready"/>
+      <arc id="a005" source="t_auto_checks_split" target="p_payment_ready"/>
+      <arc id="a006" source="p_stock_ready" target="t_check_stock"/>
+      <arc id="a007" source="t_check_stock" target="p_stock_checked"/>
+      <arc id="a008" source="p_payment_ready" target="t_authorize_payment"/>
+      <arc id="a009" source="t_authorize_payment" target="p_payment_checked"/>
+      <arc id="a010" source="p_stock_checked" target="t_checks_join"/>
+      <arc id="a011" source="p_payment_checked" target="t_checks_join"/>
+      <arc id="a012" source="t_checks_join" target="p_order_decision"/>
+      <arc id="a013" source="p_order_decision" target="t_invalid_order"/>
+      <arc id="a014" source="t_invalid_order" target="p_reject_ready"/>
+      <arc id="a015" source="p_reject_ready" target="t_notify_rejection"/>
+      <arc id="a016" source="t_notify_rejection" target="p_done"/>
+      <arc id="a017" source="p_order_decision" target="t_valid_order"/>
+      <arc id="a018" source="t_valid_order" target="p_reserve_ready"/>
+      <arc id="a019" source="p_reserve_ready" target="t_reserve_fulfillment"/>
+      <arc id="a020" source="t_reserve_fulfillment" target="p_fulfillment_reserved"/>
+      <arc id="a021" source="p_fulfillment_reserved" target="t_fulfill_split"/>
+      <arc id="a022" source="t_fulfill_split" target="p_invoice_ready"/>
+      <arc id="a023" source="t_fulfill_split" target="p_label_ready"/>
+      <arc id="a024" source="p_invoice_ready" target="t_emit_invoice"/>
+      <arc id="a025" source="t_emit_invoice" target="p_invoice_done"/>
+      <arc id="a026" source="p_label_ready" target="t_create_label"/>
+      <arc id="a027" source="t_create_label" target="p_label_created"/>
+      <arc id="a028" source="p_label_created" target="t_pack_order"/>
+      <arc id="a029" source="t_pack_order" target="p_packed"/>
+      <arc id="a030" source="p_packed" target="t_ship_product"/>
+      <arc id="a031" source="t_ship_product" target="p_shipped"/>
+      <arc id="a032" source="p_invoice_done" target="t_fulfillment_join"/>
+      <arc id="a033" source="p_shipped" target="t_fulfillment_join"/>
+      <arc id="a034" source="t_fulfillment_join" target="p_tracking_ready"/>
+      <arc id="a035" source="p_tracking_ready" target="t_track_shipment"/>
+      <arc id="a036" source="t_track_shipment" target="p_sla_wait"/>
+      <arc id="a037" source="p_sla_wait" target="t_delivery_confirmed"/>
+      <arc id="a038" source="t_delivery_confirmed" target="p_delivery_ok"/>
+      <arc id="a039" source="p_delivery_ok" target="t_archive_order"/>
+      <arc id="a040" source="t_archive_order" target="p_done"/>
+      <arc id="a041" source="p_sla_wait" target="t_sla_breached"/>
+      <arc id="a042" source="t_sla_breached" target="p_delay_case"/>
+      <arc id="a043" source="p_delay_case" target="t_open_complaint"/>
+      <arc id="a044" source="t_open_complaint" target="p_complaint_open"/>
+      <arc id="a045" source="p_complaint_open" target="t_notify_customer"/>
+      <arc id="a046" source="t_notify_customer" target="p_customer_notified"/>
+      <arc id="a047" source="p_customer_notified" target="t_expedite_courier"/>
+      <arc id="a048" source="t_expedite_courier" target="p_sla_wait"/>
+    </page>
+  </net>
+</pnml>

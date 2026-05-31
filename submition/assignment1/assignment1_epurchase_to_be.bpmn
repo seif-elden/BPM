@@ -1,0 +1,327 @@
+<?xml version="1.0" ?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Epurchase_ToBe" targetNamespace="https://cse346.local/epurchase">
+  <bpmn:process id="Epurchase_ToBe" name="E-Purchase To-Be Process" isExecutable="false">
+    <bpmn:startEvent id="Start_Checkout" name="Checkout submitted">
+      <bpmn:outgoing>F01</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:task id="Validate_Order" name="Validate order">
+      <bpmn:incoming>F01</bpmn:incoming>
+      <bpmn:outgoing>F02</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Auto_Checks" name="Automated checks">
+      <bpmn:incoming>F02</bpmn:incoming>
+      <bpmn:outgoing>F03</bpmn:outgoing>
+      <bpmn:outgoing>F04</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Check_Stock" name="Check stock">
+      <bpmn:incoming>F03</bpmn:incoming>
+      <bpmn:outgoing>F05</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Authorize_Payment" name="Authorize payment">
+      <bpmn:incoming>F04</bpmn:incoming>
+      <bpmn:outgoing>F06</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Checks_Join" name="Checks done">
+      <bpmn:incoming>F05</bpmn:incoming>
+      <bpmn:incoming>F06</bpmn:incoming>
+      <bpmn:outgoing>F07</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_Valid" name="Order valid?">
+      <bpmn:incoming>F07</bpmn:incoming>
+      <bpmn:outgoing>F08</bpmn:outgoing>
+      <bpmn:outgoing>F10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:task id="Notify_Rejection" name="Notify rejection">
+      <bpmn:incoming>F08</bpmn:incoming>
+      <bpmn:outgoing>F09</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Rejected" name="Order rejected">
+      <bpmn:incoming>F09</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="Reserve_Fulfillment" name="Reserve fulfillment">
+      <bpmn:incoming>F10</bpmn:incoming>
+      <bpmn:outgoing>F11</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Prepare_Parallel" name="Fulfill">
+      <bpmn:incoming>F11</bpmn:incoming>
+      <bpmn:outgoing>F12</bpmn:outgoing>
+      <bpmn:outgoing>F13</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Emit_Invoice" name="Emit invoice">
+      <bpmn:incoming>F12</bpmn:incoming>
+      <bpmn:outgoing>F16</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Create_Label" name="Create label">
+      <bpmn:incoming>F13</bpmn:incoming>
+      <bpmn:outgoing>F14</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Pack_Order" name="Pack order">
+      <bpmn:incoming>F14</bpmn:incoming>
+      <bpmn:outgoing>F15</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Ship_Product" name="Ship product">
+      <bpmn:incoming>F15</bpmn:incoming>
+      <bpmn:outgoing>F17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Fulfillment_Join" name="Sent">
+      <bpmn:incoming>F16</bpmn:incoming>
+      <bpmn:incoming>F17</bpmn:incoming>
+      <bpmn:outgoing>F18</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Track_Shipment" name="Track shipment">
+      <bpmn:incoming>F18</bpmn:incoming>
+      <bpmn:outgoing>F19</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:eventBasedGateway id="Gateway_SLA" name="SLA event">
+      <bpmn:incoming>F19</bpmn:incoming>
+      <bpmn:incoming>F25</bpmn:incoming>
+      <bpmn:outgoing>F20</bpmn:outgoing>
+      <bpmn:outgoing>F21</bpmn:outgoing>
+    </bpmn:eventBasedGateway>
+    <bpmn:intermediateCatchEvent id="Delivery_Confirmed" name="Delivery confirmed">
+      <bpmn:messageEventDefinition/>
+      <bpmn:incoming>F20</bpmn:incoming>
+      <bpmn:outgoing>F26</bpmn:outgoing>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:intermediateCatchEvent id="SLA_Breach" name="SLA breached">
+      <bpmn:timerEventDefinition>
+        <bpmn:timeDuration>P2D</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+      <bpmn:incoming>F21</bpmn:incoming>
+      <bpmn:outgoing>F22</bpmn:outgoing>
+    </bpmn:intermediateCatchEvent>
+    <bpmn:task id="Open_Complaint" name="Open complaint">
+      <bpmn:incoming>F22</bpmn:incoming>
+      <bpmn:outgoing>F23</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Notify_Customer" name="Notify customer">
+      <bpmn:incoming>F23</bpmn:incoming>
+      <bpmn:outgoing>F24</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Expedite_Courier" name="Expedite courier">
+      <bpmn:incoming>F24</bpmn:incoming>
+      <bpmn:outgoing>F25</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Archive_Order" name="Archive order">
+      <bpmn:incoming>F26</bpmn:incoming>
+      <bpmn:outgoing>F27</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Closed" name="Order closed">
+      <bpmn:incoming>F27</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="F01" sourceRef="Start_Checkout" targetRef="Validate_Order"/>
+    <bpmn:sequenceFlow id="F02" sourceRef="Validate_Order" targetRef="Auto_Checks"/>
+    <bpmn:sequenceFlow id="F03" sourceRef="Auto_Checks" targetRef="Check_Stock"/>
+    <bpmn:sequenceFlow id="F04" sourceRef="Auto_Checks" targetRef="Authorize_Payment"/>
+    <bpmn:sequenceFlow id="F05" sourceRef="Check_Stock" targetRef="Checks_Join"/>
+    <bpmn:sequenceFlow id="F06" sourceRef="Authorize_Payment" targetRef="Checks_Join"/>
+    <bpmn:sequenceFlow id="F07" sourceRef="Checks_Join" targetRef="Gateway_Valid"/>
+    <bpmn:sequenceFlow id="F08" sourceRef="Gateway_Valid" targetRef="Notify_Rejection" name="Invalid"/>
+    <bpmn:sequenceFlow id="F09" sourceRef="Notify_Rejection" targetRef="End_Rejected"/>
+    <bpmn:sequenceFlow id="F10" sourceRef="Gateway_Valid" targetRef="Reserve_Fulfillment" name="Valid"/>
+    <bpmn:sequenceFlow id="F11" sourceRef="Reserve_Fulfillment" targetRef="Prepare_Parallel"/>
+    <bpmn:sequenceFlow id="F12" sourceRef="Prepare_Parallel" targetRef="Emit_Invoice"/>
+    <bpmn:sequenceFlow id="F13" sourceRef="Prepare_Parallel" targetRef="Create_Label"/>
+    <bpmn:sequenceFlow id="F14" sourceRef="Create_Label" targetRef="Pack_Order"/>
+    <bpmn:sequenceFlow id="F15" sourceRef="Pack_Order" targetRef="Ship_Product"/>
+    <bpmn:sequenceFlow id="F16" sourceRef="Emit_Invoice" targetRef="Fulfillment_Join"/>
+    <bpmn:sequenceFlow id="F17" sourceRef="Ship_Product" targetRef="Fulfillment_Join"/>
+    <bpmn:sequenceFlow id="F18" sourceRef="Fulfillment_Join" targetRef="Track_Shipment"/>
+    <bpmn:sequenceFlow id="F19" sourceRef="Track_Shipment" targetRef="Gateway_SLA"/>
+    <bpmn:sequenceFlow id="F20" sourceRef="Gateway_SLA" targetRef="Delivery_Confirmed" name="Delivered"/>
+    <bpmn:sequenceFlow id="F21" sourceRef="Gateway_SLA" targetRef="SLA_Breach" name="Late"/>
+    <bpmn:sequenceFlow id="F22" sourceRef="SLA_Breach" targetRef="Open_Complaint"/>
+    <bpmn:sequenceFlow id="F23" sourceRef="Open_Complaint" targetRef="Notify_Customer"/>
+    <bpmn:sequenceFlow id="F24" sourceRef="Notify_Customer" targetRef="Expedite_Courier"/>
+    <bpmn:sequenceFlow id="F25" sourceRef="Expedite_Courier" targetRef="Gateway_SLA"/>
+    <bpmn:sequenceFlow id="F26" sourceRef="Delivery_Confirmed" targetRef="Archive_Order"/>
+    <bpmn:sequenceFlow id="F27" sourceRef="Archive_Order" targetRef="End_Closed"/>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="Diagram_Epurchase_ToBe">
+    <bpmndi:BPMNPlane id="Plane_Epurchase_ToBe" bpmnElement="Epurchase_ToBe">
+      <bpmndi:BPMNShape id="Start_Checkout_di" bpmnElement="Start_Checkout">
+        <dc:Bounds x="80" y="160" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Validate_Order_di" bpmnElement="Validate_Order">
+        <dc:Bounds x="150" y="146" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Auto_Checks_di" bpmnElement="Auto_Checks">
+        <dc:Bounds x="330" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Check_Stock_di" bpmnElement="Check_Stock">
+        <dc:Bounds x="430" y="70" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Authorize_Payment_di" bpmnElement="Authorize_Payment">
+        <dc:Bounds x="430" y="210" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Checks_Join_di" bpmnElement="Checks_Join">
+        <dc:Bounds x="620" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Valid_di" bpmnElement="Gateway_Valid">
+        <dc:Bounds x="720" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Notify_Rejection_di" bpmnElement="Notify_Rejection">
+        <dc:Bounds x="820" y="60" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Rejected_di" bpmnElement="End_Rejected">
+        <dc:Bounds x="1000" y="74" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Reserve_Fulfillment_di" bpmnElement="Reserve_Fulfillment">
+        <dc:Bounds x="820" y="146" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Prepare_Parallel_di" bpmnElement="Prepare_Parallel">
+        <dc:Bounds x="1000" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Emit_Invoice_di" bpmnElement="Emit_Invoice">
+        <dc:Bounds x="1100" y="70" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Create_Label_di" bpmnElement="Create_Label">
+        <dc:Bounds x="1100" y="210" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Pack_Order_di" bpmnElement="Pack_Order">
+        <dc:Bounds x="1270" y="210" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Ship_Product_di" bpmnElement="Ship_Product">
+        <dc:Bounds x="1440" y="210" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Fulfillment_Join_di" bpmnElement="Fulfillment_Join">
+        <dc:Bounds x="1610" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Track_Shipment_di" bpmnElement="Track_Shipment">
+        <dc:Bounds x="1700" y="146" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_SLA_di" bpmnElement="Gateway_SLA">
+        <dc:Bounds x="1880" y="153" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Delivery_Confirmed_di" bpmnElement="Delivery_Confirmed">
+        <dc:Bounds x="1980" y="92" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SLA_Breach_di" bpmnElement="SLA_Breach">
+        <dc:Bounds x="1980" y="232" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Open_Complaint_di" bpmnElement="Open_Complaint">
+        <dc:Bounds x="2060" y="218" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Notify_Customer_di" bpmnElement="Notify_Customer">
+        <dc:Bounds x="2230" y="218" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Expedite_Courier_di" bpmnElement="Expedite_Courier">
+        <dc:Bounds x="2400" y="218" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Archive_Order_di" bpmnElement="Archive_Order">
+        <dc:Bounds x="2230" y="78" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="End_Closed_di" bpmnElement="End_Closed">
+        <dc:Bounds x="2410" y="92" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="F01_di" bpmnElement="F01">
+        <di:waypoint x="116" y="178"/>
+        <di:waypoint x="150" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F02_di" bpmnElement="F02">
+        <di:waypoint x="280" y="178"/>
+        <di:waypoint x="330" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F03_di" bpmnElement="F03">
+        <di:waypoint x="380" y="178"/>
+        <di:waypoint x="430" y="102"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F04_di" bpmnElement="F04">
+        <di:waypoint x="380" y="178"/>
+        <di:waypoint x="430" y="242"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F05_di" bpmnElement="F05">
+        <di:waypoint x="560" y="102"/>
+        <di:waypoint x="620" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F06_di" bpmnElement="F06">
+        <di:waypoint x="560" y="242"/>
+        <di:waypoint x="620" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F07_di" bpmnElement="F07">
+        <di:waypoint x="670" y="178"/>
+        <di:waypoint x="720" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F08_di" bpmnElement="F08">
+        <di:waypoint x="770" y="178"/>
+        <di:waypoint x="820" y="92"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F09_di" bpmnElement="F09">
+        <di:waypoint x="950" y="92"/>
+        <di:waypoint x="1000" y="92"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F10_di" bpmnElement="F10">
+        <di:waypoint x="770" y="178"/>
+        <di:waypoint x="820" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F11_di" bpmnElement="F11">
+        <di:waypoint x="950" y="178"/>
+        <di:waypoint x="1000" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F12_di" bpmnElement="F12">
+        <di:waypoint x="1050" y="178"/>
+        <di:waypoint x="1100" y="102"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F13_di" bpmnElement="F13">
+        <di:waypoint x="1050" y="178"/>
+        <di:waypoint x="1100" y="242"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F14_di" bpmnElement="F14">
+        <di:waypoint x="1230" y="242"/>
+        <di:waypoint x="1270" y="242"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F15_di" bpmnElement="F15">
+        <di:waypoint x="1400" y="242"/>
+        <di:waypoint x="1440" y="242"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F16_di" bpmnElement="F16">
+        <di:waypoint x="1230" y="102"/>
+        <di:waypoint x="1610" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F17_di" bpmnElement="F17">
+        <di:waypoint x="1570" y="242"/>
+        <di:waypoint x="1610" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F18_di" bpmnElement="F18">
+        <di:waypoint x="1660" y="178"/>
+        <di:waypoint x="1700" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F19_di" bpmnElement="F19">
+        <di:waypoint x="1830" y="178"/>
+        <di:waypoint x="1880" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F20_di" bpmnElement="F20">
+        <di:waypoint x="1930" y="178"/>
+        <di:waypoint x="1980" y="110"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F21_di" bpmnElement="F21">
+        <di:waypoint x="1930" y="178"/>
+        <di:waypoint x="1980" y="250"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F22_di" bpmnElement="F22">
+        <di:waypoint x="2016" y="250"/>
+        <di:waypoint x="2060" y="250"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F23_di" bpmnElement="F23">
+        <di:waypoint x="2190" y="250"/>
+        <di:waypoint x="2230" y="250"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F24_di" bpmnElement="F24">
+        <di:waypoint x="2360" y="250"/>
+        <di:waypoint x="2400" y="250"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F25_di" bpmnElement="F25">
+        <di:waypoint x="2530" y="250"/>
+        <di:waypoint x="1880" y="178"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F26_di" bpmnElement="F26">
+        <di:waypoint x="2016" y="110"/>
+        <di:waypoint x="2230" y="110"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F27_di" bpmnElement="F27">
+        <di:waypoint x="2360" y="110"/>
+        <di:waypoint x="2410" y="110"/>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

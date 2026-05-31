@@ -1,60 +1,54 @@
- Done.
+Current handoff
+===============
 
-  I used the LECS material to build the assignments around BPMN, Alpha algorithm, PERT/event network modeling, process analysis, issue registers,
-  and redesign.
+Goal: prepare polished Business Process Modeling assignment reports with SVG-based evidence, no TikZ diagrams, no submission ZIP, and no LaTeX build junk.
 
-  Chosen tools:
+Prepared report files:
 
-  - Assignment 1: bpmn.io as the primary online BPMN 2.0 tool, with Camunda Web Modeler optional.
-  - Assignment 2: Python for automation, Mermaid Live Editor / diagrams.net for online PERT visualization, ProM optional for validation.
+- `reports/assignment1_report.tex`
+- `reports/assignment2_report.tex`
+- `reports/report_style.tex`
+- `reports/assignment1_report.pdf`
+- `reports/assignment2_report.pdf`
 
-  Created main deliverables:
+Prepared evidence and generators:
 
-  - reports/assignment1_report.pdf
-  - reports/assignment2_report.pdf
-  - submission_bpm_assignments.zip
+- Assignment 1 BPMN source:
+  - `output/assignment1_epurchase_as_is.bpmn`
+  - `output/assignment1_epurchase_to_be.bpmn`
+- Assignment 1 Petri-net source:
+  - `output/assignment1_epurchase_as_is_petri.dot`
+  - `output/assignment1_epurchase_as_is_petri.pnml`
+  - `output/assignment1_epurchase_to_be_petri.dot`
+  - `output/assignment1_epurchase_to_be_petri.pnml`
+- Assignment 2 automation and outputs:
+  - `tools/process_mining_alpha.py`
+  - `data/event_log.csv`
+  - `output/assignment2_generated_tables.tex`
+  - `output/assignment2_pert.mmd`
+  - `output/assignment2_alpha_net.dot`
+  - `output/assignment2_summary.txt`
+- SVG-to-PDF cache renderer:
+  - `tools/convert_svg_exports.py`
 
-  Code/tools:
+Team names in both reports:
 
-  - tools/generate_assignment1_bpmn.py
-  - tools/process_mining_alpha.py
+- Seif Eldeen Ibrahim -- 22P0023
+- Anas Bayoumi -- 22P0011
+- Nadine Radwan -- 22P0214
+- Jana Sameh -- 22P0237
 
-  Generated artifacts:
+Current report behavior:
 
-  - output/assignment1_epurchase_as_is.bpmn
-  - output/assignment2_summary.txt
+- Assignment 1 documents both BPMN 2.0 and Petri-net modeling.
+- Assignment 2 explains the Alpha algorithm and includes exact generated computations.
+- Diagram source exports remain SVG in `screenshots/`.
+- Terminal automation evidence remains PNG.
+- `reports/svg-cache/*.pdf` is generated from the SVGs with headless Chrome so LaTeX does not need TikZ, Inkscape, or shell escape.
+- Wide diagram pages are intentionally clean landscape pages: no visible caption, no header, no footer, and no surrounding report text.
 
-  Verification run:
+Next action:
 
-  - python3 -m py_compile tools/process_mining_alpha.py tools/generate_assignment1_bpmn.py
-  - python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
-  - python3 tools/generate_assignment1_bpmn.py
-  - pdflatex compiled both reports successfully. The LaTeX logs only contain minor layout warnings, not build errors.
-
-─ Worked for 9m 06s ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
-
-
-› how did you comiled with the online tolls ? do i need to do it and give you screen shots ?
-
-
-• I did not compile/export inside the online tools. I generated valid files locally:
-
-  - BPMN XML for Assignment 1, ready to import into bpmn.io or Camunda.
-  - Mermaid .mmd / DOT graph for Assignment 2, ready to open in Mermaid Live Editor or diagrams.net.
-  - PDFs compiled locally from LaTeX.
-
-  For submission, you probably should open the online tools and export screenshots/images, because Assignment 1 explicitly says the model should
-  be built with an online modeling tool and included in the PDF/ZIP.
-
-  What you should do:
-
-  1. Go to https://demo.bpmn.io/
-  2. Open/import:
-      - output/assignment1_epurchase_as_is.bpmn
-      - output/assignment1_epurchase_to_be.bpmn
-  3. Export each as PNG/SVG or take screenshots.
-  4. For Assignment 2, open output/assignment2_pert.mmd in https://mermaid.live/, then export PNG/SVG or screenshot.
-  5. Send me the screenshots/exports if you want me to insert them into the LaTeX reports.
-
-  The current reports already include TikZ diagrams, so they are complete academically, but screenshots from the online tools would better satisfy
-  the “Tool Proficiency” requirement.
+1. Review `reports/assignment1_report.pdf` and `reports/assignment2_report.pdf`.
+2. If changes are needed, edit the sources or replace SVGs, regenerate the cache, and recompile.
+3. Create the submission ZIP only after review approval.

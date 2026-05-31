@@ -1,0 +1,250 @@
+<?xml version="1.0" ?>
+<pnml>
+  <net id="assignment1_as_is_petri" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <name>
+      <text>Assignment 1 As-Is E-Purchase Petri Net</text>
+    </name>
+    <page id="page1">
+      <place id="p_start">
+        <name>
+          <text>Order received</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="p_captured">
+        <name>
+          <text>Order captured</text>
+        </name>
+      </place>
+      <place id="p_stock_decision">
+        <name>
+          <text>Stock checked</text>
+        </name>
+      </place>
+      <place id="p_stock_available">
+        <name>
+          <text>Stock available</text>
+        </name>
+      </place>
+      <place id="p_reject_ready">
+        <name>
+          <text>Reject path</text>
+        </name>
+      </place>
+      <place id="p_address_decision">
+        <name>
+          <text>Address decision</text>
+        </name>
+      </place>
+      <place id="p_address_missing">
+        <name>
+          <text>Missing address</text>
+        </name>
+      </place>
+      <place id="p_ready_to_prepare">
+        <name>
+          <text>Ready to prepare</text>
+        </name>
+      </place>
+      <place id="p_payment_ready">
+        <name>
+          <text>Payment branch</text>
+        </name>
+      </place>
+      <place id="p_fulfillment_ready">
+        <name>
+          <text>Fulfillment branch</text>
+        </name>
+      </place>
+      <place id="p_payment_authorized">
+        <name>
+          <text>Payment authorized</text>
+        </name>
+      </place>
+      <place id="p_invoice_done">
+        <name>
+          <text>Invoice emitted</text>
+        </name>
+      </place>
+      <place id="p_packed">
+        <name>
+          <text>Packed</text>
+        </name>
+      </place>
+      <place id="p_shipped">
+        <name>
+          <text>Shipped</text>
+        </name>
+      </place>
+      <place id="p_wait_delivery">
+        <name>
+          <text>Waiting delivery</text>
+        </name>
+      </place>
+      <place id="p_delay_case">
+        <name>
+          <text>Delay active</text>
+        </name>
+      </place>
+      <place id="p_complaint_registered">
+        <name>
+          <text>Complaint registered</text>
+        </name>
+      </place>
+      <place id="p_delivery_ok">
+        <name>
+          <text>Delivery confirmed</text>
+        </name>
+      </place>
+      <place id="p_done">
+        <name>
+          <text>Case closed</text>
+        </name>
+      </place>
+      <transition id="t_capture_order">
+        <name>
+          <text>Capture order</text>
+        </name>
+      </transition>
+      <transition id="t_check_stock">
+        <name>
+          <text>Check stock</text>
+        </name>
+      </transition>
+      <transition id="t_stock_no">
+        <name>
+          <text>silent: no stock</text>
+        </name>
+      </transition>
+      <transition id="t_reject_order">
+        <name>
+          <text>Reject order</text>
+        </name>
+      </transition>
+      <transition id="t_stock_yes">
+        <name>
+          <text>silent: stock available</text>
+        </name>
+      </transition>
+      <transition id="t_reserve_item">
+        <name>
+          <text>Reserve item</text>
+        </name>
+      </transition>
+      <transition id="t_address_no">
+        <name>
+          <text>silent: address missing</text>
+        </name>
+      </transition>
+      <transition id="t_request_address">
+        <name>
+          <text>Request address</text>
+        </name>
+      </transition>
+      <transition id="t_address_yes">
+        <name>
+          <text>silent: address known</text>
+        </name>
+      </transition>
+      <transition id="t_prepare_split">
+        <name>
+          <text>silent: parallel split</text>
+        </name>
+      </transition>
+      <transition id="t_authorize_payment">
+        <name>
+          <text>Authorize payment</text>
+        </name>
+      </transition>
+      <transition id="t_emit_invoice">
+        <name>
+          <text>Emit invoice</text>
+        </name>
+      </transition>
+      <transition id="t_pick_pack">
+        <name>
+          <text>Pick and pack</text>
+        </name>
+      </transition>
+      <transition id="t_ship_product">
+        <name>
+          <text>Ship product</text>
+        </name>
+      </transition>
+      <transition id="t_prepare_join">
+        <name>
+          <text>silent: parallel join</text>
+        </name>
+      </transition>
+      <transition id="t_delivery_confirmed">
+        <name>
+          <text>Message: delivery confirmed</text>
+        </name>
+      </transition>
+      <transition id="t_goods_delayed">
+        <name>
+          <text>Timer: goods delayed</text>
+        </name>
+      </transition>
+      <transition id="t_register_complaint">
+        <name>
+          <text>Register complaint</text>
+        </name>
+      </transition>
+      <transition id="t_escalate_courier">
+        <name>
+          <text>Escalate courier</text>
+        </name>
+      </transition>
+      <transition id="t_archive_order">
+        <name>
+          <text>Archive order</text>
+        </name>
+      </transition>
+      <arc id="a001" source="p_start" target="t_capture_order"/>
+      <arc id="a002" source="t_capture_order" target="p_captured"/>
+      <arc id="a003" source="p_captured" target="t_check_stock"/>
+      <arc id="a004" source="t_check_stock" target="p_stock_decision"/>
+      <arc id="a005" source="p_stock_decision" target="t_stock_no"/>
+      <arc id="a006" source="t_stock_no" target="p_reject_ready"/>
+      <arc id="a007" source="p_reject_ready" target="t_reject_order"/>
+      <arc id="a008" source="t_reject_order" target="p_done"/>
+      <arc id="a009" source="p_stock_decision" target="t_stock_yes"/>
+      <arc id="a010" source="t_stock_yes" target="p_stock_available"/>
+      <arc id="a011" source="p_stock_available" target="t_reserve_item"/>
+      <arc id="a012" source="t_reserve_item" target="p_address_decision"/>
+      <arc id="a013" source="p_address_decision" target="t_address_no"/>
+      <arc id="a014" source="t_address_no" target="p_address_missing"/>
+      <arc id="a015" source="p_address_missing" target="t_request_address"/>
+      <arc id="a016" source="t_request_address" target="p_ready_to_prepare"/>
+      <arc id="a017" source="p_address_decision" target="t_address_yes"/>
+      <arc id="a018" source="t_address_yes" target="p_ready_to_prepare"/>
+      <arc id="a019" source="p_ready_to_prepare" target="t_prepare_split"/>
+      <arc id="a020" source="t_prepare_split" target="p_payment_ready"/>
+      <arc id="a021" source="t_prepare_split" target="p_fulfillment_ready"/>
+      <arc id="a022" source="p_payment_ready" target="t_authorize_payment"/>
+      <arc id="a023" source="t_authorize_payment" target="p_payment_authorized"/>
+      <arc id="a024" source="p_payment_authorized" target="t_emit_invoice"/>
+      <arc id="a025" source="t_emit_invoice" target="p_invoice_done"/>
+      <arc id="a026" source="p_fulfillment_ready" target="t_pick_pack"/>
+      <arc id="a027" source="t_pick_pack" target="p_packed"/>
+      <arc id="a028" source="p_packed" target="t_ship_product"/>
+      <arc id="a029" source="t_ship_product" target="p_shipped"/>
+      <arc id="a030" source="p_invoice_done" target="t_prepare_join"/>
+      <arc id="a031" source="p_shipped" target="t_prepare_join"/>
+      <arc id="a032" source="t_prepare_join" target="p_wait_delivery"/>
+      <arc id="a033" source="p_wait_delivery" target="t_delivery_confirmed"/>
+      <arc id="a034" source="t_delivery_confirmed" target="p_delivery_ok"/>
+      <arc id="a035" source="p_delivery_ok" target="t_archive_order"/>
+      <arc id="a036" source="t_archive_order" target="p_done"/>
+      <arc id="a037" source="p_wait_delivery" target="t_goods_delayed"/>
+      <arc id="a038" source="t_goods_delayed" target="p_delay_case"/>
+      <arc id="a039" source="p_delay_case" target="t_register_complaint"/>
+      <arc id="a040" source="t_register_complaint" target="p_complaint_registered"/>
+      <arc id="a041" source="p_complaint_registered" target="t_escalate_courier"/>
+      <arc id="a042" source="t_escalate_courier" target="p_wait_delivery"/>
+    </page>
+  </net>
+</pnml>

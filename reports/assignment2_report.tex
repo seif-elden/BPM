@@ -1,142 +1,164 @@
+\pdfminorversion=7
 \documentclass[11pt,a4paper]{article}
-\usepackage[margin=1in]{geometry}
-\usepackage{booktabs}
-\usepackage{longtable}
-\usepackage{array}
-\usepackage{hyperref}
-\usepackage{graphicx}
-\usepackage{tikz}
-\usetikzlibrary{arrows.meta,positioning,shapes.geometric}
 
-\title{Assignment 2: Process Mining and Automation}
-\author{CSE346 Business Process Modeling}
-\date{Spring 2026}
+\newcommand{\ReportType}{Assignment 2}
+\newcommand{\ReportTitle}{Assignment 2: Process Mining and Automation}
+\newcommand{\ReportSubtitle}{Alpha-algorithm computation, PERT/event-network evidence, and Python automation}
+\newcommand{\ReportShortTitle}{Assignment 2: Process Mining}
+\newcommand{\ReportFocus}{This report explains the Alpha algorithm, shows the exact computations from the event log, converts the mined relations into a PERT/event-network view, and documents a reusable Python automation workflow.}
+\input{reports/report_style.tex}
 
 \begin{document}
-\maketitle
+\makecover
+\makefrontmatter
 
-\section{Scope and Tool Choice}
-The assignment requires two deliverables: mine the provided event log with the Alpha algorithm, then automate the same steps using a tool or programming language. The selected automation language is Python because it handles CSV import, timestamp parsing, relation discovery, and reusable output generation without manual spreadsheet formulas.
+\section{Executive Scope}
+The assignment has two required tasks. Task One mines the provided event log using the Alpha algorithm and translates the mined relations into a PERT/event-network chart. Task Two automates the same work from a structured CSV file. The implementation uses Python because it can parse timestamps, group cases, compute relations exactly, generate reusable evidence files, and rebuild the report tables without manual spreadsheet copying.
 
-\textbf{Online tools to use with the generated files:}
-\begin{itemize}
-  \item Mermaid Live Editor for the generated PERT chart file \texttt{output/assignment2\_pert.mmd}.
-  \item diagrams.net if a polished submission figure is needed from the same dependency graph.
-  \item ProM as an optional academic validation tool, since the process mining lecture introduces ProM and the Alpha algorithm.
-\end{itemize}
-The automation script is \texttt{tools/process\_mining\_alpha.py}. It reads \texttt{data/event\_log.csv} and writes sorted logs, Alpha evidence tables, Mermaid PERT, DOT graph, and a text summary.
+\section{Evaluation Criteria Coverage}
+The assignment rubric is used as an explicit checklist. The report covers each marking category as follows:
 
-\section{Lecture Concepts Applied}
-The process mining lecture defines the minimum event-log fields as case IDs and task IDs, with optional timestamp, resource, and data fields. This assignment uses all available fields: case ID, timestamp, activity, and resource. The same lecture defines the Alpha relations:
+\begin{ReportLongTable}{L{0.28\linewidth}C{0.08\linewidth}L{0.54\linewidth}}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Criteria category} & \textbf{Marks} & \textbf{How this report covers it} \\
+\midrule
+Alpha algorithm application & 15 & The report states the Alpha definitions, builds $T_W$, $T_I$, $T_O$, direct succession, causality, parallelism, choice, candidate places, maximal places, source/sink places, and exact counts. Intermediate relations are included in generated tables. \\
+Event network / PERT chart & 15 & The mined causal pairs are translated into a PERT/event-network chart. The Mermaid and DOT sources are included, and the SVG export is rendered into the PDF with readable labels. \\
+Process understanding and interpretation & 10 & The interpretation discusses stock/manufacturing choices, convergence at confirmation, invoice/address concurrency, payment/shipment concurrency, archive readiness, and the Case 3 event-ID anomaly. \\
+Clarity of documentation & 10 & The report includes a cover page, contents, list of figures, preprocessing explanation, exact computation tables, generated visual evidence, command evidence, and clear rerun instructions. \\
+Tool selection and justification & 5 & Python is justified because it supports CSV import, timestamp parsing, grouping by case, deterministic relation computation, generated evidence files, and reuse on new logs. \\
+Data preprocessing & 10 & The event log is structured into \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}; events are sorted by timestamp per case; the Case 3 label/prefix inconsistency is documented and handled. \\
+Alpha algorithm automation & 15 & \path{tools/process_mining_alpha.py} implements the Alpha logic and outputs traces, relation counts, maximal places, timing metrics, Mermaid, DOT, CSV, and text summaries. \\
+Generation of PERT chart & 10 & The automation writes \path{output/assignment2_pert.mmd} and \path{output/assignment2_alpha_net.dot}; the visual chart is validated against the same causal pairs used in Task One. \\
+Usability and reusability & 10 & The script accepts an input CSV and output directory from the command line, has a stable input schema, and can be rerun on a different event log with the same fields. \\
+\bottomrule
+\end{ReportLongTable}
+
+\section{Lecture Concepts and Algorithm}
+The process-mining lecture defines the minimum event-log fields as case IDs and task IDs, with optional timestamp, resource, and data fields. This assignment uses case ID, timestamp, activity, and resource.
+
+The Alpha relations used in the computation are:
 \begin{itemize}
   \item Direct succession: $x > y$ when $x$ is directly followed by $y$ in at least one case.
   \item Causality: $x \rightarrow y$ when $x > y$ and not $y > x$.
   \item Parallelism: $x \parallel y$ when both $x > y$ and $y > x$.
   \item Choice: $x \# y$ when neither $x > y$ nor $y > x$.
 \end{itemize}
-The process analysis lecture is used for interpretation: cycle time is the difference between case start and case end; waiting periods and handoffs indicate bottlenecks and improvement opportunities.
+
+The implemented Alpha algorithm follows these steps:
+\begin{enumerate}
+  \item Build $T_W$, the set of all activities in the workflow log.
+  \item Build $T_I$, the activities that appear first in at least one trace.
+  \item Build $T_O$, the activities that appear last in at least one trace.
+  \item Compute direct succession, causality, parallelism, and choice.
+  \item Build candidate pairs $(A,B)$ where every $a \in A$ causes every $b \in B$, activities inside $A$ are pairwise choice, and activities inside $B$ are pairwise choice.
+  \item Keep only maximal pairs $Y_W$ and convert them into Alpha places.
+  \item Add source and sink places to produce the mined workflow net.
+\end{enumerate}
 
 \section{Preprocessing}
-The log was converted into a structured CSV with one row per event. Events were sorted by timestamp inside each case. One naming inconsistency in Case 3 was handled by trusting the activity label instead of the event ID prefix: the row whose ID begins with \texttt{Sh} is labeled ``Get shipping address'', and the row whose ID begins with \texttt{Ge} is labeled ``Ship product''. This preserves the activity sequence provided by the assignment text.
+The raw assignment text was converted into \path{data/event_log.csv}, one row per event. Events are sorted by timestamp inside each case. One naming inconsistency in Case 3 was handled by trusting the activity label instead of the event ID prefix: the event ID beginning with \texttt{Sh} is labeled ``Get shipping address'', and the event ID beginning with \texttt{Ge} is labeled ``Ship product''. This preserves the activity sequence stated in the assignment text.
+
+\begin{ReportTable}{L{0.24\linewidth}Y}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Preprocessing item} & \textbf{Handling} \\
+\midrule
+Case identification & Events are grouped by \texttt{case\_id}; four cases are present. \\
+Timestamp handling & Timestamps are parsed with the fixed format \texttt{YYYY-MM-DD HH:MM} and sorted inside each case before mining. \\
+Activity labels & Full activity labels are preserved for computation; shorter names are used only for report readability and diagrams. \\
+Resource field & Resources such as SYS1, SYS2, DMS, and employees are retained in the cleaned CSV for handoff analysis. \\
+Quality issue & Case 3 has two event IDs whose prefixes do not match their labels; the activity labels are treated as authoritative because the assignment text defines the actual task sequence. \\
+\bottomrule
+\end{ReportTable}
 
 \input{output/assignment2_generated_tables.tex}
 
 \section{Mined Process Interpretation}
-The mined process starts with \textit{Check stock availability} and ends with \textit{Archive order}. The main behavior is:
+The mined process has one start activity, \textit{Check stock availability}, and one end activity, \textit{Archive order}. The exact computations show 4 cases, 36 events, 12 activities, 18 observed direct-succession pairs, 14 causal pairs, 2 unordered parallel pairs, and 11 maximal Alpha places.
+
+The behavior discovered from the traces is:
 \begin{itemize}
-  \item After stock check, there is an exclusive choice between retrieving an available warehouse item and entering the manufacturing/materials branch.
-  \item In the manufacturing branch, checking materials may lead directly to manufacture or to requesting and obtaining raw materials first.
-  \item Both warehouse retrieval and manufacturing converge at confirming the order.
-  \item After confirmation, invoice/address and payment/shipping appear in different orders across traces. The Alpha algorithm therefore detects \textit{Emit invoice} parallel with \textit{Get shipping address}, and \textit{Receive payment} parallel with \textit{Ship product}.
-  \item Archiving occurs after payment and shipment are complete.
+  \item After stock checking, the process chooses between retrieving an available warehouse item and entering the materials/manufacturing branch.
+  \item In the manufacturing branch, checking materials may lead directly to manufacturing or to requesting and obtaining raw materials first.
+  \item Warehouse retrieval and manufacturing converge at confirming the order.
+  \item Invoice/address order differs across traces, so the Alpha algorithm detects \textit{Emit invoice} and \textit{Get shipping address} as parallel.
+  \item Payment/shipment order also differs across traces, so \textit{Receive payment} and \textit{Ship product} are parallel.
+  \item Archiving is possible only after payment and shipment completion evidence exists in the log.
 \end{itemize}
 
-\section{PERT Chart}
-The following PERT-style network is the human-readable translation of the mined dependencies. The generated Mermaid version is available in \texttt{output/assignment2\_pert.mmd}.
+The log does not show a repeated-activity loop inside a case, so the mined model focuses on choices and concurrency rather than loop behavior. The main anomaly is the Case 3 event-ID prefix mismatch documented in preprocessing; it is treated as a data-quality issue rather than a behavioral exception because the activity names remain consistent with the overall process.
 
-\begin{center}
-\resizebox{\linewidth}{!}{%
-\begin{tikzpicture}[
-  node distance=8mm and 12mm,
-  task/.style={draw, rounded corners=2pt, minimum width=23mm, minimum height=8mm, align=center, font=\scriptsize},
-  flow/.style={-{Latex[length=2mm]}, line width=0.35pt}
-]
-\node[task] (start) {Start};
-\node[task, right=of start] (stock) {Check\\stock};
-\node[task, above right=10mm and 10mm of stock] (retrieve) {Retrieve\\item};
-\node[task, below right=10mm and 10mm of stock] (materials) {Check\\materials};
-\node[task, below right=of materials] (request) {Request\\materials};
-\node[task, right=of request] (obtain) {Obtain\\materials};
-\node[task, right=22mm of materials] (mfg) {Manufacture};
-\node[task, right=26mm of retrieve] (confirm) {Confirm\\order};
-\node[task, above right=9mm and 10mm of confirm] (invoice) {Emit\\invoice};
-\node[task, below right=9mm and 10mm of confirm] (address) {Get\\address};
-\node[task, right=of invoice] (payment) {Receive\\payment};
-\node[task, right=of address] (ship) {Ship\\product};
-\node[task, right=25mm of payment] (archive) {Archive\\order};
-\node[task, right=of archive] (end) {End};
-\draw[flow] (start) -- (stock);
-\draw[flow] (stock) -- (retrieve);
-\draw[flow] (stock) -- (materials);
-\draw[flow] (materials) -- (mfg);
-\draw[flow] (materials) -- (request);
-\draw[flow] (request) -- (obtain);
-\draw[flow] (obtain) -- (mfg);
-\draw[flow] (retrieve) -- (confirm);
-\draw[flow] (mfg) -- (confirm);
-\draw[flow] (confirm) -- (invoice);
-\draw[flow] (confirm) -- (address);
-\draw[flow] (invoice) -- (payment);
-\draw[flow] (address) -- (ship);
-\draw[flow] (payment) -- (archive);
-\draw[flow] (ship) -- (archive);
-\draw[flow] (archive) -- (end);
-\end{tikzpicture}
-}
-\end{center}
+\section{PERT/Event-Network Chart}
+The generated event network is stored in Mermaid and DOT so it can be opened in online tools rather than drawn in LaTeX:
+\begin{itemize}
+  \item \path{output/assignment2_pert.mmd}
+  \item \path{output/assignment2_alpha_net.dot}
+\end{itemize}
+
+The PERT dependencies are the causal pairs from the Alpha calculation. Start connects to \textit{Check stock}; \textit{Check stock} branches to either \textit{Retrieve item} or \textit{Check materials}; raw materials may be requested and obtained before manufacturing; \textit{Manufacture} and \textit{Retrieve item} converge at \textit{Confirm order}; invoice/address and payment/shipment are represented as concurrent branches; \textit{Archive order} is the terminal activity.
+
+\WideFigure{reports/svg-cache/pert_chart.pdf}{PERT/event-network chart exported as SVG from Mermaid and rendered into the report cache.}
 
 \section{Automation Design}
-The Python script implements the following reusable workflow:
+The automation script is \path{tools/process_mining_alpha.py}. It performs the following reusable workflow:
 \begin{enumerate}
   \item Read any CSV containing \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}.
   \item Sort events per case by timestamp.
   \item Extract traces, start activities $T_I$, end activities $T_O$, and task set $T_W$.
   \item Count direct succession pairs.
-  \item Derive causality, parallel, and choice relations using the Alpha definitions from the lecture.
-  \item Build maximal Alpha places $(A,B)$ where every activity in $A$ causes every activity in $B$, activities inside $A$ are pairwise choice, and activities inside $B$ are pairwise choice.
-  \item Generate outputs for documentation and online tools.
+  \item Derive causality, parallel, and choice using the lecture definitions.
+  \item Build maximal Alpha places $(A,B)$.
+  \item Compute case cycle times and average waiting times between directly successive activities.
+  \item Generate documentation outputs and online-visualization files.
 \end{enumerate}
 
 Run command:
+{\small
 \begin{verbatim}
-python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
+python3 tools/process_mining_alpha.py \
+  --input data/event_log.csv \
+  --output-dir output
 \end{verbatim}
+}
 
-Generated files:
-\begin{longtable}{p{0.38\linewidth}p{0.52\linewidth}}
+\begin{ReportTable}{L{0.42\linewidth}Y}
 \toprule
-File & Purpose \\
+\rowcolor{BPMTableHead}\textbf{Generated file} & \textbf{Purpose} \\
 \midrule
-\texttt{output/event\_log\_sorted.csv} & Clean, sorted event log for checking preprocessing. \\
-\texttt{output/assignment2\_generated\_tables.tex} & Alpha evidence tables included in this report. \\
-\texttt{output/assignment2\_pert.mmd} & Mermaid PERT chart for Mermaid Live Editor. \\
-\texttt{output/assignment2\_alpha\_net.dot} & DOT dependency graph for Graphviz or diagrams.net workflows. \\
-\texttt{output/assignment2\_summary.txt} & Plain-text summary of counts, relations, and places. \\
+\path{output/event_log_sorted.csv} & Clean sorted event log for checking preprocessing. \\
+\path{output/assignment2_generated_tables.tex} & Exact Alpha evidence tables included in this report. \\
+\path{output/assignment2_pert.mmd} & Mermaid PERT chart for Mermaid Live Editor. \\
+\path{output/assignment2_alpha_net.dot} & DOT dependency graph for Graphviz or diagrams.net. \\
+\path{output/assignment2_summary.txt} & Plain-text summary of counts, relations, and maximal places. \\
 \bottomrule
-\end{longtable}
+\end{ReportTable}
 
-\section{Findings and Improvement Opportunities}
-The average observed cycle time is about 5.28 days. The longest waiting periods occur around shipping/payment and invoice/payment timing, which suggests that the process has external waiting time and asynchronous handoffs. From the process analysis lecture, these delays affect cycle time and work-in-progress even when individual system tasks are short.
+\subsection{Reusable Input Contract}
+\begin{ReportTable}{L{0.28\linewidth}Y}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Reuse requirement} & \textbf{Implementation} \\
+\midrule
+Input schema & Any CSV can be used if it contains \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}. An optional \texttt{event\_id} column is read when present. \\
+Configurable paths & The command-line options \texttt{--input} and \texttt{--output-dir} let the user run the script on another log without changing the code. \\
+Transparent outputs & The script writes the sorted log, generated LaTeX tables, Mermaid chart, DOT chart, and text summary so intermediate steps can be checked. \\
+Validation method & Counts in the summary must match the generated report tables; the PERT chart must use the same causal relations as the Alpha relation table. \\
+\bottomrule
+\end{ReportTable}
+
+\PortraitFigure{screenshots/assignment2/automation_run.png}{Automation run screenshot showing the Python script and generated output files.}
+
+\section{Timing Findings and Improvements}
+The average observed cycle time is 5.28 days. The longest average waits are \textit{Ship product} to \textit{Receive payment} at 76.28 hours, \textit{Emit invoice} to \textit{Receive payment} at 57.32 hours, and \textit{Get shipping address} to \textit{Emit invoice} at 46.76 hours. These delays are waiting periods between handoffs, not the short system tasks themselves.
 
 Recommended improvements are:
 \begin{itemize}
-  \item Integrate payment and shipment status so the order can be archived only after both are complete and visible.
-  \item Use automatic alerts for long gaps after invoice emission or shipment dispatch.
-  \item Standardize whether payment should happen before shipment or whether both can proceed independently; the log shows both orders.
-  \item Monitor resource handoffs between SYS1, SYS2, warehouse employees, and DMS because handoffs are common sources of delay and errors.
+  \item Integrate payment and shipment status so archive readiness is visible immediately.
+  \item Add alerts for long gaps after invoice emission or shipment dispatch.
+  \item Standardize whether payment must precede shipment or whether both may proceed independently; the log shows both orders.
+  \item Monitor resource handoffs between SYS1, SYS2, employees, and DMS because handoffs are common sources of delay and error.
 \end{itemize}
 
 \section{Conclusion}
-The Alpha algorithm discovers an order-fulfillment process with one start, one end, stock/manufacturing choices, and two parallel sections. The automated Python tool produces the same evidence required in Task One and provides reusable outputs for Task Two. The online visualization path is Mermaid Live Editor or diagrams.net for the PERT graph, with ProM available for optional validation against a process mining tool introduced in the lectures.
+The Alpha algorithm discovers an order-fulfillment process with stock/manufacturing choices and two concurrent sections. The automation produces the same evidence needed for Task One and reusable files for Task Two. The included PERT SVG and automation screenshot document the online visualization and script execution evidence.
 
 \end{document}

@@ -1,0 +1,208 @@
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=23mm,headheight=22pt,headsep=10pt]{geometry}
+\usepackage{lmodern}
+\usepackage{helvet}
+\usepackage[table]{xcolor}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{ragged2e}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{caption}
+\usepackage{pdflscape}
+\usepackage{xurl}
+\usepackage{environ}
+\usepackage{hyperref}
+
+\definecolor{BPMNavy}{HTML}{1F2A44}
+\definecolor{BPMTeal}{HTML}{0F766E}
+\definecolor{BPMAccent}{HTML}{C2410C}
+\definecolor{BPMMuted}{HTML}{596579}
+\definecolor{BPMSoft}{HTML}{F4F7FA}
+\definecolor{BPMTableStripe}{HTML}{F7FAFC}
+\definecolor{BPMTableHead}{HTML}{E6F0EF}
+\definecolor{BPMRule}{HTML}{CCD6E0}
+
+\providecommand{\ReportCourse}{CSE346 Business Process Modeling}
+\providecommand{\ReportTerm}{Spring 2026}
+\providecommand{\ReportType}{Assignment}
+\providecommand{\ReportTitle}{Business Process Modeling Report}
+\providecommand{\ReportSubtitle}{Process modeling, analysis, and automation evidence}
+\providecommand{\ReportShortTitle}{BPM Report}
+\providecommand{\ReportFocus}{}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=BPMTeal,
+  urlcolor=BPMTeal,
+  citecolor=BPMTeal,
+  pdftitle={\ReportTitle},
+  pdfauthor={Seif Eldeen Ibrahim, Anas Bayoumi, Nadine Radwan, Jana Sameh}
+}
+\urlstyle{same}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\tabcolsep}{6pt}
+\renewcommand{\arraystretch}{1.22}
+\raggedbottom
+\emergencystretch=2em
+
+\newcolumntype{Y}{>{\RaggedRight\arraybackslash}X}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\Centering\arraybackslash}p{#1}}
+\arrayrulecolor{BPMRule}
+
+\setlist[itemize]{leftmargin=*, topsep=3pt, itemsep=2pt}
+\setlist[enumerate]{leftmargin=*, topsep=3pt, itemsep=2pt}
+
+\titleformat{\section}
+  {\sffamily\Large\bfseries\color{BPMNavy}}
+  {\thesection}{0.7em}{}
+  [\vspace{2pt}{\color{BPMRule}\titlerule[0.6pt]}]
+\titleformat{\subsection}
+  {\sffamily\large\bfseries\color{BPMTeal}}
+  {\thesubsection}{0.7em}{}
+\titleformat{\subsubsection}
+  {\sffamily\normalsize\bfseries\color{BPMNavy}}
+  {\thesubsubsection}{0.7em}{}
+\titlespacing*{\section}{0pt}{18pt plus 4pt}{8pt}
+\titlespacing*{\subsection}{0pt}{12pt plus 3pt}{4pt}
+\titlespacing*{\subsubsection}{0pt}{8pt plus 2pt}{3pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\small\color{BPMMuted}\ReportShortTitle}
+\fancyhead[R]{\sffamily\small\color{BPMMuted}\ReportCourse}
+\fancyfoot[C]{\sffamily\small\color{BPMMuted}Page \thepage\ of \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{BPMRule}\leaders\hrule height \headrulewidth\hfill}}
+
+\captionsetup{
+  font=small,
+  labelfont={bf},
+  labelsep=period,
+  justification=centering
+}
+
+\NewEnviron{ReportTable}[1]{%
+  \begin{center}
+  \small
+  \rowcolors{2}{BPMTableStripe}{white}
+  \begin{tabularx}{\linewidth}{#1}
+  \BODY
+  \end{tabularx}
+  \rowcolors{2}{}{}
+  \end{center}
+}
+
+\newenvironment{ReportLongTable}[1]{%
+  \small
+  \rowcolors{2}{BPMTableStripe}{white}
+  \begin{longtable}{#1}
+}{%
+  \end{longtable}
+  \rowcolors{2}{}{}
+  \normalsize
+}
+
+\newcommand{\CoverStudentRows}{%
+  Seif Eldeen Ibrahim & 22P0023 \\
+  Anas Bayoumi & 22P0011 \\
+  Nadine Radwan & 22P0214 \\
+  Jana Sameh & 22P0237 \\
+}
+
+\newcommand{\makecover}{%
+  \begin{titlepage}
+  \pagenumbering{gobble}
+  \newgeometry{left=22mm,right=22mm,top=20mm,bottom=20mm}
+  \thispagestyle{empty}
+  \sffamily
+  \noindent{\color{BPMTeal}\rule{0.22\textwidth}{3pt}}\hfill{\color{BPMAccent}\rule{0.08\textwidth}{3pt}}
+
+  \vspace{20mm}
+  {\Large\color{BPMTeal}\ReportCourse\par}
+  \vspace{7mm}
+  {\fontsize{26}{31}\selectfont\bfseries\color{BPMNavy}\ReportTitle\par}
+  \vspace{5mm}
+  {\Large\color{BPMMuted}\ReportSubtitle\par}
+
+  \vspace{14mm}
+  \noindent
+  \colorbox{BPMSoft}{%
+    \parbox{\dimexpr\textwidth-2\fboxsep\relax}{%
+      \vspace{2mm}
+      \textbf{\color{BPMNavy}Submission focus}\par
+      \vspace{1mm}
+      \color{black}\ReportFocus
+      \vspace{2mm}
+    }%
+  }
+
+  \vfill
+  {\large\bfseries\color{BPMNavy}Team Members\par}
+  \vspace{3mm}
+  {\small
+  \rowcolors{2}{BPMTableStripe}{white}
+  \begin{tabularx}{0.72\textwidth}{Y L{0.26\textwidth}}
+  \toprule
+  \rowcolor{BPMTableHead}\textbf{Name} & \textbf{Code} \\
+  \midrule
+  \CoverStudentRows
+  \bottomrule
+  \end{tabularx}
+  \rowcolors{2}{}{}
+  }
+
+  \vspace{9mm}
+  \noindent{\color{BPMMuted}\ReportType\hfill \ReportTerm}
+  \restoregeometry
+  \end{titlepage}
+}
+
+\newcommand{\makefrontmatter}{%
+  \clearpage
+  \pagenumbering{roman}
+  \tableofcontents
+  \clearpage
+  \phantomsection
+  \addcontentsline{toc}{section}{List of Figures}
+  \listoffigures
+  \clearpage
+  \pagenumbering{arabic}
+}
+
+\newcommand{\WideFigure}[2]{%
+  \clearpage
+  \begin{landscape}
+  \thispagestyle{empty}
+  \phantomsection
+  \refstepcounter{figure}
+  \addcontentsline{lof}{figure}{\protect\numberline{\thefigure}#2}
+  \vspace*{\fill}
+  \noindent\makebox[\linewidth][c]{%
+    \includegraphics[width=0.97\paperheight,height=0.94\paperwidth,keepaspectratio]{#1}%
+  }
+  \vspace*{\fill}
+  \end{landscape}
+  \clearpage
+}
+
+\newcommand{\PortraitFigure}[2]{%
+  \clearpage
+  \begin{figure}[p]
+  \centering
+  \includegraphics[width=0.96\linewidth,height=0.76\textheight,keepaspectratio]{#1}
+  \caption{#2}
+  \end{figure}
+  \clearpage
+}

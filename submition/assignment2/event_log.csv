@@ -1,0 +1,37 @@
+event_id,case_id,timestamp,activity,resource
+Ch-4680555556-1,1,2012-07-30 11:14,Check stock availability,SYS1
+Re-5972222222-1,1,2012-07-30 14:20,Retrieve product from warehouse,Rick
+Co-6319444444-1,1,2012-07-30 15:10,Confirm order,Chuck
+Ge-6402777778-1,1,2012-07-30 15:22,Get shipping address,SYS2
+Em-6555555556-1,1,2012-07-30 15:44,Emit invoice,SYS2
+Re-4180555556-1,1,2012-08-04 10:02,Receive payment,SYS2
+Sh-4659722222-1,1,2012-08-05 11:11,Ship product,Susi
+Ar-3833333333-1,1,2012-08-06 09:12,Archive order,DMS
+Ch-4055555556-2,2,2012-08-01 09:44,Check stock availability,SYS1
+Ch-4208333333-2,2,2012-08-01 10:06,Check materials availability,SYS1
+Re-4666666667-2,2,2012-08-01 11:12,Request raw materials,Ringo
+Ob-3263888889-2,2,2012-08-03 07:50,Obtain raw materials,Olaf
+Ma-6131944444-2,2,2012-08-04 14:43,Manufacture product,SYS1
+Co-6187615741-2,2,2012-08-04 14:51,Confirm order,Conny
+Em-6388888889-2,2,2012-08-04 15:20,Emit invoice,SYS2
+Ge-6439814815-2,2,2012-08-04 15:27,Get shipping address,SYS2
+Sh-7277777778-2,2,2012-08-04 17:28,Ship product,Sara
+Re-3611111111-2,2,2012-08-07 08:40,Receive payment,SYS2
+Ar-3680555556-2,2,2012-08-07 08:50,Archive order,DMS
+Ch-4208333333-3,3,2012-08-02 10:06,Check stock availability,SYS1
+Ch-4243055556-3,3,2012-08-02 10:11,Check materials availability,SYS1
+Ma-6694444444-3,3,2012-08-02 16:04,Manufacture product,SYS1
+Co-6751157407-3,3,2012-08-02 16:12,Confirm order,Chuck
+Em-6895833333-3,3,2012-08-02 16:33,Emit invoice,SYS2
+Sh-7013888889-3,3,2012-08-02 16:50,Get shipping address,SYS2
+Ge-7069444444-3,3,2012-08-02 16:58,Ship product,Emil
+Re-4305555556-3,3,2012-08-06 10:20,Receive payment,SYS2
+Ar-4340277778-3,3,2012-08-06 10:25,Archive order,DMS
+Ch-3409722222-4,4,2012-08-04 08:11,Check stock availability,SYS1
+Re-5000115741-4,4,2012-08-04 12:00,Retrieve product from warehouse,SYS1
+Co-5041898148-4,4,2012-08-04 12:06,Confirm order,Hans
+Ge-5223148148-4,4,2012-08-04 12:32,Get shipping address,SYS2
+Em-4034837963-4,4,2012-08-08 09:41,Emit invoice,SYS2
+Re-4180555556-4,4,2012-08-08 10:02,Receive payment,SYS2
+Sh-5715277778-4,4,2012-08-08 13:43,Ship product,Susi
+Ar-5888888889-4,4,2012-08-08 14:08,Archive order,DMS
