@@ -29,6 +29,7 @@ Maximal Alpha places $Y_W$ & 11 \\
 Average cycle time & 5.28 days \\
 \bottomrule
 \end{ReportLongTable}
+Choice is counted as an ordered Alpha relation: $x \# y$ and $y \# x$ are both included when two activities never directly follow one another. Thus 100 ordered choice relations correspond to 50 unordered activity pairs.
 \subsection{Direct Succession and Causality}
 \begin{ReportLongTable}{L{0.31\linewidth}L{0.31\linewidth}r L{0.16\linewidth}}
 \toprule
@@ -113,5 +114,28 @@ Check stock & Check materials & 2 & 0.22 \\
 Emit invoice & Get address & 2 & 0.20 \\
 Manufacture & Confirm order & 2 & 0.13 \\
 Receive payment & Archive order & 2 & 0.12 \\
+\bottomrule
+\end{ReportLongTable}
+\subsection{PERT Timing and Critical Path}
+The PERT/event-network timing is edge-weighted from observed elapsed hours between directly successive activities. For each causal dependency, $O$ is the minimum observed duration, $M$ is the median duration, $P$ is the maximum duration, and $E=(O+4M+P)/6$.
+The computed critical path is: Check stock $\rightarrow$ Check materials $\rightarrow$ Request materials $\rightarrow$ Obtain materials $\rightarrow$ Manufacture $\rightarrow$ Confirm order $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Archive order. Expected path duration: 134.84 hours.
+\begin{ReportLongTable}{L{0.21\linewidth}L{0.21\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}}
+\toprule
+\rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{O h} & \textbf{M h} & \textbf{P h} & \textbf{E h} & \textbf{Slack} \\
+\midrule
+Check materials & Manufacture & 5.88 & 5.88 & 5.88 & 5.88 & 70.73 \\
+Check materials & Request materials & 1.10 & 1.10 & 1.10 & 1.10 & \textbf{0.00} \\
+Check stock & Check materials & 0.08 & 0.22 & 0.37 & 0.22 & \textbf{0.00} \\
+Check stock & Retrieve item & 3.10 & 3.46 & 3.82 & 3.46 & 73.05 \\
+Confirm order & Emit invoice & 0.35 & 0.42 & 0.48 & 0.42 & \textbf{0.00} \\
+Confirm order & Get address & 0.20 & 0.32 & 0.43 & 0.32 & 45.26 \\
+Emit invoice & Receive payment & 0.35 & 57.32 & 114.30 & 57.32 & \textbf{0.00} \\
+Get address & Ship product & 0.13 & 1.07 & 2.02 & 1.07 & 45.26 \\
+Manufacture & Confirm order & 0.13 & 0.13 & 0.13 & 0.13 & \textbf{0.00} \\
+Obtain materials & Manufacture & 30.88 & 30.88 & 30.88 & 30.88 & \textbf{0.00} \\
+Receive payment & Archive order & 0.08 & 0.12 & 0.17 & 0.12 & \textbf{0.00} \\
+Request materials & Obtain materials & 44.63 & 44.63 & 44.63 & 44.63 & \textbf{0.00} \\
+Retrieve item & Confirm order & 0.10 & 0.47 & 0.83 & 0.47 & 73.05 \\
+Ship product & Archive order & 0.42 & 11.22 & 22.02 & 11.22 & 45.26 \\
 \bottomrule
 \end{ReportLongTable}

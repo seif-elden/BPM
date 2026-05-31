@@ -1,6 +1,45 @@
 <?xml version="1.0" ?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_Epurchase_AsIs" targetNamespace="https://cse346.local/epurchase">
   <bpmn:process id="Epurchase_AsIs" name="E-Purchase As-Is Process" isExecutable="false">
+    <bpmn:laneSet id="Epurchase_AsIs_LaneSet">
+      <bpmn:lane id="Epurchase_AsIs_Customer_Lane" name="Customer">
+        <bpmn:flowNodeRef>Start_Order_Received</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Epurchase_AsIs_Marketplace_system_Lane" name="Marketplace system">
+        <bpmn:flowNodeRef>Capture_Order</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Check_Stock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Stock</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reject_Order</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Rejected</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Reserve_Item</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Address</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Request_Address</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Address_Merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Parallel_Prepare</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Parallel_Ready</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Delivery_Merge</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Gateway_Delivery_Event</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Archive_Order</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>End_Order_Closed</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Epurchase_AsIs_Payment_service_Lane" name="Payment service">
+        <bpmn:flowNodeRef>Authorize_Payment</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Emit_Invoice</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Receive_Payment</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Epurchase_AsIs_Warehouse_Lane" name="Warehouse">
+        <bpmn:flowNodeRef>Pick_Pack</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Epurchase_AsIs_Courier_Lane" name="Courier">
+        <bpmn:flowNodeRef>Ship_Product</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Delivery_Confirmed</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Goods_Delayed</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="Epurchase_AsIs_Customer_support_Lane" name="Customer support">
+        <bpmn:flowNodeRef>Register_Complaint</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Escalate_Courier</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
     <bpmn:startEvent id="Start_Order_Received" name="Order received">
       <bpmn:outgoing>F01</bpmn:outgoing>
     </bpmn:startEvent>
@@ -37,65 +76,77 @@
       <bpmn:incoming>F09</bpmn:incoming>
       <bpmn:outgoing>F10</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:parallelGateway id="Parallel_Prepare" name="Prepare order">
+    <bpmn:exclusiveGateway id="Gateway_Address_Merge" name="Address resolved">
       <bpmn:incoming>F08</bpmn:incoming>
       <bpmn:incoming>F10</bpmn:incoming>
       <bpmn:outgoing>F11</bpmn:outgoing>
-      <bpmn:outgoing>F13</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:task id="Authorize_Payment" name="Authorize payment">
+    </bpmn:exclusiveGateway>
+    <bpmn:parallelGateway id="Parallel_Prepare" name="Prepare order">
       <bpmn:incoming>F11</bpmn:incoming>
       <bpmn:outgoing>F12</bpmn:outgoing>
+      <bpmn:outgoing>F15</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:task id="Authorize_Payment" name="Authorize payment">
+      <bpmn:incoming>F12</bpmn:incoming>
+      <bpmn:outgoing>F13</bpmn:outgoing>
     </bpmn:task>
     <bpmn:task id="Emit_Invoice" name="Emit invoice">
-      <bpmn:incoming>F12</bpmn:incoming>
-      <bpmn:outgoing>F15</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Pick_Pack" name="Pick and pack">
       <bpmn:incoming>F13</bpmn:incoming>
       <bpmn:outgoing>F14</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="Ship_Product" name="Ship product">
+    <bpmn:task id="Receive_Payment" name="Receive payment">
       <bpmn:incoming>F14</bpmn:incoming>
+      <bpmn:outgoing>F17</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Pick_Pack" name="Pick and pack">
+      <bpmn:incoming>F15</bpmn:incoming>
       <bpmn:outgoing>F16</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:parallelGateway id="Parallel_Ready" name="Ready">
-      <bpmn:incoming>F15</bpmn:incoming>
+    <bpmn:task id="Ship_Product" name="Ship product">
       <bpmn:incoming>F16</bpmn:incoming>
-      <bpmn:outgoing>F17</bpmn:outgoing>
-    </bpmn:parallelGateway>
-    <bpmn:eventBasedGateway id="Gateway_Delivery_Event" name="Delivery event">
-      <bpmn:incoming>F17</bpmn:incoming>
       <bpmn:outgoing>F18</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:parallelGateway id="Parallel_Ready" name="Ready">
+      <bpmn:incoming>F17</bpmn:incoming>
+      <bpmn:incoming>F18</bpmn:incoming>
       <bpmn:outgoing>F19</bpmn:outgoing>
+    </bpmn:parallelGateway>
+    <bpmn:exclusiveGateway id="Gateway_Delivery_Merge" name="Continue wait">
+      <bpmn:incoming>F19</bpmn:incoming>
+      <bpmn:incoming>F25</bpmn:incoming>
+      <bpmn:outgoing>F20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:eventBasedGateway id="Gateway_Delivery_Event" name="Delivery event">
+      <bpmn:incoming>F20</bpmn:incoming>
+      <bpmn:outgoing>F21</bpmn:outgoing>
+      <bpmn:outgoing>F22</bpmn:outgoing>
     </bpmn:eventBasedGateway>
     <bpmn:intermediateCatchEvent id="Delivery_Confirmed" name="Delivery confirmed">
       <bpmn:messageEventDefinition/>
-      <bpmn:incoming>F18</bpmn:incoming>
-      <bpmn:incoming>F22</bpmn:incoming>
-      <bpmn:outgoing>F23</bpmn:outgoing>
+      <bpmn:incoming>F21</bpmn:incoming>
+      <bpmn:outgoing>F26</bpmn:outgoing>
     </bpmn:intermediateCatchEvent>
     <bpmn:intermediateCatchEvent id="Goods_Delayed" name="Goods delayed">
       <bpmn:timerEventDefinition>
         <bpmn:timeDuration>P2D</bpmn:timeDuration>
       </bpmn:timerEventDefinition>
-      <bpmn:incoming>F19</bpmn:incoming>
-      <bpmn:outgoing>F20</bpmn:outgoing>
+      <bpmn:incoming>F22</bpmn:incoming>
+      <bpmn:outgoing>F23</bpmn:outgoing>
     </bpmn:intermediateCatchEvent>
     <bpmn:task id="Register_Complaint" name="Register complaint">
-      <bpmn:incoming>F20</bpmn:incoming>
-      <bpmn:outgoing>F21</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Escalate_Courier" name="Escalate courier">
-      <bpmn:incoming>F21</bpmn:incoming>
-      <bpmn:outgoing>F22</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="Archive_Order" name="Archive order">
       <bpmn:incoming>F23</bpmn:incoming>
       <bpmn:outgoing>F24</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:endEvent id="End_Order_Closed" name="Order closed">
+    <bpmn:task id="Escalate_Courier" name="Escalate courier">
       <bpmn:incoming>F24</bpmn:incoming>
+      <bpmn:outgoing>F25</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="Archive_Order" name="Archive order">
+      <bpmn:incoming>F26</bpmn:incoming>
+      <bpmn:outgoing>F27</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="End_Order_Closed" name="Order closed">
+      <bpmn:incoming>F27</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="F01" sourceRef="Start_Order_Received" targetRef="Capture_Order"/>
     <bpmn:sequenceFlow id="F02" sourceRef="Capture_Order" targetRef="Check_Stock"/>
@@ -104,187 +155,229 @@
     <bpmn:sequenceFlow id="F05" sourceRef="Reject_Order" targetRef="End_Rejected"/>
     <bpmn:sequenceFlow id="F06" sourceRef="Gateway_Stock" targetRef="Reserve_Item" name="Yes"/>
     <bpmn:sequenceFlow id="F07" sourceRef="Reserve_Item" targetRef="Gateway_Address"/>
-    <bpmn:sequenceFlow id="F08" sourceRef="Gateway_Address" targetRef="Parallel_Prepare" name="Yes"/>
+    <bpmn:sequenceFlow id="F08" sourceRef="Gateway_Address" targetRef="Gateway_Address_Merge" name="Yes"/>
     <bpmn:sequenceFlow id="F09" sourceRef="Gateway_Address" targetRef="Request_Address" name="No"/>
-    <bpmn:sequenceFlow id="F10" sourceRef="Request_Address" targetRef="Parallel_Prepare"/>
-    <bpmn:sequenceFlow id="F11" sourceRef="Parallel_Prepare" targetRef="Authorize_Payment"/>
-    <bpmn:sequenceFlow id="F12" sourceRef="Authorize_Payment" targetRef="Emit_Invoice"/>
-    <bpmn:sequenceFlow id="F13" sourceRef="Parallel_Prepare" targetRef="Pick_Pack"/>
-    <bpmn:sequenceFlow id="F14" sourceRef="Pick_Pack" targetRef="Ship_Product"/>
-    <bpmn:sequenceFlow id="F15" sourceRef="Emit_Invoice" targetRef="Parallel_Ready"/>
-    <bpmn:sequenceFlow id="F16" sourceRef="Ship_Product" targetRef="Parallel_Ready"/>
-    <bpmn:sequenceFlow id="F17" sourceRef="Parallel_Ready" targetRef="Gateway_Delivery_Event"/>
-    <bpmn:sequenceFlow id="F18" sourceRef="Gateway_Delivery_Event" targetRef="Delivery_Confirmed" name="Delivered"/>
-    <bpmn:sequenceFlow id="F19" sourceRef="Gateway_Delivery_Event" targetRef="Goods_Delayed" name="2 days late"/>
-    <bpmn:sequenceFlow id="F20" sourceRef="Goods_Delayed" targetRef="Register_Complaint"/>
-    <bpmn:sequenceFlow id="F21" sourceRef="Register_Complaint" targetRef="Escalate_Courier"/>
-    <bpmn:sequenceFlow id="F22" sourceRef="Escalate_Courier" targetRef="Delivery_Confirmed"/>
-    <bpmn:sequenceFlow id="F23" sourceRef="Delivery_Confirmed" targetRef="Archive_Order"/>
-    <bpmn:sequenceFlow id="F24" sourceRef="Archive_Order" targetRef="End_Order_Closed"/>
+    <bpmn:sequenceFlow id="F10" sourceRef="Request_Address" targetRef="Gateway_Address_Merge"/>
+    <bpmn:sequenceFlow id="F11" sourceRef="Gateway_Address_Merge" targetRef="Parallel_Prepare"/>
+    <bpmn:sequenceFlow id="F12" sourceRef="Parallel_Prepare" targetRef="Authorize_Payment"/>
+    <bpmn:sequenceFlow id="F13" sourceRef="Authorize_Payment" targetRef="Emit_Invoice"/>
+    <bpmn:sequenceFlow id="F14" sourceRef="Emit_Invoice" targetRef="Receive_Payment"/>
+    <bpmn:sequenceFlow id="F15" sourceRef="Parallel_Prepare" targetRef="Pick_Pack"/>
+    <bpmn:sequenceFlow id="F16" sourceRef="Pick_Pack" targetRef="Ship_Product"/>
+    <bpmn:sequenceFlow id="F17" sourceRef="Receive_Payment" targetRef="Parallel_Ready"/>
+    <bpmn:sequenceFlow id="F18" sourceRef="Ship_Product" targetRef="Parallel_Ready"/>
+    <bpmn:sequenceFlow id="F19" sourceRef="Parallel_Ready" targetRef="Gateway_Delivery_Merge"/>
+    <bpmn:sequenceFlow id="F20" sourceRef="Gateway_Delivery_Merge" targetRef="Gateway_Delivery_Event"/>
+    <bpmn:sequenceFlow id="F21" sourceRef="Gateway_Delivery_Event" targetRef="Delivery_Confirmed" name="Delivered"/>
+    <bpmn:sequenceFlow id="F22" sourceRef="Gateway_Delivery_Event" targetRef="Goods_Delayed" name="2 days late"/>
+    <bpmn:sequenceFlow id="F23" sourceRef="Goods_Delayed" targetRef="Register_Complaint"/>
+    <bpmn:sequenceFlow id="F24" sourceRef="Register_Complaint" targetRef="Escalate_Courier"/>
+    <bpmn:sequenceFlow id="F25" sourceRef="Escalate_Courier" targetRef="Gateway_Delivery_Merge"/>
+    <bpmn:sequenceFlow id="F26" sourceRef="Delivery_Confirmed" targetRef="Archive_Order"/>
+    <bpmn:sequenceFlow id="F27" sourceRef="Archive_Order" targetRef="End_Order_Closed"/>
   </bpmn:process>
   <bpmndi:BPMNDiagram id="Diagram_Epurchase_AsIs">
     <bpmndi:BPMNPlane id="Plane_Epurchase_AsIs" bpmnElement="Epurchase_AsIs">
       <bpmndi:BPMNShape id="Start_Order_Received_di" bpmnElement="Start_Order_Received">
-        <dc:Bounds x="80" y="160" width="36" height="36"/>
+        <dc:Bounds x="80" y="70" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Capture_Order_di" bpmnElement="Capture_Order">
-        <dc:Bounds x="150" y="146" width="130" height="64"/>
+        <dc:Bounds x="150" y="185" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Check_Stock_di" bpmnElement="Check_Stock">
-        <dc:Bounds x="330" y="146" width="130" height="64"/>
+        <dc:Bounds x="330" y="185" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Stock_di" bpmnElement="Gateway_Stock">
-        <dc:Bounds x="510" y="153" width="50" height="50"/>
+        <dc:Bounds x="510" y="192" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Reject_Order_di" bpmnElement="Reject_Order">
-        <dc:Bounds x="610" y="60" width="130" height="64"/>
+        <dc:Bounds x="610" y="120" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="End_Rejected_di" bpmnElement="End_Rejected">
-        <dc:Bounds x="790" y="74" width="36" height="36"/>
+        <dc:Bounds x="790" y="134" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Reserve_Item_di" bpmnElement="Reserve_Item">
-        <dc:Bounds x="610" y="146" width="130" height="64"/>
+        <dc:Bounds x="610" y="255" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Address_di" bpmnElement="Gateway_Address">
-        <dc:Bounds x="790" y="153" width="50" height="50"/>
+        <dc:Bounds x="790" y="262" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Request_Address_di" bpmnElement="Request_Address">
-        <dc:Bounds x="880" y="245" width="130" height="64"/>
+        <dc:Bounds x="880" y="330" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Address_Merge_di" bpmnElement="Gateway_Address_Merge">
+        <dc:Bounds x="1040" y="262" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Parallel_Prepare_di" bpmnElement="Parallel_Prepare">
-        <dc:Bounds x="980" y="153" width="50" height="50"/>
+        <dc:Bounds x="1140" y="262" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Authorize_Payment_di" bpmnElement="Authorize_Payment">
-        <dc:Bounds x="1080" y="80" width="130" height="64"/>
+        <dc:Bounds x="1240" y="430" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Emit_Invoice_di" bpmnElement="Emit_Invoice">
-        <dc:Bounds x="1250" y="80" width="130" height="64"/>
+        <dc:Bounds x="1410" y="430" width="130" height="64"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Receive_Payment_di" bpmnElement="Receive_Payment">
+        <dc:Bounds x="1580" y="430" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Pick_Pack_di" bpmnElement="Pick_Pack">
-        <dc:Bounds x="1080" y="220" width="130" height="64"/>
+        <dc:Bounds x="1240" y="560" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Ship_Product_di" bpmnElement="Ship_Product">
-        <dc:Bounds x="1250" y="220" width="130" height="64"/>
+        <dc:Bounds x="1410" y="690" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Parallel_Ready_di" bpmnElement="Parallel_Ready">
-        <dc:Bounds x="1440" y="153" width="50" height="50"/>
+        <dc:Bounds x="1760" y="442" width="50" height="50"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_Delivery_Merge_di" bpmnElement="Gateway_Delivery_Merge">
+        <dc:Bounds x="1860" y="442" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Delivery_Event_di" bpmnElement="Gateway_Delivery_Event">
-        <dc:Bounds x="1530" y="153" width="50" height="50"/>
+        <dc:Bounds x="1960" y="442" width="50" height="50"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Delivery_Confirmed_di" bpmnElement="Delivery_Confirmed">
-        <dc:Bounds x="1630" y="92" width="36" height="36"/>
+        <dc:Bounds x="2070" y="670" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Goods_Delayed_di" bpmnElement="Goods_Delayed">
-        <dc:Bounds x="1630" y="232" width="36" height="36"/>
+        <dc:Bounds x="2070" y="760" width="36" height="36"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Register_Complaint_di" bpmnElement="Register_Complaint">
-        <dc:Bounds x="1710" y="218" width="130" height="64"/>
+        <dc:Bounds x="2170" y="875" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Escalate_Courier_di" bpmnElement="Escalate_Courier">
-        <dc:Bounds x="1880" y="218" width="130" height="64"/>
+        <dc:Bounds x="2340" y="875" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Archive_Order_di" bpmnElement="Archive_Order">
-        <dc:Bounds x="1880" y="78" width="130" height="64"/>
+        <dc:Bounds x="2250" y="185" width="130" height="64"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="End_Order_Closed_di" bpmnElement="End_Order_Closed">
-        <dc:Bounds x="2060" y="92" width="36" height="36"/>
+        <dc:Bounds x="2430" y="199" width="36" height="36"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Customer_Lane_di" bpmnElement="Epurchase_AsIs_Customer_Lane" isHorizontal="true">
+        <dc:Bounds x="-30" y="35" width="236" height="106"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Marketplace_system_Lane_di" bpmnElement="Epurchase_AsIs_Marketplace_system_Lane" isHorizontal="true">
+        <dc:Bounds x="40" y="85" width="2516" height="442"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Payment_service_Lane_di" bpmnElement="Epurchase_AsIs_Payment_service_Lane" isHorizontal="true">
+        <dc:Bounds x="1130" y="395" width="670" height="134"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Warehouse_Lane_di" bpmnElement="Epurchase_AsIs_Warehouse_Lane" isHorizontal="true">
+        <dc:Bounds x="1130" y="525" width="330" height="134"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Courier_Lane_di" bpmnElement="Epurchase_AsIs_Courier_Lane" isHorizontal="true">
+        <dc:Bounds x="1300" y="635" width="896" height="196"/>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Epurchase_AsIs_Customer_support_Lane_di" bpmnElement="Epurchase_AsIs_Customer_support_Lane" isHorizontal="true">
+        <dc:Bounds x="2060" y="840" width="500" height="134"/>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="F01_di" bpmnElement="F01">
-        <di:waypoint x="116" y="178"/>
-        <di:waypoint x="150" y="178"/>
+        <di:waypoint x="116" y="88"/>
+        <di:waypoint x="150" y="217"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F02_di" bpmnElement="F02">
-        <di:waypoint x="280" y="178"/>
-        <di:waypoint x="330" y="178"/>
+        <di:waypoint x="280" y="217"/>
+        <di:waypoint x="330" y="217"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F03_di" bpmnElement="F03">
-        <di:waypoint x="460" y="178"/>
-        <di:waypoint x="510" y="178"/>
+        <di:waypoint x="460" y="217"/>
+        <di:waypoint x="510" y="217"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F04_di" bpmnElement="F04">
-        <di:waypoint x="560" y="178"/>
-        <di:waypoint x="610" y="92"/>
+        <di:waypoint x="560" y="217"/>
+        <di:waypoint x="610" y="152"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F05_di" bpmnElement="F05">
-        <di:waypoint x="740" y="92"/>
-        <di:waypoint x="790" y="92"/>
+        <di:waypoint x="740" y="152"/>
+        <di:waypoint x="790" y="152"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F06_di" bpmnElement="F06">
-        <di:waypoint x="560" y="178"/>
-        <di:waypoint x="610" y="178"/>
+        <di:waypoint x="560" y="217"/>
+        <di:waypoint x="610" y="287"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F07_di" bpmnElement="F07">
-        <di:waypoint x="740" y="178"/>
-        <di:waypoint x="790" y="178"/>
+        <di:waypoint x="740" y="287"/>
+        <di:waypoint x="790" y="287"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F08_di" bpmnElement="F08">
-        <di:waypoint x="840" y="178"/>
-        <di:waypoint x="980" y="178"/>
+        <di:waypoint x="840" y="287"/>
+        <di:waypoint x="1040" y="287"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F09_di" bpmnElement="F09">
-        <di:waypoint x="840" y="178"/>
-        <di:waypoint x="880" y="277"/>
+        <di:waypoint x="840" y="287"/>
+        <di:waypoint x="880" y="362"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F10_di" bpmnElement="F10">
-        <di:waypoint x="1010" y="277"/>
-        <di:waypoint x="980" y="178"/>
+        <di:waypoint x="1010" y="362"/>
+        <di:waypoint x="1040" y="287"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F11_di" bpmnElement="F11">
-        <di:waypoint x="1030" y="178"/>
-        <di:waypoint x="1080" y="112"/>
+        <di:waypoint x="1090" y="287"/>
+        <di:waypoint x="1140" y="287"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F12_di" bpmnElement="F12">
-        <di:waypoint x="1210" y="112"/>
-        <di:waypoint x="1250" y="112"/>
+        <di:waypoint x="1190" y="287"/>
+        <di:waypoint x="1240" y="462"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F13_di" bpmnElement="F13">
-        <di:waypoint x="1030" y="178"/>
-        <di:waypoint x="1080" y="252"/>
+        <di:waypoint x="1370" y="462"/>
+        <di:waypoint x="1410" y="462"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F14_di" bpmnElement="F14">
-        <di:waypoint x="1210" y="252"/>
-        <di:waypoint x="1250" y="252"/>
+        <di:waypoint x="1540" y="462"/>
+        <di:waypoint x="1580" y="462"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F15_di" bpmnElement="F15">
-        <di:waypoint x="1380" y="112"/>
-        <di:waypoint x="1440" y="178"/>
+        <di:waypoint x="1190" y="287"/>
+        <di:waypoint x="1240" y="592"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F16_di" bpmnElement="F16">
-        <di:waypoint x="1380" y="252"/>
-        <di:waypoint x="1440" y="178"/>
+        <di:waypoint x="1370" y="592"/>
+        <di:waypoint x="1410" y="722"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F17_di" bpmnElement="F17">
-        <di:waypoint x="1490" y="178"/>
-        <di:waypoint x="1530" y="178"/>
+        <di:waypoint x="1710" y="462"/>
+        <di:waypoint x="1760" y="467"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F18_di" bpmnElement="F18">
-        <di:waypoint x="1580" y="178"/>
-        <di:waypoint x="1630" y="110"/>
+        <di:waypoint x="1540" y="722"/>
+        <di:waypoint x="1760" y="467"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F19_di" bpmnElement="F19">
-        <di:waypoint x="1580" y="178"/>
-        <di:waypoint x="1630" y="250"/>
+        <di:waypoint x="1810" y="467"/>
+        <di:waypoint x="1860" y="467"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F20_di" bpmnElement="F20">
-        <di:waypoint x="1666" y="250"/>
-        <di:waypoint x="1710" y="250"/>
+        <di:waypoint x="1910" y="467"/>
+        <di:waypoint x="1960" y="467"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F21_di" bpmnElement="F21">
-        <di:waypoint x="1840" y="250"/>
-        <di:waypoint x="1880" y="250"/>
+        <di:waypoint x="2010" y="467"/>
+        <di:waypoint x="2070" y="688"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F22_di" bpmnElement="F22">
-        <di:waypoint x="2010" y="250"/>
-        <di:waypoint x="1630" y="110"/>
+        <di:waypoint x="2010" y="467"/>
+        <di:waypoint x="2070" y="778"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F23_di" bpmnElement="F23">
-        <di:waypoint x="1666" y="110"/>
-        <di:waypoint x="1880" y="110"/>
+        <di:waypoint x="2106" y="778"/>
+        <di:waypoint x="2170" y="907"/>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="F24_di" bpmnElement="F24">
-        <di:waypoint x="2010" y="110"/>
-        <di:waypoint x="2060" y="110"/>
+        <di:waypoint x="2300" y="907"/>
+        <di:waypoint x="2340" y="907"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F25_di" bpmnElement="F25">
+        <di:waypoint x="2470" y="907"/>
+        <di:waypoint x="1860" y="467"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F26_di" bpmnElement="F26">
+        <di:waypoint x="2106" y="688"/>
+        <di:waypoint x="2250" y="217"/>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="F27_di" bpmnElement="F27">
+        <di:waypoint x="2380" y="217"/>
+        <di:waypoint x="2430" y="217"/>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

@@ -9,6 +9,8 @@ Parallel unordered pairs: 2
 Choice ordered pairs: 100
 Maximal Alpha places: 11
 Average cycle time: 5.28 days
+PERT critical path expected duration: 134.84 hours
+PERT critical path: Check stock availability -> Check materials availability -> Request raw materials -> Obtain raw materials -> Manufacture product -> Confirm order -> Emit invoice -> Receive payment -> Archive order
 
 Causal relations:
 - Check materials availability -> Manufacture product

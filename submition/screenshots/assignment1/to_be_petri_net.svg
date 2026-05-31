@@ -1,567 +1,156 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5196pt" height="445pt" viewBox="0.00 0.00 5196.00 445.00">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 441.26)">
-<title>assignment1_to_be_petri</title>
-<polygon fill="white" stroke="none" points="-4,4 -4,-441.26 5192.45,-441.26 5192.45,4 -4,4"/>
-<text xml:space="preserve" text-anchor="middle" x="2594.23" y="-417.06" font-family="Times,serif" font-size="18.00">Assignment 1 To-Be E-Purchase Petri Net</text>
-<!-- p_start -->
-<g id="node1" class="node">
-<title>p_start</title>
-<ellipse fill="none" stroke="black" cx="79.62" cy="-252.09" rx="75.62" ry="75.62"/>
-<ellipse fill="none" stroke="black" cx="79.62" cy="-252.09" rx="79.62" ry="79.62"/>
-<text xml:space="preserve" text-anchor="middle" x="79.62" y="-247.89" font-family="Arial" font-size="14.00">Checkout submitted</text>
-</g>
-<!-- t_validate_order -->
-<g id="node24" class="node">
-<title>t_validate_order</title>
-<path fill="none" stroke="black" d="M286.41,-270.09C286.41,-270.09 207.25,-270.09 207.25,-270.09 201.25,-270.09 195.25,-264.09 195.25,-258.09 195.25,-258.09 195.25,-246.09 195.25,-246.09 195.25,-240.09 201.25,-234.09 207.25,-234.09 207.25,-234.09 286.41,-234.09 286.41,-234.09 292.41,-234.09 298.41,-240.09 298.41,-246.09 298.41,-246.09 298.41,-258.09 298.41,-258.09 298.41,-264.09 292.41,-270.09 286.41,-270.09"/>
-<text xml:space="preserve" text-anchor="middle" x="246.83" y="-247.89" font-family="Arial" font-size="14.00">Validate order</text>
-</g>
-<!-- p_start&#45;&gt;t_validate_order -->
-<g id="edge1" class="edge">
-<title>p_start-&gt;t_validate_order</title>
-<path fill="none" stroke="black" d="M159.35,-252.09C167.51,-252.09 175.71,-252.09 183.64,-252.09"/>
-<polygon fill="black" stroke="black" points="183.53,-255.59 193.53,-252.09 183.53,-248.59 183.53,-255.59"/>
-</g>
-<!-- p_validated -->
-<g id="node2" class="node">
-<title>p_validated</title>
-<ellipse fill="none" stroke="black" cx="394.87" cy="-252.09" rx="60.46" ry="60.46"/>
-<text xml:space="preserve" text-anchor="middle" x="394.87" y="-247.89" font-family="Arial" font-size="14.00">Order validated</text>
-</g>
-<!-- t_auto_checks_split -->
-<g id="node25" class="node">
-<title>t_auto_checks_split</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M678.2,-270.09C678.2,-270.09 503.33,-270.09 503.33,-270.09 497.33,-270.09 491.33,-264.09 491.33,-258.09 491.33,-258.09 491.33,-246.09 491.33,-246.09 491.33,-240.09 497.33,-234.09 503.33,-234.09 503.33,-234.09 678.2,-234.09 678.2,-234.09 684.2,-234.09 690.2,-240.09 690.2,-246.09 690.2,-246.09 690.2,-258.09 690.2,-258.09 690.2,-264.09 684.2,-270.09 678.2,-270.09"/>
-<text xml:space="preserve" text-anchor="middle" x="590.77" y="-247.89" font-family="Arial" font-size="14.00">silent: automated checks split</text>
-</g>
-<!-- p_validated&#45;&gt;t_auto_checks_split -->
-<g id="edge3" class="edge">
-<title>p_validated-&gt;t_auto_checks_split</title>
-<path fill="none" stroke="black" d="M455.63,-252.09C463.36,-252.09 471.45,-252.09 479.68,-252.09"/>
-<polygon fill="black" stroke="black" points="479.44,-255.59 489.44,-252.09 479.44,-248.59 479.44,-255.59"/>
-</g>
-<!-- p_stock_ready -->
-<g id="node3" class="node">
-<title>p_stock_ready</title>
-<ellipse fill="none" stroke="black" cx="807.72" cy="-337.09" rx="70.57" ry="70.57"/>
-<text xml:space="preserve" text-anchor="middle" x="807.72" y="-332.89" font-family="Arial" font-size="14.00">Stock check ready</text>
-</g>
-<!-- t_check_stock -->
-<g id="node26" class="node">
-<title>t_check_stock</title>
-<path fill="none" stroke="black" d="M1025.72,-353.09C1025.72,-353.09 957.48,-353.09 957.48,-353.09 951.48,-353.09 945.48,-347.09 945.48,-341.09 945.48,-341.09 945.48,-329.09 945.48,-329.09 945.48,-323.09 951.48,-317.09 957.48,-317.09 957.48,-317.09 1025.72,-317.09 1025.72,-317.09 1031.72,-317.09 1037.72,-323.09 1037.72,-329.09 1037.72,-329.09 1037.72,-341.09 1037.72,-341.09 1037.72,-347.09 1031.72,-353.09 1025.72,-353.09"/>
-<text xml:space="preserve" text-anchor="middle" x="991.6" y="-330.89" font-family="Arial" font-size="14.00">Check stock</text>
-</g>
-<!-- p_stock_ready&#45;&gt;t_check_stock -->
-<g id="edge6" class="edge">
-<title>p_stock_ready-&gt;t_check_stock</title>
-<path fill="none" stroke="black" d="M878.78,-336.32C897,-336.12 916.41,-335.91 933.85,-335.72"/>
-<polygon fill="black" stroke="black" points="933.52,-339.22 943.48,-335.61 933.45,-332.22 933.52,-339.22"/>
-</g>
-<!-- p_payment_ready -->
-<g id="node4" class="node">
-<title>p_payment_ready</title>
-<ellipse fill="none" stroke="black" cx="807.72" cy="-167.09" rx="81.52" ry="81.52"/>
-<text xml:space="preserve" text-anchor="middle" x="807.72" y="-162.89" font-family="Arial" font-size="14.00">Payment check ready</text>
-</g>
-<!-- t_authorize_payment -->
-<g id="node27" class="node">
-<title>t_authorize_payment</title>
-<path fill="none" stroke="black" d="M1045.96,-197.09C1045.96,-197.09 937.23,-197.09 937.23,-197.09 931.23,-197.09 925.23,-191.09 925.23,-185.09 925.23,-185.09 925.23,-173.09 925.23,-173.09 925.23,-167.09 931.23,-161.09 937.23,-161.09 937.23,-161.09 1045.96,-161.09 1045.96,-161.09 1051.96,-161.09 1057.96,-167.09 1057.96,-173.09 1057.96,-173.09 1057.96,-185.09 1057.96,-185.09 1057.96,-191.09 1051.96,-197.09 1045.96,-197.09"/>
-<text xml:space="preserve" text-anchor="middle" x="991.6" y="-174.89" font-family="Arial" font-size="14.00">Authorize payment</text>
-</g>
-<!-- p_payment_ready&#45;&gt;t_authorize_payment -->
-<g id="edge8" class="edge">
-<title>p_payment_ready-&gt;t_authorize_payment</title>
-<path fill="none" stroke="black" d="M889.55,-172.42C897.52,-172.95 905.59,-173.48 913.52,-174.01"/>
-<polygon fill="black" stroke="black" points="913.29,-177.5 923.5,-174.66 913.75,-170.51 913.29,-177.5"/>
-</g>
-<!-- p_stock_checked -->
-<g id="node5" class="node">
-<title>p_stock_checked</title>
-<ellipse fill="none" stroke="black" cx="1162.85" cy="-333.09" rx="57.93" ry="57.93"/>
-<text xml:space="preserve" text-anchor="middle" x="1162.85" y="-328.89" font-family="Arial" font-size="14.00">Stock checked</text>
-</g>
-<!-- t_checks_join -->
-<g id="node28" class="node">
-<title>t_checks_join</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M1381.45,-275.09C1381.45,-275.09 1279.74,-275.09 1279.74,-275.09 1273.74,-275.09 1267.74,-269.09 1267.74,-263.09 1267.74,-263.09 1267.74,-251.09 1267.74,-251.09 1267.74,-245.09 1273.74,-239.09 1279.74,-239.09 1279.74,-239.09 1381.45,-239.09 1381.45,-239.09 1387.45,-239.09 1393.45,-245.09 1393.45,-251.09 1393.45,-251.09 1393.45,-263.09 1393.45,-263.09 1393.45,-269.09 1387.45,-275.09 1381.45,-275.09"/>
-<text xml:space="preserve" text-anchor="middle" x="1330.59" y="-252.89" font-family="Arial" font-size="14.00">silent: checks join</text>
-</g>
-<!-- p_stock_checked&#45;&gt;t_checks_join -->
-<g id="edge10" class="edge">
-<title>p_stock_checked-&gt;t_checks_join</title>
-<path fill="none" stroke="black" d="M1215.84,-309.25C1235.96,-300.03 1258.91,-289.5 1278.9,-280.34"/>
-<polygon fill="black" stroke="black" points="1280.35,-283.52 1287.99,-276.17 1277.44,-277.16 1280.35,-283.52"/>
-</g>
-<!-- p_payment_checked -->
-<g id="node6" class="node">
-<title>p_payment_checked</title>
-<ellipse fill="none" stroke="black" cx="1162.85" cy="-185.09" rx="68.89" ry="68.89"/>
-<text xml:space="preserve" text-anchor="middle" x="1162.85" y="-180.89" font-family="Arial" font-size="14.00">Payment checked</text>
-</g>
-<!-- p_payment_checked&#45;&gt;t_checks_join -->
-<g id="edge11" class="edge">
-<title>p_payment_checked-&gt;t_checks_join</title>
-<path fill="none" stroke="black" d="M1226.51,-212.31C1243.13,-219.53 1260.9,-227.25 1276.93,-234.21"/>
-<polygon fill="black" stroke="black" points="1275.23,-237.29 1285.79,-238.06 1278.02,-230.87 1275.23,-237.29"/>
-</g>
-<!-- p_order_decision -->
-<g id="node7" class="node">
-<title>p_order_decision</title>
-<ellipse fill="none" stroke="black" cx="1487.38" cy="-257.09" rx="57.93" ry="57.93"/>
-<text xml:space="preserve" text-anchor="middle" x="1487.38" y="-252.89" font-family="Arial" font-size="14.00">Order decision</text>
-</g>
-<!-- t_invalid_order -->
-<g id="node29" class="node">
-<title>t_invalid_order</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M1702.04,-321.09C1702.04,-321.09 1593.31,-321.09 1593.31,-321.09 1587.31,-321.09 1581.31,-315.09 1581.31,-309.09 1581.31,-309.09 1581.31,-297.09 1581.31,-297.09 1581.31,-291.09 1587.31,-285.09 1593.31,-285.09 1593.31,-285.09 1702.04,-285.09 1702.04,-285.09 1708.04,-285.09 1714.04,-291.09 1714.04,-297.09 1714.04,-297.09 1714.04,-309.09 1714.04,-309.09 1714.04,-315.09 1708.04,-321.09 1702.04,-321.09"/>
-<text xml:space="preserve" text-anchor="middle" x="1647.68" y="-298.89" font-family="Arial" font-size="14.00">silent: invalid order</text>
-</g>
-<!-- p_order_decision&#45;&gt;t_invalid_order -->
-<g id="edge13" class="edge">
-<title>p_order_decision-&gt;t_invalid_order</title>
-<path fill="none" stroke="black" d="M1543.3,-273.05C1552.65,-275.77 1562.49,-278.63 1572.23,-281.46"/>
-<polygon fill="black" stroke="black" points="1571.13,-284.78 1581.71,-284.21 1573.08,-278.06 1571.13,-284.78"/>
-</g>
-<!-- t_valid_order -->
-<g id="node31" class="node">
-<title>t_valid_order</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M1696.59,-248.09C1696.59,-248.09 1598.76,-248.09 1598.76,-248.09 1592.76,-248.09 1586.76,-242.09 1586.76,-236.09 1586.76,-236.09 1586.76,-224.09 1586.76,-224.09 1586.76,-218.09 1592.76,-212.09 1598.76,-212.09 1598.76,-212.09 1696.59,-212.09 1696.59,-212.09 1702.59,-212.09 1708.59,-218.09 1708.59,-224.09 1708.59,-224.09 1708.59,-236.09 1708.59,-236.09 1708.59,-242.09 1702.59,-248.09 1696.59,-248.09"/>
-<text xml:space="preserve" text-anchor="middle" x="1647.68" y="-225.89" font-family="Arial" font-size="14.00">silent: valid order</text>
-</g>
-<!-- p_order_decision&#45;&gt;t_valid_order -->
-<g id="edge17" class="edge">
-<title>p_order_decision-&gt;t_valid_order</title>
-<path fill="none" stroke="black" d="M1544.64,-247.5C1554.56,-245.8 1565,-244.02 1575.27,-242.27"/>
-<polygon fill="black" stroke="black" points="1575.55,-245.77 1584.82,-240.64 1574.37,-238.87 1575.55,-245.77"/>
-</g>
-<!-- p_reject_ready -->
-<g id="node8" class="node">
-<title>p_reject_ready</title>
-<ellipse fill="none" stroke="black" cx="1816.39" cy="-323.09" rx="46.99" ry="46.99"/>
-<text xml:space="preserve" text-anchor="middle" x="1816.39" y="-318.89" font-family="Arial" font-size="14.00">Reject path</text>
-</g>
-<!-- t_notify_rejection -->
-<g id="node30" class="node">
-<title>t_notify_rejection</title>
-<path fill="none" stroke="black" d="M2202.96,-341.09C2202.96,-341.09 2118.37,-341.09 2118.37,-341.09 2112.37,-341.09 2106.37,-335.09 2106.37,-329.09 2106.37,-329.09 2106.37,-317.09 2106.37,-317.09 2106.37,-311.09 2112.37,-305.09 2118.37,-305.09 2118.37,-305.09 2202.96,-305.09 2202.96,-305.09 2208.96,-305.09 2214.96,-311.09 2214.96,-317.09 2214.96,-317.09 2214.96,-329.09 2214.96,-329.09 2214.96,-335.09 2208.96,-341.09 2202.96,-341.09"/>
-<text xml:space="preserve" text-anchor="middle" x="2160.67" y="-318.89" font-family="Arial" font-size="14.00">Notify rejection</text>
-</g>
-<!-- p_reject_ready&#45;&gt;t_notify_rejection -->
-<g id="edge15" class="edge">
-<title>p_reject_ready-&gt;t_notify_rejection</title>
-<path fill="none" stroke="black" d="M1863.55,-323.09C1923.15,-323.09 2027.21,-323.09 2094.75,-323.09"/>
-<polygon fill="black" stroke="black" points="2094.58,-326.59 2104.58,-323.09 2094.58,-319.59 2094.58,-326.59"/>
-</g>
-<!-- p_reserve_ready -->
-<g id="node9" class="node">
-<title>p_reserve_ready</title>
-<ellipse fill="none" stroke="black" cx="1816.39" cy="-192.09" rx="66.36" ry="66.36"/>
-<text xml:space="preserve" text-anchor="middle" x="1816.39" y="-187.89" font-family="Arial" font-size="14.00">Ready to reserve</text>
-</g>
-<!-- t_reserve_fulfillment -->
-<g id="node32" class="node">
-<title>t_reserve_fulfillment</title>
-<path fill="none" stroke="black" d="M2037.9,-210.09C2037.9,-210.09 1930.75,-210.09 1930.75,-210.09 1924.75,-210.09 1918.75,-204.09 1918.75,-198.09 1918.75,-198.09 1918.75,-186.09 1918.75,-186.09 1918.75,-180.09 1924.75,-174.09 1930.75,-174.09 1930.75,-174.09 2037.9,-174.09 2037.9,-174.09 2043.9,-174.09 2049.9,-180.09 2049.9,-186.09 2049.9,-186.09 2049.9,-198.09 2049.9,-198.09 2049.9,-204.09 2043.9,-210.09 2037.9,-210.09"/>
-<text xml:space="preserve" text-anchor="middle" x="1984.32" y="-187.89" font-family="Arial" font-size="14.00">Reserve fulfillment</text>
-</g>
-<!-- p_reserve_ready&#45;&gt;t_reserve_fulfillment -->
-<g id="edge19" class="edge">
-<title>p_reserve_ready-&gt;t_reserve_fulfillment</title>
-<path fill="none" stroke="black" d="M1882.97,-192.09C1890.92,-192.09 1899.08,-192.09 1907.16,-192.09"/>
-<polygon fill="black" stroke="black" points="1906.98,-195.59 1916.98,-192.09 1906.98,-188.59 1906.98,-195.59"/>
-</g>
-<!-- p_fulfillment_reserved -->
-<g id="node10" class="node">
-<title>p_fulfillment_reserved</title>
-<ellipse fill="none" stroke="black" cx="2160.67" cy="-192.09" rx="74.77" ry="74.77"/>
-<text xml:space="preserve" text-anchor="middle" x="2160.67" y="-187.89" font-family="Arial" font-size="14.00">Fulfillment reserved</text>
-</g>
-<!-- t_fulfill_split -->
-<g id="node33" class="node">
-<title>t_fulfill_split</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M2403.82,-210.09C2403.82,-210.09 2283.44,-210.09 2283.44,-210.09 2277.44,-210.09 2271.44,-204.09 2271.44,-198.09 2271.44,-198.09 2271.44,-186.09 2271.44,-186.09 2271.44,-180.09 2277.44,-174.09 2283.44,-174.09 2283.44,-174.09 2403.82,-174.09 2403.82,-174.09 2409.82,-174.09 2415.82,-180.09 2415.82,-186.09 2415.82,-186.09 2415.82,-198.09 2415.82,-198.09 2415.82,-204.09 2409.82,-210.09 2403.82,-210.09"/>
-<text xml:space="preserve" text-anchor="middle" x="2343.63" y="-187.89" font-family="Arial" font-size="14.00">silent: fulfillment split</text>
-</g>
-<!-- p_fulfillment_reserved&#45;&gt;t_fulfill_split -->
-<g id="edge21" class="edge">
-<title>p_fulfillment_reserved-&gt;t_fulfill_split</title>
-<path fill="none" stroke="black" d="M2235.79,-192.09C2243.6,-192.09 2251.57,-192.09 2259.47,-192.09"/>
-<polygon fill="black" stroke="black" points="2259.44,-195.59 2269.44,-192.09 2259.44,-188.59 2259.44,-195.59"/>
-</g>
-<!-- p_invoice_ready -->
-<g id="node11" class="node">
-<title>p_invoice_ready</title>
-<ellipse fill="none" stroke="black" cx="2509.75" cy="-193.09" rx="57.94" ry="57.94"/>
-<text xml:space="preserve" text-anchor="middle" x="2509.75" y="-188.89" font-family="Arial" font-size="14.00">Invoice branch</text>
-</g>
-<!-- t_emit_invoice -->
-<g id="node34" class="node">
-<title>t_emit_invoice</title>
-<path fill="none" stroke="black" d="M2683.17,-204.09C2683.17,-204.09 2615.7,-204.09 2615.7,-204.09 2609.7,-204.09 2603.7,-198.09 2603.7,-192.09 2603.7,-192.09 2603.7,-180.09 2603.7,-180.09 2603.7,-174.09 2609.7,-168.09 2615.7,-168.09 2615.7,-168.09 2683.17,-168.09 2683.17,-168.09 2689.17,-168.09 2695.17,-174.09 2695.17,-180.09 2695.17,-180.09 2695.17,-192.09 2695.17,-192.09 2695.17,-198.09 2689.17,-204.09 2683.17,-204.09"/>
-<text xml:space="preserve" text-anchor="middle" x="2649.44" y="-181.89" font-family="Arial" font-size="14.00">Emit invoice</text>
-</g>
-<!-- p_invoice_ready&#45;&gt;t_emit_invoice -->
-<g id="edge24" class="edge">
-<title>p_invoice_ready-&gt;t_emit_invoice</title>
-<path fill="none" stroke="black" d="M2567.95,-190.18C2575.89,-189.78 2584.05,-189.37 2591.97,-188.96"/>
-<polygon fill="black" stroke="black" points="2592.06,-192.46 2601.87,-188.46 2591.7,-185.47 2592.06,-192.46"/>
-</g>
-<!-- p_label_ready -->
-<g id="node12" class="node">
-<title>p_label_ready</title>
-<ellipse fill="none" stroke="black" cx="2509.75" cy="-65.09" rx="52.47" ry="52.47"/>
-<text xml:space="preserve" text-anchor="middle" x="2509.75" y="-60.89" font-family="Arial" font-size="14.00">Label branch</text>
-</g>
-<!-- t_create_label -->
-<g id="node35" class="node">
-<title>t_create_label</title>
-<path fill="none" stroke="black" d="M2683.18,-93.09C2683.18,-93.09 2615.69,-93.09 2615.69,-93.09 2609.69,-93.09 2603.69,-87.09 2603.69,-81.09 2603.69,-81.09 2603.69,-69.09 2603.69,-69.09 2603.69,-63.09 2609.69,-57.09 2615.69,-57.09 2615.69,-57.09 2683.18,-57.09 2683.18,-57.09 2689.18,-57.09 2695.18,-63.09 2695.18,-69.09 2695.18,-69.09 2695.18,-81.09 2695.18,-81.09 2695.18,-87.09 2689.18,-93.09 2683.18,-93.09"/>
-<text xml:space="preserve" text-anchor="middle" x="2649.44" y="-70.89" font-family="Arial" font-size="14.00">Create label</text>
-</g>
-<!-- p_label_ready&#45;&gt;t_create_label -->
-<g id="edge26" class="edge">
-<title>p_label_ready-&gt;t_create_label</title>
-<path fill="none" stroke="black" d="M2562.41,-68.84C2572.07,-69.54 2582.2,-70.28 2591.99,-70.99"/>
-<polygon fill="black" stroke="black" points="2591.53,-74.47 2601.76,-71.7 2592.04,-67.49 2591.53,-74.47"/>
-</g>
-<!-- p_invoice_done -->
-<g id="node13" class="node">
-<title>p_invoice_done</title>
-<ellipse fill="none" stroke="black" cx="2935.95" cy="-181.09" rx="59.62" ry="59.62"/>
-<text xml:space="preserve" text-anchor="middle" x="2935.95" y="-176.89" font-family="Arial" font-size="14.00">Invoice emitted</text>
-</g>
-<!-- t_fulfillment_join -->
-<g id="node38" class="node">
-<title>t_fulfillment_join</title>
-<path fill="#f4f4f4" stroke="black" stroke-dasharray="5,2" d="M3504.24,-103.09C3504.24,-103.09 3386.97,-103.09 3386.97,-103.09 3380.97,-103.09 3374.97,-97.09 3374.97,-91.09 3374.97,-91.09 3374.97,-79.09 3374.97,-79.09 3374.97,-73.09 3380.97,-67.09 3386.97,-67.09 3386.97,-67.09 3504.24,-67.09 3504.24,-67.09 3510.24,-67.09 3516.24,-73.09 3516.24,-79.09 3516.24,-79.09 3516.24,-91.09 3516.24,-91.09 3516.24,-97.09 3510.24,-103.09 3504.24,-103.09"/>
-<text xml:space="preserve" text-anchor="middle" x="3445.61" y="-80.89" font-family="Arial" font-size="14.00">silent: fulfillment join</text>
-</g>
-<!-- p_invoice_done&#45;&gt;t_fulfillment_join -->
-<g id="edge32" class="edge">
-<title>p_invoice_done-&gt;t_fulfillment_join</title>
-<path fill="none" stroke="black" d="M2995.85,-178.71C3075.08,-174.36 3219.79,-162.36 3338.97,-130.09 3358.91,-124.69 3380.03,-116.29 3398.09,-108.19"/>
-<polygon fill="black" stroke="black" points="3399.34,-111.47 3406.97,-104.12 3396.42,-105.11 3399.34,-111.47"/>
-</g>
-<!-- p_label_created -->
-<g id="node14" class="node">
-<title>p_label_created</title>
-<ellipse fill="none" stroke="black" cx="2785.76" cy="-80.09" rx="54.58" ry="54.58"/>
-<text xml:space="preserve" text-anchor="middle" x="2785.76" y="-75.89" font-family="Arial" font-size="14.00">Label created</text>
-</g>
-<!-- t_pack_order -->
-<g id="node36" class="node">
-<title>t_pack_order</title>
-<path fill="none" stroke="black" d="M2965.8,-101.09C2965.8,-101.09 2906.1,-101.09 2906.1,-101.09 2900.1,-101.09 2894.1,-95.09 2894.1,-89.09 2894.1,-89.09 2894.1,-77.09 2894.1,-77.09 2894.1,-71.09 2900.1,-65.09 2906.1,-65.09 2906.1,-65.09 2965.8,-65.09 2965.8,-65.09 2971.8,-65.09 2977.8,-71.09 2977.8,-77.09 2977.8,-77.09 2977.8,-89.09 2977.8,-89.09 2977.8,-95.09 2971.8,-101.09 2965.8,-101.09"/>
-<text xml:space="preserve" text-anchor="middle" x="2935.95" y="-78.89" font-family="Arial" font-size="14.00">Pack order</text>
-</g>
-<!-- p_label_created&#45;&gt;t_pack_order -->
-<g id="edge28" class="edge">
-<title>p_label_created-&gt;t_pack_order</title>
-<path fill="none" stroke="black" d="M2840.68,-81.18C2854.38,-81.46 2869.09,-81.76 2882.71,-82.03"/>
-<polygon fill="black" stroke="black" points="2882.27,-85.53 2892.34,-82.23 2882.41,-78.53 2882.27,-85.53"/>
-</g>
-<!-- p_packed -->
-<g id="node15" class="node">
-<title>p_packed</title>
-<ellipse fill="none" stroke="black" cx="3065.5" cy="-84.09" rx="33.93" ry="33.93"/>
-<text xml:space="preserve" text-anchor="middle" x="3065.5" y="-79.89" font-family="Arial" font-size="14.00">Packed</text>
-</g>
-<!-- t_ship_product -->
-<g id="node37" class="node">
-<title>t_ship_product</title>
-<path fill="none" stroke="black" d="M3218.04,-103.09C3218.04,-103.09 3147.43,-103.09 3147.43,-103.09 3141.43,-103.09 3135.43,-97.09 3135.43,-91.09 3135.43,-91.09 3135.43,-79.09 3135.43,-79.09 3135.43,-73.09 3141.43,-67.09 3147.43,-67.09 3147.43,-67.09 3218.04,-67.09 3218.04,-67.09 3224.04,-67.09 3230.04,-73.09 3230.04,-79.09 3230.04,-79.09 3230.04,-91.09 3230.04,-91.09 3230.04,-97.09 3224.04,-103.09 3218.04,-103.09"/>
-<text xml:space="preserve" text-anchor="middle" x="3182.73" y="-80.89" font-family="Arial" font-size="14.00">Ship product</text>
-</g>
-<!-- p_packed&#45;&gt;t_ship_product -->
-<g id="edge30" class="edge">
-<title>p_packed-&gt;t_ship_product</title>
-<path fill="none" stroke="black" d="M3099.83,-84.38C3107.33,-84.45 3115.5,-84.52 3123.69,-84.59"/>
-<polygon fill="black" stroke="black" points="3123.65,-88.09 3133.68,-84.67 3123.71,-81.09 3123.65,-88.09"/>
-</g>
-<!-- p_shipped -->
-<g id="node16" class="node">
-<title>p_shipped</title>
-<ellipse fill="none" stroke="black" cx="3302.5" cy="-85.09" rx="36.47" ry="36.47"/>
-<text xml:space="preserve" text-anchor="middle" x="3302.5" y="-80.89" font-family="Arial" font-size="14.00">Shipped</text>
-</g>
-<!-- p_shipped&#45;&gt;t_fulfillment_join -->
-<g id="edge33" class="edge">
-<title>p_shipped-&gt;t_fulfillment_join</title>
-<path fill="none" stroke="black" d="M3339.11,-85.09C3346.57,-85.09 3354.74,-85.09 3363.11,-85.09"/>
-<polygon fill="black" stroke="black" points="3363.1,-88.59 3373.1,-85.09 3363.1,-81.59 3363.1,-88.59"/>
-</g>
-<!-- p_tracking_ready -->
-<g id="node17" class="node">
-<title>p_tracking_ready</title>
-<ellipse fill="none" stroke="black" cx="3611.02" cy="-85.09" rx="58.77" ry="58.77"/>
-<text xml:space="preserve" text-anchor="middle" x="3611.02" y="-80.89" font-family="Arial" font-size="14.00">Tracking ready</text>
-</g>
-<!-- t_track_shipment -->
-<g id="node39" class="node">
-<title>t_track_shipment</title>
-<path fill="none" stroke="black" d="M3805.48,-103.09C3805.48,-103.09 3717.79,-103.09 3717.79,-103.09 3711.79,-103.09 3705.79,-97.09 3705.79,-91.09 3705.79,-91.09 3705.79,-79.09 3705.79,-79.09 3705.79,-73.09 3711.79,-67.09 3717.79,-67.09 3717.79,-67.09 3805.48,-67.09 3805.48,-67.09 3811.48,-67.09 3817.48,-73.09 3817.48,-79.09 3817.48,-79.09 3817.48,-91.09 3817.48,-91.09 3817.48,-97.09 3811.48,-103.09 3805.48,-103.09"/>
-<text xml:space="preserve" text-anchor="middle" x="3761.63" y="-80.89" font-family="Arial" font-size="14.00">Track shipment</text>
-</g>
-<!-- p_tracking_ready&#45;&gt;t_track_shipment -->
-<g id="edge35" class="edge">
-<title>p_tracking_ready-&gt;t_track_shipment</title>
-<path fill="none" stroke="black" d="M3669.9,-85.09C3677.88,-85.09 3686.12,-85.09 3694.24,-85.09"/>
-<polygon fill="black" stroke="black" points="3694.07,-88.59 3704.07,-85.09 3694.07,-81.59 3694.07,-88.59"/>
-</g>
-<!-- p_sla_wait -->
-<g id="node18" class="node">
-<title>p_sla_wait</title>
-<ellipse fill="none" stroke="black" cx="3924.47" cy="-85.09" rx="70.99" ry="70.99"/>
-<text xml:space="preserve" text-anchor="middle" x="3924.47" y="-80.89" font-family="Arial" font-size="14.00">Waiting SLA event</text>
-</g>
-<!-- t_delivery_confirmed -->
-<g id="node40" class="node">
-<title>t_delivery_confirmed</title>
-<path fill="none" stroke="black" d="M4213.65,-200.09C4213.65,-200.09 4043.46,-200.09 4043.46,-200.09 4037.46,-200.09 4031.46,-194.09 4031.46,-188.09 4031.46,-188.09 4031.46,-176.09 4031.46,-176.09 4031.46,-170.09 4037.46,-164.09 4043.46,-164.09 4043.46,-164.09 4213.65,-164.09 4213.65,-164.09 4219.65,-164.09 4225.65,-170.09 4225.65,-176.09 4225.65,-176.09 4225.65,-188.09 4225.65,-188.09 4225.65,-194.09 4219.65,-200.09 4213.65,-200.09"/>
-<text xml:space="preserve" text-anchor="middle" x="4128.56" y="-177.89" font-family="Arial" font-size="14.00">Message: delivery confirmed</text>
-</g>
-<!-- p_sla_wait&#45;&gt;t_delivery_confirmed -->
-<g id="edge37" class="edge">
-<title>p_sla_wait-&gt;t_delivery_confirmed</title>
-<path fill="none" stroke="black" d="M3988.86,-115.52C4017.88,-129.45 4051.74,-145.7 4078.74,-158.66"/>
-<polygon fill="black" stroke="black" points="4077.2,-161.8 4087.73,-162.98 4080.23,-155.49 4077.2,-161.8"/>
-</g>
-<!-- t_sla_breached -->
-<g id="node41" class="node">
-<title>t_sla_breached</title>
-<path fill="none" stroke="black" d="M4190.7,-103.09C4190.7,-103.09 4066.42,-103.09 4066.42,-103.09 4060.42,-103.09 4054.42,-97.09 4054.42,-91.09 4054.42,-91.09 4054.42,-79.09 4054.42,-79.09 4054.42,-73.09 4060.42,-67.09 4066.42,-67.09 4066.42,-67.09 4190.7,-67.09 4190.7,-67.09 4196.7,-67.09 4202.7,-73.09 4202.7,-79.09 4202.7,-79.09 4202.7,-91.09 4202.7,-91.09 4202.7,-97.09 4196.7,-103.09 4190.7,-103.09"/>
-<text xml:space="preserve" text-anchor="middle" x="4128.56" y="-80.89" font-family="Arial" font-size="14.00">Timer: SLA breached</text>
-</g>
-<!-- p_sla_wait&#45;&gt;t_sla_breached -->
-<g id="edge41" class="edge">
-<title>p_sla_wait-&gt;t_sla_breached</title>
-<path fill="none" stroke="black" d="M3995.87,-85.09C4010.99,-85.09 4027.13,-85.09 4042.73,-85.09"/>
-<polygon fill="black" stroke="black" points="4042.47,-88.59 4052.47,-85.09 4042.47,-81.59 4042.47,-88.59"/>
-</g>
-<!-- p_delay_case -->
-<g id="node19" class="node">
-<title>p_delay_case</title>
-<ellipse fill="none" stroke="black" cx="4333.05" cy="-85.09" rx="49.93" ry="49.93"/>
-<text xml:space="preserve" text-anchor="middle" x="4333.05" y="-80.89" font-family="Arial" font-size="14.00">Delay active</text>
-</g>
-<!-- t_open_complaint -->
-<g id="node42" class="node">
-<title>t_open_complaint</title>
-<path fill="none" stroke="black" d="M4542.5,-107.09C4542.5,-107.09 4452.44,-107.09 4452.44,-107.09 4446.44,-107.09 4440.44,-101.09 4440.44,-95.09 4440.44,-95.09 4440.44,-83.09 4440.44,-83.09 4440.44,-77.09 4446.44,-71.09 4452.44,-71.09 4452.44,-71.09 4542.5,-71.09 4542.5,-71.09 4548.5,-71.09 4554.5,-77.09 4554.5,-83.09 4554.5,-83.09 4554.5,-95.09 4554.5,-95.09 4554.5,-101.09 4548.5,-107.09 4542.5,-107.09"/>
-<text xml:space="preserve" text-anchor="middle" x="4497.47" y="-84.89" font-family="Arial" font-size="14.00">Open complaint</text>
-</g>
-<!-- p_delay_case&#45;&gt;t_open_complaint -->
-<g id="edge43" class="edge">
-<title>p_delay_case-&gt;t_open_complaint</title>
-<path fill="none" stroke="black" d="M4383.22,-86.3C4397.51,-86.65 4413.37,-87.04 4428.59,-87.42"/>
-<polygon fill="black" stroke="black" points="4428.47,-90.92 4438.55,-87.67 4428.64,-83.92 4428.47,-90.92"/>
-</g>
-<!-- p_complaint_open -->
-<g id="node20" class="node">
-<title>p_complaint_open</title>
-<ellipse fill="none" stroke="black" cx="4652.23" cy="-93.09" rx="61.73" ry="61.73"/>
-<text xml:space="preserve" text-anchor="middle" x="4652.23" y="-88.89" font-family="Arial" font-size="14.00">Complaint open</text>
-</g>
-<!-- t_notify_customer -->
-<g id="node43" class="node">
-<title>t_notify_customer</title>
-<path fill="none" stroke="black" d="M4851.21,-112.09C4851.21,-112.09 4761.96,-112.09 4761.96,-112.09 4755.96,-112.09 4749.96,-106.09 4749.96,-100.09 4749.96,-100.09 4749.96,-88.09 4749.96,-88.09 4749.96,-82.09 4755.96,-76.09 4761.96,-76.09 4761.96,-76.09 4851.21,-76.09 4851.21,-76.09 4857.21,-76.09 4863.21,-82.09 4863.21,-88.09 4863.21,-88.09 4863.21,-100.09 4863.21,-100.09 4863.21,-106.09 4857.21,-112.09 4851.21,-112.09"/>
-<text xml:space="preserve" text-anchor="middle" x="4806.58" y="-89.89" font-family="Arial" font-size="14.00">Notify customer</text>
-</g>
-<!-- p_complaint_open&#45;&gt;t_notify_customer -->
-<g id="edge45" class="edge">
-<title>p_complaint_open-&gt;t_notify_customer</title>
-<path fill="none" stroke="black" d="M4714.32,-93.49C4722.31,-93.54 4730.53,-93.6 4738.61,-93.65"/>
-<polygon fill="black" stroke="black" points="4738.37,-97.15 4748.39,-93.72 4738.41,-90.15 4738.37,-97.15"/>
-</g>
-<!-- p_customer_notified -->
-<g id="node21" class="node">
-<title>p_customer_notified</title>
-<ellipse fill="none" stroke="black" cx="4967.25" cy="-96.09" rx="68.04" ry="68.04"/>
-<text xml:space="preserve" text-anchor="middle" x="4967.25" y="-91.89" font-family="Arial" font-size="14.00">Customer notified</text>
-</g>
-<!-- t_expedite_courier -->
-<g id="node44" class="node">
-<title>t_expedite_courier</title>
-<path fill="none" stroke="black" d="M5176.45,-66.09C5176.45,-66.09 5083.29,-66.09 5083.29,-66.09 5077.29,-66.09 5071.29,-60.09 5071.29,-54.09 5071.29,-54.09 5071.29,-42.09 5071.29,-42.09 5071.29,-36.09 5077.29,-30.09 5083.29,-30.09 5083.29,-30.09 5176.45,-30.09 5176.45,-30.09 5182.45,-30.09 5188.45,-36.09 5188.45,-42.09 5188.45,-42.09 5188.45,-54.09 5188.45,-54.09 5188.45,-60.09 5182.45,-66.09 5176.45,-66.09"/>
-<text xml:space="preserve" text-anchor="middle" x="5129.87" y="-43.89" font-family="Arial" font-size="14.00">Expedite courier</text>
-</g>
-<!-- p_customer_notified&#45;&gt;t_expedite_courier -->
-<g id="edge47" class="edge">
-<title>p_customer_notified-&gt;t_expedite_courier</title>
-<path fill="none" stroke="black" d="M5032.65,-76.84C5041.65,-74.16 5050.92,-71.38 5060,-68.67"/>
-<polygon fill="black" stroke="black" points="5060.91,-72.05 5069.49,-65.84 5058.91,-65.35 5060.91,-72.05"/>
-</g>
-<!-- p_delivery_ok -->
-<g id="node22" class="node">
-<title>p_delivery_ok</title>
-<ellipse fill="none" stroke="black" cx="4333.05" cy="-224.09" rx="71.4" ry="71.4"/>
-<text xml:space="preserve" text-anchor="middle" x="4333.05" y="-219.89" font-family="Arial" font-size="14.00">Delivery confirmed</text>
-</g>
-<!-- t_archive_order -->
-<g id="node45" class="node">
-<title>t_archive_order</title>
-<path fill="none" stroke="black" d="M4535.1,-268.09C4535.1,-268.09 4459.84,-268.09 4459.84,-268.09 4453.84,-268.09 4447.84,-262.09 4447.84,-256.09 4447.84,-256.09 4447.84,-244.09 4447.84,-244.09 4447.84,-238.09 4453.84,-232.09 4459.84,-232.09 4459.84,-232.09 4535.1,-232.09 4535.1,-232.09 4541.1,-232.09 4547.1,-238.09 4547.1,-244.09 4547.1,-244.09 4547.1,-256.09 4547.1,-256.09 4547.1,-262.09 4541.1,-268.09 4535.1,-268.09"/>
-<text xml:space="preserve" text-anchor="middle" x="4497.47" y="-245.89" font-family="Arial" font-size="14.00">Archive order</text>
-</g>
-<!-- p_delivery_ok&#45;&gt;t_archive_order -->
-<g id="edge39" class="edge">
-<title>p_delivery_ok-&gt;t_archive_order</title>
-<path fill="none" stroke="black" d="M4403.87,-235.27C4414.73,-237.01 4425.87,-238.79 4436.49,-240.49"/>
-<polygon fill="black" stroke="black" points="4435.84,-243.93 4446.27,-242.06 4436.95,-237.02 4435.84,-243.93"/>
-</g>
-<!-- p_done -->
-<g id="node23" class="node">
-<title>p_done</title>
-<ellipse fill="none" stroke="black" cx="4652.23" cy="-287.09" rx="50.35" ry="50.35"/>
-<ellipse fill="none" stroke="black" cx="4652.23" cy="-287.09" rx="54.35" ry="54.35"/>
-<text xml:space="preserve" text-anchor="middle" x="4652.23" y="-282.89" font-family="Arial" font-size="14.00">Case closed</text>
-</g>
-<!-- t_validate_order&#45;&gt;p_validated -->
-<g id="edge2" class="edge">
-<title>t_validate_order-&gt;p_validated</title>
-<path fill="none" stroke="black" d="M298.91,-252.09C306.62,-252.09 314.7,-252.09 322.74,-252.09"/>
-<polygon fill="black" stroke="black" points="322.54,-255.59 332.54,-252.09 322.54,-248.59 322.54,-255.59"/>
-</g>
-<!-- t_auto_checks_split&#45;&gt;p_stock_ready -->
-<g id="edge4" class="edge">
-<title>t_auto_checks_split-&gt;p_stock_ready</title>
-<path fill="none" stroke="black" d="M638.41,-270.54C665.59,-281.28 700.51,-295.09 731.48,-307.34"/>
-<polygon fill="black" stroke="black" points="729.83,-310.45 740.42,-310.87 732.4,-303.94 729.83,-310.45"/>
-</g>
-<!-- t_auto_checks_split&#45;&gt;p_payment_ready -->
-<g id="edge5" class="edge">
-<title>t_auto_checks_split-&gt;p_payment_ready</title>
-<path fill="none" stroke="black" d="M638.41,-233.65C662.5,-224.12 692.66,-212.19 720.78,-201.08"/>
-<polygon fill="black" stroke="black" points="722.02,-204.35 730.03,-197.42 719.44,-197.84 722.02,-204.35"/>
-</g>
-<!-- t_check_stock&#45;&gt;p_stock_checked -->
-<g id="edge7" class="edge">
-<title>t_check_stock-&gt;p_stock_checked</title>
-<path fill="none" stroke="black" d="M1037.96,-334.56C1054.9,-334.36 1074.55,-334.12 1093.14,-333.9"/>
-<polygon fill="black" stroke="black" points="1093.07,-337.4 1103.02,-333.79 1092.98,-330.41 1093.07,-337.4"/>
-</g>
-<!-- t_authorize_payment&#45;&gt;p_payment_checked -->
-<g id="edge9" class="edge">
-<title>t_authorize_payment-&gt;p_payment_checked</title>
-<path fill="none" stroke="black" d="M1058.04,-181.41C1065.94,-181.69 1074.08,-181.98 1082.16,-182.27"/>
-<polygon fill="black" stroke="black" points="1081.88,-185.76 1092,-182.62 1082.13,-178.76 1081.88,-185.76"/>
-</g>
-<!-- t_checks_join&#45;&gt;p_order_decision -->
-<g id="edge12" class="edge">
-<title>t_checks_join-&gt;p_order_decision</title>
-<path fill="none" stroke="black" d="M1393.66,-257.09C1401.66,-257.09 1409.9,-257.09 1417.99,-257.09"/>
-<polygon fill="black" stroke="black" points="1417.8,-260.59 1427.8,-257.09 1417.8,-253.59 1417.8,-260.59"/>
-</g>
-<!-- t_invalid_order&#45;&gt;p_reject_ready -->
-<g id="edge14" class="edge">
-<title>t_invalid_order-&gt;p_reject_ready</title>
-<path fill="none" stroke="black" d="M1714.09,-310.94C1728.7,-312.69 1744.09,-314.54 1758.33,-316.25"/>
-<polygon fill="black" stroke="black" points="1757.62,-319.69 1767.97,-317.4 1758.46,-312.74 1757.62,-319.69"/>
-</g>
-<!-- t_notify_rejection&#45;&gt;p_done -->
-<g id="edge16" class="edge">
-<title>t_notify_rejection-&gt;p_done</title>
-<path fill="none" stroke="black" d="M2215.18,-323.09C2283.35,-323.09 2404.81,-323.09 2508.75,-323.09 2508.75,-323.09 2508.75,-323.09 4334.05,-323.09 4422.27,-323.09 4523.42,-309.17 4587.31,-298.64"/>
-<polygon fill="black" stroke="black" points="4587.63,-302.14 4596.91,-297.04 4586.47,-295.23 4587.63,-302.14"/>
-</g>
-<!-- t_valid_order&#45;&gt;p_reserve_ready -->
-<g id="edge18" class="edge">
-<title>t_valid_order-&gt;p_reserve_ready</title>
-<path fill="none" stroke="black" d="M1708.87,-216.37C1719.11,-214.04 1729.86,-211.59 1740.43,-209.18"/>
-<polygon fill="black" stroke="black" points="1740.91,-212.66 1749.88,-207.02 1739.35,-205.83 1740.91,-212.66"/>
-</g>
-<!-- t_reserve_fulfillment&#45;&gt;p_fulfillment_reserved -->
-<g id="edge20" class="edge">
-<title>t_reserve_fulfillment-&gt;p_fulfillment_reserved</title>
-<path fill="none" stroke="black" d="M2050.24,-192.09C2058.07,-192.09 2066.16,-192.09 2074.23,-192.09"/>
-<polygon fill="black" stroke="black" points="2074.08,-195.59 2084.08,-192.09 2074.08,-188.59 2074.08,-195.59"/>
-</g>
-<!-- t_fulfill_split&#45;&gt;p_invoice_ready -->
-<g id="edge22" class="edge">
-<title>t_fulfill_split-&gt;p_invoice_ready</title>
-<path fill="none" stroke="black" d="M2416.14,-192.53C2424.24,-192.58 2432.48,-192.63 2440.54,-192.68"/>
-<polygon fill="black" stroke="black" points="2440.24,-196.17 2450.26,-192.74 2440.29,-189.17 2440.24,-196.17"/>
-</g>
-<!-- t_fulfill_split&#45;&gt;p_label_ready -->
-<g id="edge23" class="edge">
-<title>t_fulfill_split-&gt;p_label_ready</title>
-<path fill="none" stroke="black" d="M2368.49,-173.62C2392.02,-155.42 2428.69,-127.04 2458.64,-103.87"/>
-<polygon fill="black" stroke="black" points="2460.73,-106.67 2466.5,-97.79 2456.45,-101.14 2460.73,-106.67"/>
-</g>
-<!-- t_emit_invoice&#45;&gt;p_invoice_done -->
-<g id="edge25" class="edge">
-<title>t_emit_invoice-&gt;p_invoice_done</title>
-<path fill="none" stroke="black" d="M2695.52,-185.3C2740.99,-184.5 2811.84,-183.26 2864.68,-182.33"/>
-<polygon fill="black" stroke="black" points="2864.56,-185.83 2874.5,-182.15 2864.44,-178.83 2864.56,-185.83"/>
-</g>
-<!-- t_create_label&#45;&gt;p_label_created -->
-<g id="edge27" class="edge">
-<title>t_create_label-&gt;p_label_created</title>
-<path fill="none" stroke="black" d="M2695.54,-76.77C2703.31,-77.06 2711.52,-77.37 2719.69,-77.67"/>
-<polygon fill="black" stroke="black" points="2719.53,-81.17 2729.66,-78.04 2719.79,-74.17 2719.53,-81.17"/>
-</g>
-<!-- t_pack_order&#45;&gt;p_packed -->
-<g id="edge29" class="edge">
-<title>t_pack_order-&gt;p_packed</title>
-<path fill="none" stroke="black" d="M2978.01,-83.41C2991.44,-83.52 3006.41,-83.64 3020.07,-83.74"/>
-<polygon fill="black" stroke="black" points="3019.64,-87.24 3029.67,-83.82 3019.69,-80.24 3019.64,-87.24"/>
-</g>
-<!-- t_ship_product&#45;&gt;p_shipped -->
-<g id="edge31" class="edge">
-<title>t_ship_product-&gt;p_shipped</title>
-<path fill="none" stroke="black" d="M3230.28,-85.09C3238.23,-85.09 3246.49,-85.09 3254.45,-85.09"/>
-<polygon fill="black" stroke="black" points="3254.32,-88.59 3264.32,-85.09 3254.32,-81.59 3254.32,-88.59"/>
-</g>
-<!-- t_fulfillment_join&#45;&gt;p_tracking_ready -->
-<g id="edge34" class="edge">
-<title>t_fulfillment_join-&gt;p_tracking_ready</title>
-<path fill="none" stroke="black" d="M3516.38,-85.09C3524.31,-85.09 3532.39,-85.09 3540.31,-85.09"/>
-<polygon fill="black" stroke="black" points="3540.26,-88.59 3550.26,-85.09 3540.26,-81.59 3540.26,-88.59"/>
-</g>
-<!-- t_track_shipment&#45;&gt;p_sla_wait -->
-<g id="edge36" class="edge">
-<title>t_track_shipment-&gt;p_sla_wait</title>
-<path fill="none" stroke="black" d="M3817.54,-85.09C3825.42,-85.09 3833.67,-85.09 3841.93,-85.09"/>
-<polygon fill="black" stroke="black" points="3841.66,-88.59 3851.66,-85.09 3841.66,-81.59 3841.66,-88.59"/>
-</g>
-<!-- t_delivery_confirmed&#45;&gt;p_delivery_ok -->
-<g id="edge38" class="edge">
-<title>t_delivery_confirmed-&gt;p_delivery_ok</title>
-<path fill="none" stroke="black" d="M4218.67,-200.57C4229.61,-202.84 4240.75,-205.16 4251.56,-207.4"/>
-<polygon fill="black" stroke="black" points="4250.7,-210.79 4261.2,-209.4 4252.12,-203.94 4250.7,-210.79"/>
-</g>
-<!-- t_sla_breached&#45;&gt;p_delay_case -->
-<g id="edge42" class="edge">
-<title>t_sla_breached-&gt;p_delay_case</title>
-<path fill="none" stroke="black" d="M4202.95,-85.09C4225.4,-85.09 4249.83,-85.09 4271.34,-85.09"/>
-<polygon fill="black" stroke="black" points="4271.11,-88.59 4281.11,-85.09 4271.11,-81.59 4271.11,-88.59"/>
-</g>
-<!-- t_open_complaint&#45;&gt;p_complaint_open -->
-<g id="edge44" class="edge">
-<title>t_open_complaint-&gt;p_complaint_open</title>
-<path fill="none" stroke="black" d="M4554.92,-90.57C4562.72,-90.77 4570.81,-90.99 4578.85,-91.2"/>
-<polygon fill="black" stroke="black" points="4578.54,-94.69 4588.63,-91.45 4578.72,-87.69 4578.54,-94.69"/>
-</g>
-<!-- t_notify_customer&#45;&gt;p_customer_notified -->
-<g id="edge46" class="edge">
-<title>t_notify_customer-&gt;p_customer_notified</title>
-<path fill="none" stroke="black" d="M4863.52,-94.8C4871.29,-94.89 4879.38,-95 4887.46,-95.1"/>
-<polygon fill="black" stroke="black" points="4887.29,-98.6 4897.33,-95.22 4887.38,-91.6 4887.29,-98.6"/>
-</g>
-<!-- t_expedite_courier&#45;&gt;p_sla_wait -->
-<g id="edge48" class="edge">
-<title>t_expedite_courier-&gt;p_sla_wait</title>
-<path fill="none" stroke="black" d="M5076.42,-29.65C5063.15,-25.59 5048.81,-21.72 5035.29,-19.09 4935.6,0.27 4909.14,-0.09 4807.58,-0.09 4332.05,-0.09 4332.05,-0.09 4332.05,-0.09 4215.41,-0.09 4083.87,-34.02 4002.81,-59.01"/>
-<polygon fill="black" stroke="black" points="4002.15,-55.54 3993.65,-61.86 4004.24,-62.23 4002.15,-55.54"/>
-</g>
-<!-- t_archive_order&#45;&gt;p_done -->
-<g id="edge40" class="edge">
-<title>t_archive_order-&gt;p_done</title>
-<path fill="none" stroke="black" d="M4547.23,-261.9C4560.25,-265.05 4574.51,-268.51 4588.18,-271.82"/>
-<polygon fill="black" stroke="black" points="4586.97,-275.13 4597.51,-274.08 4588.62,-268.32 4586.97,-275.13"/>
-</g>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="3880" height="600" viewBox="0 0 3880 600">
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+<path d="M0,0 L0,6 L9,3 z" fill="#20242a"/>
+</marker>
+</defs>
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}.silent{fill:#fff7ed;stroke-dasharray:5 3}
+</style>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="1940.0" y="28.0" text-anchor="middle" font-size="18" font-weight="700">Assignment 1 To-Be Petri Net</text>
+<polyline class="arc" points="70.0,285.0 120.0,285.0 120.0,285.0 170.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="170.0,285.0 225.0,285.0 225.0,285.0 280.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="280.0,285.0 335.0,285.0 335.0,285.0 390.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="390.0,285.0 450.0,285.0 450.0,190.0 510.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="390.0,285.0 450.0,285.0 450.0,380.0 510.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="510.0,190.0 570.0,190.0 570.0,190.0 630.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="630.0,190.0 690.0,190.0 690.0,190.0 750.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="510.0,380.0 570.0,380.0 570.0,380.0 630.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="630.0,380.0 690.0,380.0 690.0,380.0 750.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="750.0,190.0 810.0,190.0 810.0,285.0 870.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="750.0,380.0 810.0,380.0 810.0,285.0 870.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="870.0,285.0 930.0,285.0 930.0,285.0 990.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="990.0,285.0 1050.0,285.0 1050.0,160.0 1110.0,160.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1110.0,160.0 1170.0,160.0 1170.0,160.0 1230.0,160.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1230.0,160.0 1290.0,160.0 1290.0,160.0 1350.0,160.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1350.0,160.0 2370.0,160.0 2370.0,255.0 3390.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="990.0,285.0 1050.0,285.0 1050.0,380.0 1110.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1110.0,380.0 1170.0,380.0 1170.0,380.0 1230.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1230.0,380.0 1290.0,380.0 1290.0,380.0 1350.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1350.0,380.0 1410.0,380.0 1410.0,380.0 1470.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1470.0,380.0 1530.0,380.0 1530.0,380.0 1590.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1590.0,380.0 1650.0,380.0 1650.0,255.0 1710.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1590.0,380.0 1650.0,380.0 1650.0,505.0 1710.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1710.0,255.0 1770.0,255.0 1770.0,255.0 1830.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1830.0,255.0 1890.0,255.0 1890.0,255.0 1950.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1950.0,255.0 2010.0,255.0 2010.0,255.0 2070.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2070.0,255.0 2130.0,255.0 2130.0,255.0 2190.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1710.0,505.0 1770.0,505.0 1770.0,505.0 1830.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1830.0,505.0 1890.0,505.0 1890.0,505.0 1950.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1950.0,505.0 2010.0,505.0 2010.0,505.0 2070.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2070.0,505.0 2130.0,505.0 2130.0,505.0 2190.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2190.0,505.0 2250.0,505.0 2250.0,505.0 2310.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2310.0,505.0 2370.0,505.0 2370.0,505.0 2430.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2190.0,255.0 2370.0,255.0 2370.0,380.0 2550.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2430.0,505.0 2490.0,505.0 2490.0,380.0 2550.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2550.0,380.0 2610.0,380.0 2610.0,380.0 2670.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2670.0,380.0 2730.0,380.0 2730.0,380.0 2790.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2790.0,380.0 2850.0,380.0 2850.0,380.0 2910.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2910.0,380.0 2970.0,380.0 2970.0,255.0 3030.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3030.0,255.0 3090.0,255.0 3090.0,255.0 3150.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3150.0,255.0 3210.0,255.0 3210.0,255.0 3270.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3270.0,255.0 3330.0,255.0 3330.0,255.0 3390.0,255.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2910.0,380.0 2970.0,380.0 2970.0,505.0 3030.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3030.0,505.0 3090.0,505.0 3090.0,505.0 3150.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3150.0,505.0 3210.0,505.0 3210.0,505.0 3270.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3270.0,505.0 3330.0,505.0 3330.0,505.0 3390.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3390.0,505.0 3450.0,505.0 3450.0,505.0 3510.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3510.0,505.0 3570.0,505.0 3570.0,505.0 3630.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3630.0,505.0 3690.0,505.0 3690.0,505.0 3750.0,505.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3750.0,505.0 3330.0,505.0 3330.0,380.0 2910.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<circle class="place" cx="70.0" cy="285.0" r="27" stroke-width="3"/>
+<text x="70.0" y="332.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="70.0" dy="0">Checkout</tspan><tspan x="70.0" dy="13">submitted</tspan></text>
+<circle class="place" cx="280.0" cy="285.0" r="27" stroke-width="1.8"/>
+<text x="280.0" y="332.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="280.0" dy="0">Order</tspan><tspan x="280.0" dy="13">validated</tspan></text>
+<circle class="place" cx="510.0" cy="190.0" r="27" stroke-width="1.8"/>
+<text x="510.0" y="237.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="510.0" dy="0">Stock check</tspan><tspan x="510.0" dy="13">ready</tspan></text>
+<circle class="place" cx="510.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="510.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="510.0" dy="0">Payment check</tspan><tspan x="510.0" dy="13">ready</tspan></text>
+<circle class="place" cx="750.0" cy="190.0" r="27" stroke-width="1.8"/>
+<text x="750.0" y="237.0" text-anchor="middle" font-size="11" font-weight="400">Stock checked</text>
+<circle class="place" cx="750.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="750.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="750.0" dy="0">Payment</tspan><tspan x="750.0" dy="13">checked</tspan></text>
+<circle class="place" cx="990.0" cy="285.0" r="27" stroke-width="1.8"/>
+<text x="990.0" y="332.0" text-anchor="middle" font-size="11" font-weight="400">Order decision</text>
+<circle class="place" cx="1230.0" cy="160.0" r="27" stroke-width="1.8"/>
+<text x="1230.0" y="207.0" text-anchor="middle" font-size="11" font-weight="400">Reject path</text>
+<circle class="place" cx="1230.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="1230.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="1230.0" dy="0">Ready to</tspan><tspan x="1230.0" dy="13">reserve</tspan></text>
+<circle class="place" cx="1470.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="1470.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="1470.0" dy="0">Fulfillment</tspan><tspan x="1470.0" dy="13">reserved</tspan></text>
+<circle class="place" cx="1710.0" cy="255.0" r="27" stroke-width="1.8"/>
+<text x="1710.0" y="302.0" text-anchor="middle" font-size="11" font-weight="400">Invoice branch</text>
+<circle class="place" cx="1710.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="1710.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Label branch</text>
+<circle class="place" cx="1950.0" cy="255.0" r="27" stroke-width="1.8"/>
+<text x="1950.0" y="302.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="1950.0" dy="0">Invoice</tspan><tspan x="1950.0" dy="13">emitted</tspan></text>
+<circle class="place" cx="2190.0" cy="255.0" r="27" stroke-width="1.8"/>
+<text x="2190.0" y="302.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="2190.0" dy="0">Payment</tspan><tspan x="2190.0" dy="13">received</tspan></text>
+<circle class="place" cx="1950.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="1950.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Label created</text>
+<circle class="place" cx="2190.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="2190.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Packed</text>
+<circle class="place" cx="2430.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="2430.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Shipped</text>
+<circle class="place" cx="2670.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="2670.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400">Tracking ready</text>
+<circle class="place" cx="2910.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="2910.0" y="427.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="2910.0" dy="0">Waiting SLA</tspan><tspan x="2910.0" dy="13">event</tspan></text>
+<circle class="place" cx="3150.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="3150.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Delay active</text>
+<circle class="place" cx="3390.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="3390.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400">Complaint open</text>
+<circle class="place" cx="3630.0" cy="505.0" r="27" stroke-width="1.8"/>
+<text x="3630.0" y="552.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="3630.0" dy="0">Customer</tspan><tspan x="3630.0" dy="13">notified</tspan></text>
+<circle class="place" cx="3150.0" cy="255.0" r="27" stroke-width="1.8"/>
+<text x="3150.0" y="302.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="3150.0" dy="0">Delivery</tspan><tspan x="3150.0" dy="13">confirmed</tspan></text>
+<circle class="place" cx="3390.0" cy="255.0" r="27" stroke-width="3"/>
+<text x="3390.0" y="302.0" text-anchor="middle" font-size="11" font-weight="400">Case closed</text>
+<rect class="transition" x="122.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="170.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="170.0" dy="0">Validate</tspan><tspan x="170.0" dy="12">order</tspan></text>
+<rect class="transition silent" x="342.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="390.0" y="277.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="390.0" dy="0">silent:</tspan><tspan x="390.0" dy="12">automated</tspan><tspan x="390.0" dy="12">checks split</tspan></text>
+<rect class="transition" x="582.0" y="170.0" width="96" height="40" rx="5" ry="5"/>
+<text x="630.0" y="194.0" text-anchor="middle" font-size="10" font-weight="400">Check stock</text>
+<rect class="transition" x="582.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="630.0" y="378.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="630.0" dy="0">Authorize</tspan><tspan x="630.0" dy="12">payment</tspan></text>
+<rect class="transition silent" x="822.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="870.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="870.0" dy="0">silent:</tspan><tspan x="870.0" dy="12">checks join</tspan></text>
+<rect class="transition silent" x="1062.0" y="140.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1110.0" y="158.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1110.0" dy="0">silent:</tspan><tspan x="1110.0" dy="12">invalid order</tspan></text>
+<rect class="transition" x="1302.0" y="140.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1350.0" y="158.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1350.0" dy="0">Notify</tspan><tspan x="1350.0" dy="12">rejection</tspan></text>
+<rect class="transition silent" x="1062.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1110.0" y="378.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1110.0" dy="0">silent: valid</tspan><tspan x="1110.0" dy="12">order</tspan></text>
+<rect class="transition" x="1302.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1350.0" y="378.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1350.0" dy="0">Reserve</tspan><tspan x="1350.0" dy="12">fulfillment</tspan></text>
+<rect class="transition silent" x="1542.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1590.0" y="372.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1590.0" dy="0">silent:</tspan><tspan x="1590.0" dy="12">fulfillment</tspan><tspan x="1590.0" dy="12">split</tspan></text>
+<rect class="transition" x="1782.0" y="235.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1830.0" y="259.0" text-anchor="middle" font-size="10" font-weight="400">Emit invoice</text>
+<rect class="transition" x="2022.0" y="235.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2070.0" y="253.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="2070.0" dy="0">Receive</tspan><tspan x="2070.0" dy="12">payment</tspan></text>
+<rect class="transition" x="1782.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1830.0" y="509.0" text-anchor="middle" font-size="10" font-weight="400">Create label</text>
+<rect class="transition" x="2022.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2070.0" y="509.0" text-anchor="middle" font-size="10" font-weight="400">Pack order</text>
+<rect class="transition" x="2262.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2310.0" y="509.0" text-anchor="middle" font-size="10" font-weight="400">Ship product</text>
+<rect class="transition silent" x="2502.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2550.0" y="372.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="2550.0" dy="0">silent:</tspan><tspan x="2550.0" dy="12">fulfillment</tspan><tspan x="2550.0" dy="12">join</tspan></text>
+<rect class="transition" x="2742.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2790.0" y="378.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="2790.0" dy="0">Track</tspan><tspan x="2790.0" dy="12">shipment</tspan></text>
+<rect class="transition" x="2982.0" y="235.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3030.0" y="247.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="3030.0" dy="0">Message:</tspan><tspan x="3030.0" dy="12">delivery</tspan><tspan x="3030.0" dy="12">confirmed</tspan></text>
+<rect class="transition" x="2982.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3030.0" y="503.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="3030.0" dy="0">Timer: SLA</tspan><tspan x="3030.0" dy="12">breached</tspan></text>
+<rect class="transition" x="3222.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3270.0" y="503.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="3270.0" dy="0">Open</tspan><tspan x="3270.0" dy="12">complaint</tspan></text>
+<rect class="transition" x="3462.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3510.0" y="503.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="3510.0" dy="0">Notify</tspan><tspan x="3510.0" dy="12">customer</tspan></text>
+<rect class="transition" x="3702.0" y="485.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3750.0" y="503.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="3750.0" dy="0">Expedite</tspan><tspan x="3750.0" dy="12">courier</tspan></text>
+<rect class="transition" x="3222.0" y="235.0" width="96" height="40" rx="5" ry="5"/>
+<text x="3270.0" y="259.0" text-anchor="middle" font-size="10" font-weight="400">Archive order</text>
 </svg>

@@ -4,6 +4,15 @@ Save exports with the exact filenames below. Model diagrams must be exported as 
 
 ## Assignment 1
 
+The current Assignment 1 SVG evidence can be regenerated from the checked-in BPMN/Petri sources:
+
+```bash
+python3 tools/generate_assignment1_bpmn.py
+python3 tools/render_assignment1_svgs.py
+```
+
+For manual online-tool exports, use these filenames:
+
 1. Open <https://demo.bpmn.io/>.
 2. Import `output/assignment1_epurchase_as_is.bpmn`.
 3. Export SVG from the tool menu.
@@ -15,18 +24,22 @@ Save exports with the exact filenames below. Model diagrams must be exported as 
 
 ## Assignment 2
 
-1. Open <https://mermaid.live/>.
-2. Paste the contents of `output/assignment2_pert.mmd`.
-3. Export SVG.
-4. Save it as `screenshots/assignment2/pert_chart.svg`.
-5. Run this command from the repo root:
+1. Run this command from the repo root:
 
    ```bash
    python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
    ```
 
-6. Screenshot the terminal showing the command and successful output, plus generated files if visible.
-7. Save it as `screenshots/assignment2/automation_run.png`.
+2. Copy the generated timed PERT SVG into the screenshot folder:
+
+   ```bash
+   cp output/assignment2_pert.svg screenshots/assignment2/pert_chart.svg
+   ```
+
+3. Screenshot the terminal showing the command and successful output, plus generated files if visible.
+4. Save it as `screenshots/assignment2/automation_run.png`.
+
+The Mermaid source `output/assignment2_pert.mmd` can also be opened in <https://mermaid.live/> if a manual online export is needed.
 
 ## After Replacing SVGs
 

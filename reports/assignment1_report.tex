@@ -41,8 +41,8 @@ The assignment rubric is used as an explicit checklist. The report covers each m
 \toprule
 \rowcolor{BPMTableHead}\textbf{Criteria category} & \textbf{Marks} & \textbf{How this report covers it} \\
 \midrule
-Process model quality & 20 & BPMN 2.0 models use start/end events, tasks, exclusive gateways, parallel gateways, an event-based gateway, timer/message intermediate events, and logical sequence flows. Petri nets also model the process with places, transitions, arcs, initial marking, final marking, choices, joins, and loops. Core e-purchase steps are shown: order capture, stock check, address validation, payment, invoice, packing, shipping, delivery, complaint, and archive. \\
-Tool proficiency & 5 & BPMN source files are prepared for bpmn.io/Camunda import. Petri-net DOT/PNML files are prepared for Graphviz, diagrams.net, or PNML tools. The submitted report includes browser/tool SVG exports rendered into the PDF through the verified cache. \\
+Process model quality & 20 & BPMN 2.0 models use start/end events, tasks, exclusive gateways, parallel split/join gateways, event-based gateways, timer/message intermediate events, swimlanes, and logical sequence flows. Petri nets also model the process with places, transitions, arcs, initial marking, final marking, choices, joins, and loops. Core e-purchase steps are shown: order capture, stock check, address validation, payment authorization, invoice, payment receipt, packing, shipping, delivery, complaint, and archive. \\
+Tool proficiency & 5 & BPMN source files include lane metadata and are prepared for bpmn.io/Camunda import. Petri-net DOT/PNML files are prepared for Graphviz, diagrams.net, or PNML tools. The submitted report includes SVG exports rendered into the PDF through the verified cache. \\
 Use of intermediate events & 10 & The as-is BPMN uses an intermediate delivery event and a timer event for delayed goods. The to-be BPMN uses an SLA event and SLA-breach branch. Both models clearly route delayed goods into complaint registration, customer notification/escalation, and return to delivery tracking. \\
 Documentation and clarity & 15 & Every diagram is labeled, introduced, and followed by text explaining what the model means. Participants, responsibilities, formal Petri-net summary, file evidence, and case coverage are documented. \\
 Analysis before enhancement & 10 & The as-is issue register identifies reactive complaints, late address correction, weak synchronization, separated complaint ownership, and late archiving. Each issue includes consequence, type, and justification through its proposed fix. \\
@@ -59,11 +59,11 @@ Originality and effort & 10 & The process is a realistic Amazon/Souq-like scenar
 \rowcolor{BPMTableHead}\textbf{Requirement} & \textbf{Implementation evidence} \\
 \midrule
 Correct BPMN start/end behavior & The as-is model starts at \textit{Order received} and reaches either \textit{Order rejected} or \textit{Order closed}. The to-be model starts at \textit{Checkout submitted} and has the same accepted/rejected closure logic. \\
-Core e-purchase flow & Both versions include order validation, stock decision, payment authorization, invoice emission, warehouse fulfillment, shipment, delivery confirmation, and archiving. \\
-Decision logic & Exclusive gateways model stock availability, address/order validity, and rejection paths. Parallel gateways model independent checks and synchronized branches. \\
+Core e-purchase flow & Both versions include order validation, stock decision, payment authorization, invoice emission, payment receipt, warehouse fulfillment, shipment, delivery confirmation, and archiving. \\
+Decision logic & Exclusive gateways model stock availability, address/order validity, merge points, and rejection paths. Parallel gateways model only true independent split/join behavior, so mutually exclusive address paths are merged before the payment/fulfillment split. \\
 Goods-delay event & The delayed-goods path is not only mentioned in text; it is modeled as an event-driven complaint/escalation branch. \\
 Petri-net formal semantics & The Petri nets include initial/final markings, routing transitions, parallel split/join behavior, and a loop from delay escalation back to delivery waiting/tracking. \\
-Online-tool evidence & SVG exports from BPMN/Petri-net tools are stored in \path{screenshots/assignment1/}, while importable source files remain in \path{output/}. \\
+Online-tool evidence & SVG exports are stored in \path{screenshots/assignment1/}, while importable BPMN, DOT, and PNML source files remain in \path{output/}. \\
 \bottomrule
 \end{ReportTable}
 
@@ -86,14 +86,14 @@ Customer support & Registers complaints, notifies customers, and escalates delay
 \end{ReportTable}
 
 \subsection{As-Is BPMN}
-The as-is process starts when the order is received. The system captures the order and checks stock. If stock is unavailable, the order is rejected. If stock is available, the item is reserved, address data is checked, and missing address data is requested. Payment authorization and warehouse fulfillment then run in parallel. After invoice emission and shipment, the process waits for a delivery event.
+The as-is process starts when the order is received. The system captures the order and checks stock. If stock is unavailable, the order is rejected. If stock is available, the item is reserved, address data is checked, and missing address data is requested. The two address outcomes merge through an exclusive gateway before the process splits into parallel payment and warehouse work. The payment branch authorizes payment, emits the invoice, and receives payment; the fulfillment branch picks, packs, and ships the product. After both branches synchronize, the process waits for a delivery event.
 
-The delayed-goods scenario is represented by an intermediate timer event after shipment. If delivery confirmation is not received within the SLA, the timer branch registers a complaint, escalates the courier, and loops back to the delivery wait state.
+The delayed-goods scenario is represented by an intermediate timer event after shipment. If delivery confirmation is not received within the SLA, the timer branch registers a complaint, escalates the courier, and loops back to a merge before the event-based delivery gateway. The delivery confirmation event therefore remains a single catch event owned by the delivery wait.
 
 \WideFigure{reports/svg-cache/as_is_bpmn.pdf}{As-is BPMN 2.0 model exported from the BPMN source as SVG and rendered into the report cache.}
 
 \subsection{To-Be BPMN}
-The to-be process moves validation earlier, runs stock and payment checks in parallel, standardizes fulfillment preparation, adds tracking, and makes the complaint path proactive. The SLA breach event opens a complaint automatically, notifies the customer, expedites the courier, and then keeps the order under tracking until delivery confirmation is received.
+The to-be process moves validation earlier, runs stock and payment checks in parallel, standardizes fulfillment preparation, adds explicit payment receipt, adds shipment tracking, and makes the complaint path proactive. The SLA breach event opens a complaint automatically, notifies the customer, expedites the courier, and then loops back through a tracking merge before the next SLA/delivery wait.
 
 \WideFigure{reports/svg-cache/to_be_bpmn.pdf}{Enhanced to-be BPMN 2.0 model with early validation, parallel checks, tracking, and proactive complaint handling.}
 
@@ -105,18 +105,18 @@ The Petri-net model is the second modeling method. States are represented as pla
 \toprule
 \rowcolor{BPMTableHead}\textbf{Model} & \textbf{Places} & \textbf{Transitions} & \textbf{Arcs} & \textbf{Initial and final markings} \\
 \midrule
-As-is & 19 & 20 & 42 & $M_0=\{p\_start\}$ and $M_f=\{p\_done\}$ \\
-To-be & 23 & 22 & 48 & $M_0=\{p\_start\}$ and $M_f=\{p\_done\}$ \\
+As-is & 20 & 21 & 44 & $M_0=\{p\_start\}$ and $M_f=\{p\_done\}$ \\
+To-be & 24 & 23 & 50 & $M_0=\{p\_start\}$ and $M_f=\{p\_done\}$ \\
 \bottomrule
 \end{ReportTable}
 
 \subsection{As-Is Petri Net}
-The as-is Petri net has one token in \texttt{p\_start}. The stock decision place enables either rejection or reservation. The preparation split produces one token for the payment branch and one token for the fulfillment branch; the join requires both invoice completion and shipment before delivery waiting can continue. The goods-delay timer transition creates the complaint token, and the escalation transition loops back to the delivery waiting place.
+The as-is Petri net has one token in \texttt{p\_start}. The stock decision place enables either rejection or reservation. Both address outcomes produce the same preparation place, matching the corrected BPMN exclusive merge. The preparation split produces one token for the payment branch and one token for the fulfillment branch; the join requires payment receipt and shipment before delivery waiting can continue. The goods-delay timer transition creates the complaint token, and the escalation transition loops back to the delivery waiting place.
 
 \WideFigure{reports/svg-cache/as_is_petri_net.pdf}{As-is Petri net exported from the DOT/PNML model as SVG and rendered into the report cache.}
 
 \subsection{To-Be Petri Net}
-The to-be Petri net shows two improvements formally. First, stock check and payment authorization are enabled together after validation, then synchronized before the order validity decision. Second, invoice emission and physical fulfillment are split into parallel branches and joined before tracking. The SLA breach transition sends the case through complaint opening, customer notification, and courier expedition before returning to the SLA wait place.
+The to-be Petri net shows two improvements formally. First, stock check and payment authorization are enabled together after validation, then synchronized before the order validity decision. Second, invoice/payment receipt and physical fulfillment are split into parallel branches and joined before tracking. The SLA breach transition sends the case through complaint opening, customer notification, and courier expedition before returning to the SLA wait place.
 
 \WideFigure{reports/svg-cache/to_be_petri_net.pdf}{Enhanced to-be Petri net showing validation, parallel checks, fulfillment synchronization, and the complaint loop.}
 

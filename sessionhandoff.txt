@@ -16,6 +16,8 @@ Prepared evidence and generators:
 - Assignment 1 BPMN source:
   - `output/assignment1_epurchase_as_is.bpmn`
   - `output/assignment1_epurchase_to_be.bpmn`
+- Assignment 1 SVG renderer:
+  - `tools/render_assignment1_svgs.py`
 - Assignment 1 Petri-net source:
   - `output/assignment1_epurchase_as_is_petri.dot`
   - `output/assignment1_epurchase_as_is_petri.pnml`
@@ -26,6 +28,7 @@ Prepared evidence and generators:
   - `data/event_log.csv`
   - `output/assignment2_generated_tables.tex`
   - `output/assignment2_pert.mmd`
+  - `output/assignment2_pert.svg`
   - `output/assignment2_alpha_net.dot`
   - `output/assignment2_summary.txt`
 - SVG-to-PDF cache renderer:
@@ -40,8 +43,8 @@ Team names in both reports:
 
 Current report behavior:
 
-- Assignment 1 documents both BPMN 2.0 and Petri-net modeling.
-- Assignment 2 explains the Alpha algorithm and includes exact generated computations.
+- Assignment 1 documents both BPMN 2.0 and Petri-net modeling. The BPMN now includes swimlanes, an XOR merge before the as-is payment/fulfillment parallel split, a loop back to a merge before the event-based delivery gateway, and explicit Receive payment tasks.
+- Assignment 2 explains the Alpha algorithm, includes exact generated computations, and now includes PERT O/M/P/E timing, slack, and a highlighted critical path.
 - Diagram source exports remain SVG in `screenshots/`.
 - Terminal automation evidence remains PNG.
 - `reports/svg-cache/*.pdf` is generated from the SVGs with headless Chrome so LaTeX does not need TikZ, Inkscape, or shell escape.

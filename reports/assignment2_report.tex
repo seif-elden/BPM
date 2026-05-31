@@ -23,13 +23,13 @@ The assignment rubric is used as an explicit checklist. The report covers each m
 \rowcolor{BPMTableHead}\textbf{Criteria category} & \textbf{Marks} & \textbf{How this report covers it} \\
 \midrule
 Alpha algorithm application & 15 & The report states the Alpha definitions, builds $T_W$, $T_I$, $T_O$, direct succession, causality, parallelism, choice, candidate places, maximal places, source/sink places, and exact counts. Intermediate relations are included in generated tables. \\
-Event network / PERT chart & 15 & The mined causal pairs are translated into a PERT/event-network chart. The Mermaid and DOT sources are included, and the SVG export is rendered into the PDF with readable labels. \\
+Event network / PERT chart & 15 & The mined causal pairs are translated into a PERT/event-network chart with expected durations, early/late times, slack, and a highlighted critical path. The Mermaid, DOT, and SVG sources are included, and the SVG export is rendered into the PDF with readable labels. \\
 Process understanding and interpretation & 10 & The interpretation discusses stock/manufacturing choices, convergence at confirmation, invoice/address concurrency, payment/shipment concurrency, archive readiness, and the Case 3 event-ID anomaly. \\
 Clarity of documentation & 10 & The report includes a cover page, contents, list of figures, preprocessing explanation, exact computation tables, generated visual evidence, command evidence, and clear rerun instructions. \\
 Tool selection and justification & 5 & Python is justified because it supports CSV import, timestamp parsing, grouping by case, deterministic relation computation, generated evidence files, and reuse on new logs. \\
 Data preprocessing & 10 & The event log is structured into \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}; events are sorted by timestamp per case; the Case 3 label/prefix inconsistency is documented and handled. \\
 Alpha algorithm automation & 15 & \path{tools/process_mining_alpha.py} implements the Alpha logic and outputs traces, relation counts, maximal places, timing metrics, Mermaid, DOT, CSV, and text summaries. \\
-Generation of PERT chart & 10 & The automation writes \path{output/assignment2_pert.mmd} and \path{output/assignment2_alpha_net.dot}; the visual chart is validated against the same causal pairs used in Task One. \\
+Generation of PERT chart & 10 & The automation writes \path{output/assignment2_pert.mmd}, \path{output/assignment2_alpha_net.dot}, and \path{output/assignment2_pert.svg}; the visual chart is validated against the same causal pairs and timing statistics used in Task One. \\
 Usability and reusability & 10 & The script accepts an input CSV and output directory from the command line, has a stable input schema, and can be rerun on a different event log with the same fields. \\
 \bottomrule
 \end{ReportLongTable}
@@ -93,9 +93,12 @@ The generated event network is stored in Mermaid and DOT so it can be opened in 
 \begin{itemize}
   \item \path{output/assignment2_pert.mmd}
   \item \path{output/assignment2_alpha_net.dot}
+  \item \path{output/assignment2_pert.svg}
 \end{itemize}
 
 The PERT dependencies are the causal pairs from the Alpha calculation. Start connects to \textit{Check stock}; \textit{Check stock} branches to either \textit{Retrieve item} or \textit{Check materials}; raw materials may be requested and obtained before manufacturing; \textit{Manufacture} and \textit{Retrieve item} converge at \textit{Confirm order}; invoice/address and payment/shipment are represented as concurrent branches; \textit{Archive order} is the terminal activity.
+
+For timing, each causal edge uses observed elapsed hours from the event log: optimistic is the minimum, most-likely is the median, pessimistic is the maximum, and expected duration is computed with $E=(O+4M+P)/6$. The critical path found by the automation is shown in orange in the SVG.
 
 \WideFigure{reports/svg-cache/pert_chart.pdf}{PERT/event-network chart exported as SVG from Mermaid and rendered into the report cache.}
 
@@ -127,8 +130,9 @@ python3 tools/process_mining_alpha.py \
 \midrule
 \path{output/event_log_sorted.csv} & Clean sorted event log for checking preprocessing. \\
 \path{output/assignment2_generated_tables.tex} & Exact Alpha evidence tables included in this report. \\
-\path{output/assignment2_pert.mmd} & Mermaid PERT chart for Mermaid Live Editor. \\
-\path{output/assignment2_alpha_net.dot} & DOT dependency graph for Graphviz or diagrams.net. \\
+\path{output/assignment2_pert.mmd} & Mermaid PERT/event-network chart with expected durations and critical-path styling. \\
+\path{output/assignment2_alpha_net.dot} & DOT dependency graph with expected-duration edge labels. \\
+\path{output/assignment2_pert.svg} & SVG chart rendered into this report after validation. \\
 \path{output/assignment2_summary.txt} & Plain-text summary of counts, relations, and maximal places. \\
 \bottomrule
 \end{ReportTable}

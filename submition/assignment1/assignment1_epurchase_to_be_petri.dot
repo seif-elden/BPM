@@ -15,6 +15,7 @@ digraph assignment1_to_be_petri {
   p_invoice_ready [shape=circle, peripheries=1, label="Invoice branch", width=0.9];
   p_label_ready [shape=circle, peripheries=1, label="Label branch", width=0.9];
   p_invoice_done [shape=circle, peripheries=1, label="Invoice emitted", width=0.9];
+  p_payment_received [shape=circle, peripheries=1, label="Payment received", width=0.9];
   p_label_created [shape=circle, peripheries=1, label="Label created", width=0.9];
   p_packed [shape=circle, peripheries=1, label="Packed", width=0.9];
   p_shipped [shape=circle, peripheries=1, label="Shipped", width=0.9];
@@ -36,6 +37,7 @@ digraph assignment1_to_be_petri {
   t_reserve_fulfillment [shape=box, style="rounded", label="Reserve fulfillment"];
   t_fulfill_split [shape=box, fillcolor="#f4f4f4", style="filled,dashed,rounded", label="silent: fulfillment split"];
   t_emit_invoice [shape=box, style="rounded", label="Emit invoice"];
+  t_receive_payment [shape=box, style="rounded", label="Receive payment"];
   t_create_label [shape=box, style="rounded", label="Create label"];
   t_pack_order [shape=box, style="rounded", label="Pack order"];
   t_ship_product [shape=box, style="rounded", label="Ship product"];
@@ -72,13 +74,15 @@ digraph assignment1_to_be_petri {
   t_fulfill_split -> p_label_ready;
   p_invoice_ready -> t_emit_invoice;
   t_emit_invoice -> p_invoice_done;
+  p_invoice_done -> t_receive_payment;
+  t_receive_payment -> p_payment_received;
   p_label_ready -> t_create_label;
   t_create_label -> p_label_created;
   p_label_created -> t_pack_order;
   t_pack_order -> p_packed;
   p_packed -> t_ship_product;
   t_ship_product -> p_shipped;
-  p_invoice_done -> t_fulfillment_join;
+  p_payment_received -> t_fulfillment_join;
   p_shipped -> t_fulfillment_join;
   t_fulfillment_join -> p_tracking_ready;
   p_tracking_ready -> t_track_shipment;

@@ -73,6 +73,11 @@
           <text>Invoice emitted</text>
         </name>
       </place>
+      <place id="p_payment_received">
+        <name>
+          <text>Payment received</text>
+        </name>
+      </place>
       <place id="p_label_created">
         <name>
           <text>Label created</text>
@@ -178,6 +183,11 @@
           <text>Emit invoice</text>
         </name>
       </transition>
+      <transition id="t_receive_payment">
+        <name>
+          <text>Receive payment</text>
+        </name>
+      </transition>
       <transition id="t_create_label">
         <name>
           <text>Create label</text>
@@ -258,29 +268,31 @@
       <arc id="a023" source="t_fulfill_split" target="p_label_ready"/>
       <arc id="a024" source="p_invoice_ready" target="t_emit_invoice"/>
       <arc id="a025" source="t_emit_invoice" target="p_invoice_done"/>
-      <arc id="a026" source="p_label_ready" target="t_create_label"/>
-      <arc id="a027" source="t_create_label" target="p_label_created"/>
-      <arc id="a028" source="p_label_created" target="t_pack_order"/>
-      <arc id="a029" source="t_pack_order" target="p_packed"/>
-      <arc id="a030" source="p_packed" target="t_ship_product"/>
-      <arc id="a031" source="t_ship_product" target="p_shipped"/>
-      <arc id="a032" source="p_invoice_done" target="t_fulfillment_join"/>
-      <arc id="a033" source="p_shipped" target="t_fulfillment_join"/>
-      <arc id="a034" source="t_fulfillment_join" target="p_tracking_ready"/>
-      <arc id="a035" source="p_tracking_ready" target="t_track_shipment"/>
-      <arc id="a036" source="t_track_shipment" target="p_sla_wait"/>
-      <arc id="a037" source="p_sla_wait" target="t_delivery_confirmed"/>
-      <arc id="a038" source="t_delivery_confirmed" target="p_delivery_ok"/>
-      <arc id="a039" source="p_delivery_ok" target="t_archive_order"/>
-      <arc id="a040" source="t_archive_order" target="p_done"/>
-      <arc id="a041" source="p_sla_wait" target="t_sla_breached"/>
-      <arc id="a042" source="t_sla_breached" target="p_delay_case"/>
-      <arc id="a043" source="p_delay_case" target="t_open_complaint"/>
-      <arc id="a044" source="t_open_complaint" target="p_complaint_open"/>
-      <arc id="a045" source="p_complaint_open" target="t_notify_customer"/>
-      <arc id="a046" source="t_notify_customer" target="p_customer_notified"/>
-      <arc id="a047" source="p_customer_notified" target="t_expedite_courier"/>
-      <arc id="a048" source="t_expedite_courier" target="p_sla_wait"/>
+      <arc id="a026" source="p_invoice_done" target="t_receive_payment"/>
+      <arc id="a027" source="t_receive_payment" target="p_payment_received"/>
+      <arc id="a028" source="p_label_ready" target="t_create_label"/>
+      <arc id="a029" source="t_create_label" target="p_label_created"/>
+      <arc id="a030" source="p_label_created" target="t_pack_order"/>
+      <arc id="a031" source="t_pack_order" target="p_packed"/>
+      <arc id="a032" source="p_packed" target="t_ship_product"/>
+      <arc id="a033" source="t_ship_product" target="p_shipped"/>
+      <arc id="a034" source="p_payment_received" target="t_fulfillment_join"/>
+      <arc id="a035" source="p_shipped" target="t_fulfillment_join"/>
+      <arc id="a036" source="t_fulfillment_join" target="p_tracking_ready"/>
+      <arc id="a037" source="p_tracking_ready" target="t_track_shipment"/>
+      <arc id="a038" source="t_track_shipment" target="p_sla_wait"/>
+      <arc id="a039" source="p_sla_wait" target="t_delivery_confirmed"/>
+      <arc id="a040" source="t_delivery_confirmed" target="p_delivery_ok"/>
+      <arc id="a041" source="p_delivery_ok" target="t_archive_order"/>
+      <arc id="a042" source="t_archive_order" target="p_done"/>
+      <arc id="a043" source="p_sla_wait" target="t_sla_breached"/>
+      <arc id="a044" source="t_sla_breached" target="p_delay_case"/>
+      <arc id="a045" source="p_delay_case" target="t_open_complaint"/>
+      <arc id="a046" source="t_open_complaint" target="p_complaint_open"/>
+      <arc id="a047" source="p_complaint_open" target="t_notify_customer"/>
+      <arc id="a048" source="t_notify_customer" target="p_customer_notified"/>
+      <arc id="a049" source="p_customer_notified" target="t_expedite_courier"/>
+      <arc id="a050" source="t_expedite_courier" target="p_sla_wait"/>
     </page>
   </net>
 </pnml>

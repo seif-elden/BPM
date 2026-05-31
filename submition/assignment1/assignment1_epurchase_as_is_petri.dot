@@ -14,6 +14,7 @@ digraph assignment1_as_is_petri {
   p_fulfillment_ready [shape=circle, peripheries=1, label="Fulfillment branch", width=0.9];
   p_payment_authorized [shape=circle, peripheries=1, label="Payment authorized", width=0.9];
   p_invoice_done [shape=circle, peripheries=1, label="Invoice emitted", width=0.9];
+  p_payment_received [shape=circle, peripheries=1, label="Payment received", width=0.9];
   p_packed [shape=circle, peripheries=1, label="Packed", width=0.9];
   p_shipped [shape=circle, peripheries=1, label="Shipped", width=0.9];
   p_wait_delivery [shape=circle, peripheries=1, label="Waiting delivery", width=0.9];
@@ -33,6 +34,7 @@ digraph assignment1_as_is_petri {
   t_prepare_split [shape=box, fillcolor="#f4f4f4", style="filled,dashed,rounded", label="silent: parallel split"];
   t_authorize_payment [shape=box, style="rounded", label="Authorize payment"];
   t_emit_invoice [shape=box, style="rounded", label="Emit invoice"];
+  t_receive_payment [shape=box, style="rounded", label="Receive payment"];
   t_pick_pack [shape=box, style="rounded", label="Pick and pack"];
   t_ship_product [shape=box, style="rounded", label="Ship product"];
   t_prepare_join [shape=box, fillcolor="#f4f4f4", style="filled,dashed,rounded", label="silent: parallel join"];
@@ -66,11 +68,13 @@ digraph assignment1_as_is_petri {
   t_authorize_payment -> p_payment_authorized;
   p_payment_authorized -> t_emit_invoice;
   t_emit_invoice -> p_invoice_done;
+  p_invoice_done -> t_receive_payment;
+  t_receive_payment -> p_payment_received;
   p_fulfillment_ready -> t_pick_pack;
   t_pick_pack -> p_packed;
   p_packed -> t_ship_product;
   t_ship_product -> p_shipped;
-  p_invoice_done -> t_prepare_join;
+  p_payment_received -> t_prepare_join;
   p_shipped -> t_prepare_join;
   t_prepare_join -> p_wait_delivery;
   p_wait_delivery -> t_delivery_confirmed;

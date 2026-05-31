@@ -45,6 +45,7 @@ class Node:
     x: int
     y: int
     event_definition: str | None = None
+    lane: str = "Marketplace system"
 
 
 @dataclass(frozen=True)
@@ -68,6 +69,10 @@ class PetriNet:
 
 def q(prefix: str, tag: str) -> str:
     return f"{{{NS[prefix]}}}{tag}"
+
+
+def safe_id(text: str) -> str:
+    return "".join(ch if ch.isalnum() else "_" for ch in text).strip("_")
 
 
 def node_size(kind: str) -> tuple[int, int]:
@@ -104,6 +109,19 @@ def build_bpmn(process_id: str, process_name: str, nodes: list[Node], flows: lis
         outgoing[flow.source].append(flow.id)
         incoming[flow.target].append(flow.id)
 
+    lanes: list[str] = []
+    for node in nodes:
+        if node.lane not in lanes:
+            lanes.append(node.lane)
+    lane_ids = {lane: f"{process_id}_{safe_id(lane)}_Lane" for lane in lanes}
+    if lanes:
+        lane_set = SubElement(process, q("bpmn", "laneSet"), {"id": f"{process_id}_LaneSet"})
+        for lane in lanes:
+            lane_el = SubElement(lane_set, q("bpmn", "lane"), {"id": lane_ids[lane], "name": lane})
+            for node in nodes:
+                if node.lane == lane:
+                    add_text(lane_el, q("bpmn", "flowNodeRef"), node.id)
+
     for node in nodes:
         attrs = {"id": node.id, "name": node.name}
         element = SubElement(process, q("bpmn", node.kind), attrs)
@@ -138,6 +156,23 @@ def build_bpmn(process_id: str, process_name: str, nodes: list[Node], flows: lis
             {"id": f"{node.id}_di", "bpmnElement": node.id},
         )
         SubElement(shape, q("dc", "Bounds"), {"x": str(node.x), "y": str(node.y), "width": str(w), "height": str(h)})
+
+    for lane in lanes:
+        lane_nodes = [node for node in nodes if node.lane == lane]
+        min_x = min(node.x for node in lane_nodes) - 110
+        min_y = min(node.y for node in lane_nodes) - 35
+        max_x = max(node.x + node_size(node.kind)[0] for node in lane_nodes) + 90
+        max_y = max(node.y + node_size(node.kind)[1] for node in lane_nodes) + 35
+        shape = SubElement(
+            plane,
+            q("bpmndi", "BPMNShape"),
+            {"id": f"{lane_ids[lane]}_di", "bpmnElement": lane_ids[lane], "isHorizontal": "true"},
+        )
+        SubElement(
+            shape,
+            q("dc", "Bounds"),
+            {"x": str(min_x), "y": str(min_y), "width": str(max_x - min_x), "height": str(max_y - min_y)},
+        )
 
     for flow in flows:
         edge = SubElement(
@@ -215,28 +250,31 @@ def build_petri_pnml(net: PetriNet) -> str:
 
 def as_is_model():
     nodes = [
-        Node("Start_Order_Received", "startEvent", "Order received", 80, 160),
-        Node("Capture_Order", "task", "Capture order", 150, 146),
-        Node("Check_Stock", "task", "Check stock", 330, 146),
-        Node("Gateway_Stock", "exclusiveGateway", "Stock available?", 510, 153),
-        Node("Reject_Order", "task", "Reject order", 610, 60),
-        Node("End_Rejected", "endEvent", "Order rejected", 790, 74),
-        Node("Reserve_Item", "task", "Reserve item", 610, 146),
-        Node("Gateway_Address", "exclusiveGateway", "Address known?", 790, 153),
-        Node("Request_Address", "task", "Request address", 880, 245),
-        Node("Parallel_Prepare", "parallelGateway", "Prepare order", 980, 153),
-        Node("Authorize_Payment", "task", "Authorize payment", 1080, 80),
-        Node("Emit_Invoice", "task", "Emit invoice", 1250, 80),
-        Node("Pick_Pack", "task", "Pick and pack", 1080, 220),
-        Node("Ship_Product", "task", "Ship product", 1250, 220),
-        Node("Parallel_Ready", "parallelGateway", "Ready", 1440, 153),
-        Node("Gateway_Delivery_Event", "eventBasedGateway", "Delivery event", 1530, 153),
-        Node("Delivery_Confirmed", "intermediateCatchEvent", "Delivery confirmed", 1630, 92, "message"),
-        Node("Goods_Delayed", "intermediateCatchEvent", "Goods delayed", 1630, 232, "timer"),
-        Node("Register_Complaint", "task", "Register complaint", 1710, 218),
-        Node("Escalate_Courier", "task", "Escalate courier", 1880, 218),
-        Node("Archive_Order", "task", "Archive order", 1880, 78),
-        Node("End_Order_Closed", "endEvent", "Order closed", 2060, 92),
+        Node("Start_Order_Received", "startEvent", "Order received", 80, 70, lane="Customer"),
+        Node("Capture_Order", "task", "Capture order", 150, 185),
+        Node("Check_Stock", "task", "Check stock", 330, 185),
+        Node("Gateway_Stock", "exclusiveGateway", "Stock available?", 510, 192),
+        Node("Reject_Order", "task", "Reject order", 610, 120),
+        Node("End_Rejected", "endEvent", "Order rejected", 790, 134),
+        Node("Reserve_Item", "task", "Reserve item", 610, 255),
+        Node("Gateway_Address", "exclusiveGateway", "Address known?", 790, 262),
+        Node("Request_Address", "task", "Request address", 880, 330),
+        Node("Gateway_Address_Merge", "exclusiveGateway", "Address resolved", 1040, 262),
+        Node("Parallel_Prepare", "parallelGateway", "Prepare order", 1140, 262),
+        Node("Authorize_Payment", "task", "Authorize payment", 1240, 430, lane="Payment service"),
+        Node("Emit_Invoice", "task", "Emit invoice", 1410, 430, lane="Payment service"),
+        Node("Receive_Payment", "task", "Receive payment", 1580, 430, lane="Payment service"),
+        Node("Pick_Pack", "task", "Pick and pack", 1240, 560, lane="Warehouse"),
+        Node("Ship_Product", "task", "Ship product", 1410, 690, lane="Courier"),
+        Node("Parallel_Ready", "parallelGateway", "Ready", 1760, 442),
+        Node("Gateway_Delivery_Merge", "exclusiveGateway", "Continue wait", 1860, 442),
+        Node("Gateway_Delivery_Event", "eventBasedGateway", "Delivery event", 1960, 442),
+        Node("Delivery_Confirmed", "intermediateCatchEvent", "Delivery confirmed", 2070, 670, "message", lane="Courier"),
+        Node("Goods_Delayed", "intermediateCatchEvent", "Goods delayed", 2070, 760, "timer", lane="Courier"),
+        Node("Register_Complaint", "task", "Register complaint", 2170, 875, lane="Customer support"),
+        Node("Escalate_Courier", "task", "Escalate courier", 2340, 875, lane="Customer support"),
+        Node("Archive_Order", "task", "Archive order", 2250, 185),
+        Node("End_Order_Closed", "endEvent", "Order closed", 2430, 199),
     ]
     flows = [
         Flow("F01", "Start_Order_Received", "Capture_Order"),
@@ -246,54 +284,59 @@ def as_is_model():
         Flow("F05", "Reject_Order", "End_Rejected"),
         Flow("F06", "Gateway_Stock", "Reserve_Item", "Yes"),
         Flow("F07", "Reserve_Item", "Gateway_Address"),
-        Flow("F08", "Gateway_Address", "Parallel_Prepare", "Yes"),
+        Flow("F08", "Gateway_Address", "Gateway_Address_Merge", "Yes"),
         Flow("F09", "Gateway_Address", "Request_Address", "No"),
-        Flow("F10", "Request_Address", "Parallel_Prepare"),
-        Flow("F11", "Parallel_Prepare", "Authorize_Payment"),
-        Flow("F12", "Authorize_Payment", "Emit_Invoice"),
-        Flow("F13", "Parallel_Prepare", "Pick_Pack"),
-        Flow("F14", "Pick_Pack", "Ship_Product"),
-        Flow("F15", "Emit_Invoice", "Parallel_Ready"),
-        Flow("F16", "Ship_Product", "Parallel_Ready"),
-        Flow("F17", "Parallel_Ready", "Gateway_Delivery_Event"),
-        Flow("F18", "Gateway_Delivery_Event", "Delivery_Confirmed", "Delivered"),
-        Flow("F19", "Gateway_Delivery_Event", "Goods_Delayed", "2 days late"),
-        Flow("F20", "Goods_Delayed", "Register_Complaint"),
-        Flow("F21", "Register_Complaint", "Escalate_Courier"),
-        Flow("F22", "Escalate_Courier", "Delivery_Confirmed"),
-        Flow("F23", "Delivery_Confirmed", "Archive_Order"),
-        Flow("F24", "Archive_Order", "End_Order_Closed"),
+        Flow("F10", "Request_Address", "Gateway_Address_Merge"),
+        Flow("F11", "Gateway_Address_Merge", "Parallel_Prepare"),
+        Flow("F12", "Parallel_Prepare", "Authorize_Payment"),
+        Flow("F13", "Authorize_Payment", "Emit_Invoice"),
+        Flow("F14", "Emit_Invoice", "Receive_Payment"),
+        Flow("F15", "Parallel_Prepare", "Pick_Pack"),
+        Flow("F16", "Pick_Pack", "Ship_Product"),
+        Flow("F17", "Receive_Payment", "Parallel_Ready"),
+        Flow("F18", "Ship_Product", "Parallel_Ready"),
+        Flow("F19", "Parallel_Ready", "Gateway_Delivery_Merge"),
+        Flow("F20", "Gateway_Delivery_Merge", "Gateway_Delivery_Event"),
+        Flow("F21", "Gateway_Delivery_Event", "Delivery_Confirmed", "Delivered"),
+        Flow("F22", "Gateway_Delivery_Event", "Goods_Delayed", "2 days late"),
+        Flow("F23", "Goods_Delayed", "Register_Complaint"),
+        Flow("F24", "Register_Complaint", "Escalate_Courier"),
+        Flow("F25", "Escalate_Courier", "Gateway_Delivery_Merge"),
+        Flow("F26", "Delivery_Confirmed", "Archive_Order"),
+        Flow("F27", "Archive_Order", "End_Order_Closed"),
     ]
     return nodes, flows
 
 
 def to_be_model():
     nodes = [
-        Node("Start_Checkout", "startEvent", "Checkout submitted", 80, 160),
-        Node("Validate_Order", "task", "Validate order", 150, 146),
-        Node("Auto_Checks", "parallelGateway", "Automated checks", 330, 153),
-        Node("Check_Stock", "task", "Check stock", 430, 70),
-        Node("Authorize_Payment", "task", "Authorize payment", 430, 210),
-        Node("Checks_Join", "parallelGateway", "Checks done", 620, 153),
-        Node("Gateway_Valid", "exclusiveGateway", "Order valid?", 720, 153),
-        Node("Notify_Rejection", "task", "Notify rejection", 820, 60),
-        Node("End_Rejected", "endEvent", "Order rejected", 1000, 74),
-        Node("Reserve_Fulfillment", "task", "Reserve fulfillment", 820, 146),
-        Node("Prepare_Parallel", "parallelGateway", "Fulfill", 1000, 153),
-        Node("Emit_Invoice", "task", "Emit invoice", 1100, 70),
-        Node("Create_Label", "task", "Create label", 1100, 210),
-        Node("Pack_Order", "task", "Pack order", 1270, 210),
-        Node("Ship_Product", "task", "Ship product", 1440, 210),
-        Node("Fulfillment_Join", "parallelGateway", "Sent", 1610, 153),
-        Node("Track_Shipment", "task", "Track shipment", 1700, 146),
-        Node("Gateway_SLA", "eventBasedGateway", "SLA event", 1880, 153),
-        Node("Delivery_Confirmed", "intermediateCatchEvent", "Delivery confirmed", 1980, 92, "message"),
-        Node("SLA_Breach", "intermediateCatchEvent", "SLA breached", 1980, 232, "timer"),
-        Node("Open_Complaint", "task", "Open complaint", 2060, 218),
-        Node("Notify_Customer", "task", "Notify customer", 2230, 218),
-        Node("Expedite_Courier", "task", "Expedite courier", 2400, 218),
-        Node("Archive_Order", "task", "Archive order", 2230, 78),
-        Node("End_Closed", "endEvent", "Order closed", 2410, 92),
+        Node("Start_Checkout", "startEvent", "Checkout submitted", 80, 70, lane="Customer"),
+        Node("Validate_Order", "task", "Validate order", 150, 185),
+        Node("Auto_Checks", "parallelGateway", "Automated checks", 330, 192),
+        Node("Check_Stock", "task", "Check stock", 450, 560, lane="Warehouse"),
+        Node("Authorize_Payment", "task", "Authorize payment", 450, 430, lane="Payment service"),
+        Node("Checks_Join", "parallelGateway", "Checks done", 650, 192),
+        Node("Gateway_Valid", "exclusiveGateway", "Order valid?", 760, 192),
+        Node("Notify_Rejection", "task", "Notify rejection", 860, 120),
+        Node("End_Rejected", "endEvent", "Order rejected", 1040, 134),
+        Node("Reserve_Fulfillment", "task", "Reserve fulfillment", 860, 255),
+        Node("Prepare_Parallel", "parallelGateway", "Fulfill", 1040, 262),
+        Node("Emit_Invoice", "task", "Emit invoice", 1160, 430, lane="Payment service"),
+        Node("Receive_Payment", "task", "Receive payment", 1340, 430, lane="Payment service"),
+        Node("Create_Label", "task", "Create label", 1160, 560, lane="Warehouse"),
+        Node("Pack_Order", "task", "Pack order", 1340, 560, lane="Warehouse"),
+        Node("Ship_Product", "task", "Ship product", 1520, 690, lane="Courier"),
+        Node("Fulfillment_Join", "parallelGateway", "Sent", 1710, 442),
+        Node("Track_Shipment", "task", "Track shipment", 1810, 185),
+        Node("Gateway_SLA_Merge", "exclusiveGateway", "Continue tracking", 1990, 192),
+        Node("Gateway_SLA", "eventBasedGateway", "SLA event", 2090, 192),
+        Node("Delivery_Confirmed", "intermediateCatchEvent", "Delivery confirmed", 2210, 670, "message", lane="Courier"),
+        Node("SLA_Breach", "intermediateCatchEvent", "SLA breached", 2210, 760, "timer", lane="Courier"),
+        Node("Open_Complaint", "task", "Open complaint", 2310, 875, lane="Customer support"),
+        Node("Notify_Customer", "task", "Notify customer", 2480, 875, lane="Customer support"),
+        Node("Expedite_Courier", "task", "Expedite courier", 2650, 875, lane="Customer support"),
+        Node("Archive_Order", "task", "Archive order", 2400, 185),
+        Node("End_Closed", "endEvent", "Order closed", 2580, 199),
     ]
     flows = [
         Flow("F01", "Start_Checkout", "Validate_Order"),
@@ -311,18 +354,20 @@ def to_be_model():
         Flow("F13", "Prepare_Parallel", "Create_Label"),
         Flow("F14", "Create_Label", "Pack_Order"),
         Flow("F15", "Pack_Order", "Ship_Product"),
-        Flow("F16", "Emit_Invoice", "Fulfillment_Join"),
-        Flow("F17", "Ship_Product", "Fulfillment_Join"),
-        Flow("F18", "Fulfillment_Join", "Track_Shipment"),
-        Flow("F19", "Track_Shipment", "Gateway_SLA"),
-        Flow("F20", "Gateway_SLA", "Delivery_Confirmed", "Delivered"),
-        Flow("F21", "Gateway_SLA", "SLA_Breach", "Late"),
-        Flow("F22", "SLA_Breach", "Open_Complaint"),
-        Flow("F23", "Open_Complaint", "Notify_Customer"),
-        Flow("F24", "Notify_Customer", "Expedite_Courier"),
-        Flow("F25", "Expedite_Courier", "Gateway_SLA"),
-        Flow("F26", "Delivery_Confirmed", "Archive_Order"),
-        Flow("F27", "Archive_Order", "End_Closed"),
+        Flow("F16", "Emit_Invoice", "Receive_Payment"),
+        Flow("F17", "Receive_Payment", "Fulfillment_Join"),
+        Flow("F18", "Ship_Product", "Fulfillment_Join"),
+        Flow("F19", "Fulfillment_Join", "Track_Shipment"),
+        Flow("F20", "Track_Shipment", "Gateway_SLA_Merge"),
+        Flow("F21", "Gateway_SLA_Merge", "Gateway_SLA"),
+        Flow("F22", "Gateway_SLA", "Delivery_Confirmed", "Delivered"),
+        Flow("F23", "Gateway_SLA", "SLA_Breach", "Late"),
+        Flow("F24", "SLA_Breach", "Open_Complaint"),
+        Flow("F25", "Open_Complaint", "Notify_Customer"),
+        Flow("F26", "Notify_Customer", "Expedite_Courier"),
+        Flow("F27", "Expedite_Courier", "Gateway_SLA_Merge"),
+        Flow("F28", "Delivery_Confirmed", "Archive_Order"),
+        Flow("F29", "Archive_Order", "End_Closed"),
     ]
     return nodes, flows
 
@@ -341,6 +386,7 @@ def as_is_petri_net() -> PetriNet:
         ("p_fulfillment_ready", "Fulfillment branch"),
         ("p_payment_authorized", "Payment authorized"),
         ("p_invoice_done", "Invoice emitted"),
+        ("p_payment_received", "Payment received"),
         ("p_packed", "Packed"),
         ("p_shipped", "Shipped"),
         ("p_wait_delivery", "Waiting delivery"),
@@ -362,6 +408,7 @@ def as_is_petri_net() -> PetriNet:
         ("t_prepare_split", "silent: parallel split"),
         ("t_authorize_payment", "Authorize payment"),
         ("t_emit_invoice", "Emit invoice"),
+        ("t_receive_payment", "Receive payment"),
         ("t_pick_pack", "Pick and pack"),
         ("t_ship_product", "Ship product"),
         ("t_prepare_join", "silent: parallel join"),
@@ -397,11 +444,13 @@ def as_is_petri_net() -> PetriNet:
         ("t_authorize_payment", "p_payment_authorized"),
         ("p_payment_authorized", "t_emit_invoice"),
         ("t_emit_invoice", "p_invoice_done"),
+        ("p_invoice_done", "t_receive_payment"),
+        ("t_receive_payment", "p_payment_received"),
         ("p_fulfillment_ready", "t_pick_pack"),
         ("t_pick_pack", "p_packed"),
         ("p_packed", "t_ship_product"),
         ("t_ship_product", "p_shipped"),
-        ("p_invoice_done", "t_prepare_join"),
+        ("p_payment_received", "t_prepare_join"),
         ("p_shipped", "t_prepare_join"),
         ("t_prepare_join", "p_wait_delivery"),
         ("p_wait_delivery", "t_delivery_confirmed"),
@@ -441,6 +490,7 @@ def to_be_petri_net() -> PetriNet:
         ("p_invoice_ready", "Invoice branch"),
         ("p_label_ready", "Label branch"),
         ("p_invoice_done", "Invoice emitted"),
+        ("p_payment_received", "Payment received"),
         ("p_label_created", "Label created"),
         ("p_packed", "Packed"),
         ("p_shipped", "Shipped"),
@@ -464,6 +514,7 @@ def to_be_petri_net() -> PetriNet:
         ("t_reserve_fulfillment", "Reserve fulfillment"),
         ("t_fulfill_split", "silent: fulfillment split"),
         ("t_emit_invoice", "Emit invoice"),
+        ("t_receive_payment", "Receive payment"),
         ("t_create_label", "Create label"),
         ("t_pack_order", "Pack order"),
         ("t_ship_product", "Ship product"),
@@ -502,13 +553,15 @@ def to_be_petri_net() -> PetriNet:
         ("t_fulfill_split", "p_label_ready"),
         ("p_invoice_ready", "t_emit_invoice"),
         ("t_emit_invoice", "p_invoice_done"),
+        ("p_invoice_done", "t_receive_payment"),
+        ("t_receive_payment", "p_payment_received"),
         ("p_label_ready", "t_create_label"),
         ("t_create_label", "p_label_created"),
         ("p_label_created", "t_pack_order"),
         ("t_pack_order", "p_packed"),
         ("p_packed", "t_ship_product"),
         ("t_ship_product", "p_shipped"),
-        ("p_invoice_done", "t_fulfillment_join"),
+        ("p_payment_received", "t_fulfillment_join"),
         ("p_shipped", "t_fulfillment_join"),
         ("t_fulfillment_join", "p_tracking_ready"),
         ("p_tracking_ready", "t_track_shipment"),

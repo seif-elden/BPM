@@ -14,8 +14,8 @@ This repo contains the source files, exported evidence, and compiled review PDFs
 
 ## Current State
 
-- Assignment 1 includes both BPMN 2.0 and Petri-net approaches.
-- Assignment 2 includes the Alpha algorithm explanation, exact computations, PERT/event-network output, and automation evidence.
+- Assignment 1 includes both BPMN 2.0 and Petri-net approaches, with BPMN swimlanes, corrected merge/split behavior, explicit payment receipt, and delayed-goods loops.
+- Assignment 2 includes the Alpha algorithm explanation, exact computations, a timed PERT/event-network with critical path, and automation evidence.
 - Diagram evidence is exported as SVG, then rendered with Chrome into `reports/svg-cache/*.pdf` so LaTeX does not need TikZ, Inkscape, or shell escape.
 - Wide diagrams are placed on dedicated landscape pages with no visible caption, header, footer, or other report content.
 - The compiled review PDFs are:
@@ -28,6 +28,10 @@ This repo contains the source files, exported evidence, and compiled review PDFs
 From the repo root:
 
 ```bash
+python3 tools/generate_assignment1_bpmn.py
+python3 tools/render_assignment1_svgs.py
+python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
+cp output/assignment2_pert.svg screenshots/assignment2/pert_chart.svg
 python3 tools/convert_svg_exports.py
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=reports reports/assignment1_report.tex
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=reports reports/assignment1_report.tex
