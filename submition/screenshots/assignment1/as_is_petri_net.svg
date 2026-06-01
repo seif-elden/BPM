@@ -5,54 +5,54 @@
 </marker>
 </defs>
 <style>
-text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}.silent{fill:#fff7ed;stroke-dasharray:5 3}
+text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}
 </style>
 <rect width="100%" height="100%" fill="#fff"/>
 <text x="1650.0" y="28.0" text-anchor="middle" font-size="18" font-weight="700">Assignment 1 As-Is Petri Net</text>
-<polyline class="arc" points="70.0,190.0 120.0,190.0 120.0,190.0 170.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="170.0,190.0 225.0,190.0 225.0,190.0 280.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="280.0,190.0 335.0,190.0 335.0,190.0 390.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="390.0,190.0 445.0,190.0 445.0,190.0 500.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="500.0,190.0 555.0,190.0 555.0,95.0 610.0,95.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="610.0,95.0 665.0,95.0 665.0,95.0 720.0,95.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="720.0,95.0 775.0,95.0 775.0,95.0 830.0,95.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="830.0,95.0 1940.0,95.0 1940.0,195.0 3050.0,195.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="500.0,190.0 555.0,190.0 555.0,285.0 610.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="610.0,285.0 665.0,285.0 665.0,285.0 720.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="720.0,285.0 775.0,285.0 775.0,285.0 830.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="830.0,285.0 890.0,285.0 890.0,285.0 950.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="950.0,285.0 1005.0,285.0 1005.0,350.0 1060.0,350.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1060.0,350.0 1115.0,350.0 1115.0,350.0 1170.0,350.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1170.0,350.0 1225.0,350.0 1225.0,350.0 1280.0,350.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1280.0,350.0 1335.0,350.0 1335.0,285.0 1390.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="950.0,285.0 1005.0,285.0 1005.0,230.0 1060.0,230.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1060.0,230.0 1225.0,230.0 1225.0,285.0 1390.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1390.0,285.0 1445.0,285.0 1445.0,285.0 1500.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1500.0,285.0 1555.0,285.0 1555.0,190.0 1610.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1500.0,285.0 1555.0,285.0 1555.0,380.0 1610.0,380.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1610.0,190.0 1670.0,190.0 1670.0,190.0 1730.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1730.0,190.0 1790.0,190.0 1790.0,190.0 1850.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1850.0,190.0 1910.0,190.0 1910.0,190.0 1970.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1970.0,190.0 2030.0,190.0 2030.0,190.0 2090.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2090.0,190.0 2150.0,190.0 2150.0,190.0 2210.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2210.0,190.0 2270.0,190.0 2270.0,190.0 2330.0,190.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1610.0,380.0 1670.0,380.0 1670.0,380.0 1730.0,380.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1730.0,380.0 1790.0,380.0 1790.0,380.0 1850.0,380.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1850.0,380.0 1910.0,380.0 1910.0,380.0 1970.0,380.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="1970.0,380.0 2030.0,380.0 2030.0,380.0 2090.0,380.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2330.0,190.0 2390.0,190.0 2390.0,285.0 2450.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2090.0,380.0 2270.0,380.0 2270.0,285.0 2450.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2450.0,285.0 2510.0,285.0 2510.0,285.0 2570.0,285.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2570.0,285.0 2630.0,285.0 2630.0,195.0 2690.0,195.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2690.0,195.0 2750.0,195.0 2750.0,195.0 2810.0,195.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2810.0,195.0 2870.0,195.0 2870.0,195.0 2930.0,195.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2930.0,195.0 2990.0,195.0 2990.0,195.0 3050.0,195.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2570.0,285.0 2630.0,285.0 2630.0,430.0 2690.0,430.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2690.0,430.0 2750.0,430.0 2750.0,430.0 2810.0,430.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2810.0,430.0 2870.0,430.0 2870.0,430.0 2930.0,430.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="2930.0,430.0 2990.0,430.0 2990.0,430.0 3050.0,430.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="3050.0,430.0 3110.0,430.0 3110.0,430.0 3170.0,430.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="arc" points="3170.0,430.0 2870.0,430.0 2870.0,285.0 2570.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="97.0,190.0 120.0,190.0 122.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="218.0,190.0 225.0,190.0 253.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="307.0,190.0 335.0,190.0 342.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="438.0,190.0 445.0,190.0 473.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="527.0,190.0 555.0,190.0 555.0,95.0 562.0,95.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="658.0,95.0 665.0,95.0 693.0,95.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="747.0,95.0 775.0,95.0 782.0,95.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="878.0,95.0 890.0,95.0 923.0,95.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="527.0,190.0 555.0,190.0 555.0,285.0 562.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="658.0,285.0 665.0,285.0 693.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="747.0,285.0 775.0,285.0 782.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="878.0,285.0 890.0,285.0 923.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="977.0,285.0 1005.0,285.0 1005.0,350.0 1012.0,350.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1108.0,350.0 1115.0,350.0 1143.0,350.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1197.0,350.0 1225.0,350.0 1232.0,350.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1328.0,350.0 1335.0,350.0 1335.0,285.0 1363.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="977.0,285.0 1005.0,285.0 1005.0,230.0 1012.0,230.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1108.0,230.0 1225.0,230.0 1225.0,285.0 1363.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1417.0,285.0 1445.0,285.0 1452.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1548.0,285.0 1555.0,285.0 1555.0,190.0 1583.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1548.0,285.0 1555.0,285.0 1555.0,380.0 1583.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1637.0,190.0 1670.0,190.0 1682.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1778.0,190.0 1790.0,190.0 1823.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1877.0,190.0 1910.0,190.0 1922.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2018.0,190.0 2030.0,190.0 2063.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2117.0,190.0 2150.0,190.0 2162.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2258.0,190.0 2270.0,190.0 2303.0,190.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1637.0,380.0 1670.0,380.0 1682.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1778.0,380.0 1790.0,380.0 1823.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1877.0,380.0 1910.0,380.0 1922.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2018.0,380.0 2030.0,380.0 2063.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2357.0,190.0 2390.0,190.0 2390.0,285.0 2402.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2117.0,380.0 2270.0,380.0 2270.0,285.0 2402.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2498.0,285.0 2510.0,285.0 2543.0,285.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2597.0,285.0 2630.0,285.0 2630.0,195.0 2642.0,195.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2738.0,195.0 2750.0,195.0 2783.0,195.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2837.0,195.0 2870.0,195.0 2882.0,195.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2978.0,195.0 2990.0,195.0 3023.0,195.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2597.0,285.0 2630.0,285.0 2630.0,430.0 2642.0,430.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2738.0,430.0 2750.0,430.0 2783.0,430.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2837.0,430.0 2870.0,430.0 2882.0,430.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2978.0,430.0 2990.0,430.0 3023.0,430.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3077.0,430.0 3110.0,430.0 3122.0,430.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="3218.0,430.0 3230.0,430.0 3230.0,500.0 2510.0,500.0 2510.0,285.0 2543.0,285.0" fill="none" marker-end="url(#arrow)"/>
 <circle class="place" cx="70.0" cy="190.0" r="27" stroke-width="3"/>
 <text x="70.0" y="237.0" text-anchor="middle" font-size="11" font-weight="400">Order received</text>
 <circle class="place" cx="280.0" cy="190.0" r="27" stroke-width="1.8"/>
@@ -63,6 +63,8 @@ text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;str
 <text x="720.0" y="332.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="720.0" dy="0">Stock</tspan><tspan x="720.0" dy="13">available</tspan></text>
 <circle class="place" cx="720.0" cy="95.0" r="27" stroke-width="1.8"/>
 <text x="720.0" y="142.0" text-anchor="middle" font-size="11" font-weight="400">Reject path</text>
+<circle class="place" cx="950.0" cy="95.0" r="27" stroke-width="3"/>
+<text x="950.0" y="142.0" text-anchor="middle" font-size="11" font-weight="400">Order rejected</text>
 <circle class="place" cx="950.0" cy="285.0" r="27" stroke-width="1.8"/>
 <text x="950.0" y="332.0" text-anchor="middle" font-size="11" font-weight="400"><tspan x="950.0" dy="0">Address</tspan><tspan x="950.0" dy="13">decision</tspan></text>
 <circle class="place" cx="1170.0" cy="350.0" r="27" stroke-width="1.8"/>
@@ -97,22 +99,22 @@ text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;str
 <text x="170.0" y="194.0" text-anchor="middle" font-size="10" font-weight="400">Capture order</text>
 <rect class="transition" x="342.0" y="170.0" width="96" height="40" rx="5" ry="5"/>
 <text x="390.0" y="194.0" text-anchor="middle" font-size="10" font-weight="400">Check stock</text>
-<rect class="transition silent" x="562.0" y="75.0" width="96" height="40" rx="5" ry="5"/>
-<text x="610.0" y="93.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="610.0" dy="0">silent: no</tspan><tspan x="610.0" dy="12">stock</tspan></text>
+<rect class="transition" x="562.0" y="75.0" width="96" height="40" rx="5" ry="5"/>
+<text x="610.0" y="99.0" text-anchor="middle" font-size="10" font-weight="400">No stock</text>
 <rect class="transition" x="782.0" y="75.0" width="96" height="40" rx="5" ry="5"/>
 <text x="830.0" y="99.0" text-anchor="middle" font-size="10" font-weight="400">Reject order</text>
-<rect class="transition silent" x="562.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
-<text x="610.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="610.0" dy="0">silent: stock</tspan><tspan x="610.0" dy="12">available</tspan></text>
+<rect class="transition" x="562.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="610.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="610.0" dy="0">Stock</tspan><tspan x="610.0" dy="12">available</tspan></text>
 <rect class="transition" x="782.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
 <text x="830.0" y="289.0" text-anchor="middle" font-size="10" font-weight="400">Reserve item</text>
-<rect class="transition silent" x="1012.0" y="330.0" width="96" height="40" rx="5" ry="5"/>
-<text x="1060.0" y="342.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1060.0" dy="0">silent:</tspan><tspan x="1060.0" dy="12">address</tspan><tspan x="1060.0" dy="12">missing</tspan></text>
+<rect class="transition" x="1012.0" y="330.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1060.0" y="348.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1060.0" dy="0">Address</tspan><tspan x="1060.0" dy="12">missing</tspan></text>
 <rect class="transition" x="1232.0" y="330.0" width="96" height="40" rx="5" ry="5"/>
 <text x="1280.0" y="348.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1280.0" dy="0">Request</tspan><tspan x="1280.0" dy="12">address</tspan></text>
-<rect class="transition silent" x="1012.0" y="210.0" width="96" height="40" rx="5" ry="5"/>
-<text x="1060.0" y="228.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1060.0" dy="0">silent:</tspan><tspan x="1060.0" dy="12">address known</tspan></text>
-<rect class="transition silent" x="1452.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
-<text x="1500.0" y="277.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1500.0" dy="0">silent:</tspan><tspan x="1500.0" dy="12">parallel</tspan><tspan x="1500.0" dy="12">split</tspan></text>
+<rect class="transition" x="1012.0" y="210.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1060.0" y="234.0" text-anchor="middle" font-size="10" font-weight="400">Address known</text>
+<rect class="transition" x="1452.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="1500.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1500.0" dy="0">Parallel</tspan><tspan x="1500.0" dy="12">split</tspan></text>
 <rect class="transition" x="1682.0" y="170.0" width="96" height="40" rx="5" ry="5"/>
 <text x="1730.0" y="188.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1730.0" dy="0">Authorize</tspan><tspan x="1730.0" dy="12">payment</tspan></text>
 <rect class="transition" x="1922.0" y="170.0" width="96" height="40" rx="5" ry="5"/>
@@ -123,8 +125,8 @@ text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;str
 <text x="1730.0" y="384.0" text-anchor="middle" font-size="10" font-weight="400">Pick and pack</text>
 <rect class="transition" x="1922.0" y="360.0" width="96" height="40" rx="5" ry="5"/>
 <text x="1970.0" y="384.0" text-anchor="middle" font-size="10" font-weight="400">Ship product</text>
-<rect class="transition silent" x="2402.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
-<text x="2450.0" y="283.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="2450.0" dy="0">silent:</tspan><tspan x="2450.0" dy="12">parallel join</tspan></text>
+<rect class="transition" x="2402.0" y="265.0" width="96" height="40" rx="5" ry="5"/>
+<text x="2450.0" y="289.0" text-anchor="middle" font-size="10" font-weight="400">Parallel join</text>
 <rect class="transition" x="2642.0" y="175.0" width="96" height="40" rx="5" ry="5"/>
 <text x="2690.0" y="187.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="2690.0" dy="0">Message:</tspan><tspan x="2690.0" dy="12">delivery</tspan><tspan x="2690.0" dy="12">confirmed</tspan></text>
 <rect class="transition" x="2642.0" y="410.0" width="96" height="40" rx="5" ry="5"/>

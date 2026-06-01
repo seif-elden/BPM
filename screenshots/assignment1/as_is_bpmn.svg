@@ -1,120 +1,193 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="2750" height="1074" viewBox="0 25 2750 1074">
+<svg xmlns="http://www.w3.org/2000/svg" width="3000" height="1385" viewBox="0 0 3000 1385">
 <defs>
 <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
 <path d="M0,0 L0,6 L9,3 z" fill="#20242a"/>
 </marker>
+<marker id="msgArrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+<path d="M0,0 L0,6 L9,3 z" fill="#20242a"/>
+</marker>
+<marker id="assocArrow" markerWidth="8" markerHeight="8" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+<path d="M0,0 L0,6 L7,3 z" fill="#64748b"/>
+</marker>
 </defs>
 <style>
-text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.flow{stroke:#20242a;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}.lane-label{fill:#0f766e;font-weight:700}.lane{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.4}.lane:nth-child(even){fill:#ffffff}.flow-label{fill:#596579;font-size:12px}
+text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.flow{stroke:#20242a;stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round}.message-flow{stroke:#20242a;stroke-width:1.9;stroke-dasharray:10 6;stroke-linejoin:round;stroke-linecap:round}.assoc{stroke:#64748b;stroke-width:1.5;stroke-dasharray:5 4;stroke-linejoin:round;stroke-linecap:round}.pool-label{fill:#334155;font-weight:700}.lane-label{fill:#0f766e;font-weight:700}.pool{fill:#ffffff;stroke:#334155;stroke-width:2.1}.pool-alt{fill:#f8fafc;stroke:#334155;stroke-width:2.1}.lane{fill:#f8fafc;stroke:#cbd5e1;stroke-width:1.2}.lane-alt{fill:#ffffff;stroke:#cbd5e1;stroke-width:1.2}.flow-label{fill:#596579;font-size:12px}.message-label{fill:#20242a;font-size:12px}.artifact-label{fill:#475569;font-size:11px}.label-bg{fill:#fff;opacity:.94}
 </style>
-<rect x="0" y="-1000" width="100%" height="3000" fill="#fff"/>
-<rect class="lane" x="18" y="42.0" width="2714.0" height="109.0"/>
-<text x="92.0" y="92.5" text-anchor="middle" font-size="14" font-weight="700">Customer</text>
-<rect class="lane" x="18" y="92.0" width="2714.0" height="445.0"/>
-<text x="92.0" y="310.5" text-anchor="middle" font-size="14" font-weight="700"><tspan x="92.0" dy="0">Marketplace</tspan><tspan x="92.0" dy="16">system</tspan></text>
-<rect class="lane" x="18" y="402.0" width="2714.0" height="137.0"/>
-<text x="92.0" y="466.5" text-anchor="middle" font-size="14" font-weight="700">Payment service</text>
-<rect class="lane" x="18" y="532.0" width="2714.0" height="137.0"/>
-<text x="92.0" y="596.5" text-anchor="middle" font-size="14" font-weight="700">Warehouse</text>
-<rect class="lane" x="18" y="642.0" width="2714.0" height="199.0"/>
-<text x="92.0" y="737.5" text-anchor="middle" font-size="14" font-weight="700">Courier</text>
-<rect class="lane" x="18" y="847.0" width="2714.0" height="137.0"/>
-<text x="92.0" y="911.5" text-anchor="middle" font-size="14" font-weight="700">Customer support</text>
-<polyline class="flow" points="286.0,88.0 303.0,88.0 303.0,217.0 320.0,217.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="450.0,217.0 475.0,217.0 475.0,217.0 500.0,217.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="630.0,217.0 655.0,217.0 655.0,217.0 680.0,217.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="730.0,217.0 755.0,217.0 755.0,152.0 780.0,152.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="755.0" y="146.0" text-anchor="middle">No</text>
-<polyline class="flow" points="910.0,152.0 935.0,152.0 935.0,152.0 960.0,152.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="730.0,217.0 755.0,217.0 755.0,287.0 780.0,287.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="755.0" y="281.0" text-anchor="middle">Yes</text>
-<polyline class="flow" points="910.0,287.0 935.0,287.0 935.0,287.0 960.0,287.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1010.0,287.0 1110.0,287.0 1110.0,287.0 1210.0,287.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="1110.0" y="281.0" text-anchor="middle">Yes</text>
-<polyline class="flow" points="1010.0,287.0 1030.0,287.0 1030.0,362.0 1050.0,362.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="1030.0" y="356.0" text-anchor="middle">No</text>
-<polyline class="flow" points="1180.0,362.0 1195.0,362.0 1195.0,287.0 1210.0,287.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1260.0,287.0 1285.0,287.0 1285.0,287.0 1310.0,287.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1360.0,287.0 1385.0,287.0 1385.0,462.0 1410.0,462.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1540.0,462.0 1560.0,462.0 1560.0,462.0 1580.0,462.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1710.0,462.0 1730.0,462.0 1730.0,462.0 1750.0,462.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1360.0,287.0 1385.0,287.0 1385.0,592.0 1410.0,592.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1540.0,592.0 1560.0,592.0 1560.0,722.0 1580.0,722.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1880.0,462.0 1905.0,462.0 1905.0,467.0 1930.0,467.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1710.0,722.0 1820.0,722.0 1820.0,467.0 1930.0,467.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="1980.0,467.0 2005.0,467.0 2005.0,467.0 2030.0,467.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2080.0,467.0 2105.0,467.0 2105.0,467.0 2130.0,467.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2180.0,467.0 2210.0,467.0 2210.0,688.0 2240.0,688.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="2210.0" y="682.0" text-anchor="middle">Delivered</text>
-<polyline class="flow" points="2180.0,467.0 2210.0,467.0 2210.0,778.0 2240.0,778.0" fill="none" marker-end="url(#arrow)"/>
-<text class="flow-label" x="2210.0" y="772.0" text-anchor="middle">2 days late</text>
-<polyline class="flow" points="2276.0,778.0 2308.0,778.0 2308.0,907.0 2340.0,907.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2470.0,907.0 2490.0,907.0 2490.0,907.0 2510.0,907.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2640.0,907.0 2700.0,907.0 2700.0,1054.0 1970.0,1054.0 1970.0,467.0 2030.0,467.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2276.0,688.0 2348.0,688.0 2348.0,217.0 2420.0,217.0" fill="none" marker-end="url(#arrow)"/>
-<polyline class="flow" points="2550.0,217.0 2575.0,217.0 2575.0,217.0 2600.0,217.0" fill="none" marker-end="url(#arrow)"/>
-<circle cx="268.0" cy="88.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="268.0" y="124.0" text-anchor="middle" font-size="12" font-weight="400">Order received</text>
-<rect x="320.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="385.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Capture order</text>
-<rect x="500.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="565.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Check stock</text>
-<polygon points="705.0,192.0 730.0,217.0 705.0,242.0 680.0,217.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="705.0" y="222.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
-<text x="705.0" y="260.0" text-anchor="middle" font-size="12" font-weight="400">Stock available?</text>
-<rect x="780.0" y="120.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="845.0" y="151.0" text-anchor="middle" font-size="13" font-weight="400">Reject order</text>
-<circle cx="978.0" cy="152.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="4"/>
-<text x="978.0" y="188.0" text-anchor="middle" font-size="12" font-weight="400">Order rejected</text>
-<rect x="780.0" y="255.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="845.0" y="286.0" text-anchor="middle" font-size="13" font-weight="400">Reserve item</text>
-<polygon points="985.0,262.0 1010.0,287.0 985.0,312.0 960.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="985.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
-<text x="985.0" y="330.0" text-anchor="middle" font-size="12" font-weight="400">Address known?</text>
-<rect x="1050.0" y="330.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1115.0" y="361.0" text-anchor="middle" font-size="13" font-weight="400">Request address</text>
-<polygon points="1235.0,262.0 1260.0,287.0 1235.0,312.0 1210.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1235.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
-<text x="1235.0" y="330.0" text-anchor="middle" font-size="12" font-weight="400">Address resolved</text>
-<polygon points="1335.0,262.0 1360.0,287.0 1335.0,312.0 1310.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1335.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">+</text>
-<text x="1335.0" y="330.0" text-anchor="middle" font-size="12" font-weight="400">Prepare order</text>
-<rect x="1410.0" y="430.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1475.0" y="461.0" text-anchor="middle" font-size="13" font-weight="400">Authorize payment</text>
-<rect x="1580.0" y="430.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1645.0" y="461.0" text-anchor="middle" font-size="13" font-weight="400">Emit invoice</text>
-<rect x="1750.0" y="430.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1815.0" y="461.0" text-anchor="middle" font-size="13" font-weight="400">Receive payment</text>
-<rect x="1410.0" y="560.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1475.0" y="591.0" text-anchor="middle" font-size="13" font-weight="400">Pick and pack</text>
-<rect x="1580.0" y="690.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1645.0" y="721.0" text-anchor="middle" font-size="13" font-weight="400">Ship product</text>
-<polygon points="1955.0,442.0 1980.0,467.0 1955.0,492.0 1930.0,467.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="1955.0" y="472.0" text-anchor="middle" font-size="18" font-weight="700">+</text>
-<text x="1955.0" y="510.0" text-anchor="middle" font-size="12" font-weight="400">Ready</text>
-<polygon points="2055.0,442.0 2080.0,467.0 2055.0,492.0 2030.0,467.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="2055.0" y="472.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
-<text x="2055.0" y="510.0" text-anchor="middle" font-size="12" font-weight="400">Continue wait</text>
-<polygon points="2155.0,442.0 2180.0,467.0 2155.0,492.0 2130.0,467.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="2155.0" y="472.0" text-anchor="middle" font-size="18" font-weight="700">E</text>
-<text x="2155.0" y="510.0" text-anchor="middle" font-size="12" font-weight="400">Delivery event</text>
-<circle cx="2258.0" cy="688.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<circle cx="2258.0" cy="688.0" r="13.0" fill="none" stroke="#20242a" stroke-width="1.5"/>
-<rect x="2248.0" y="681.0" width="20" height="14" fill="none" stroke="#20242a" stroke-width="1.3"/>
-<path d="M 2248.0 681.0 L 2258.0 689.0 L 2268.0 681.0" fill="none" stroke="#20242a" stroke-width="1.3"/>
-<text x="2258.0" y="724.0" text-anchor="middle" font-size="12" font-weight="400">Delivery confirmed</text>
-<circle cx="2258.0" cy="778.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<circle cx="2258.0" cy="778.0" r="13.0" fill="none" stroke="#20242a" stroke-width="1.5"/>
-<circle cx="2258.0" cy="778.0" r="8" fill="none" stroke="#20242a" stroke-width="1.4"/>
-<line x1="2258.0" y1="778.0" x2="2258.0" y2="772.0" stroke="#20242a" stroke-width="1.4"/>
-<line x1="2258.0" y1="778.0" x2="2263.0" y2="781.0" stroke="#20242a" stroke-width="1.4"/>
-<text x="2258.0" y="814.0" text-anchor="middle" font-size="12" font-weight="400">Goods delayed</text>
-<rect x="2340.0" y="875.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="2405.0" y="899.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="2405.0" dy="0">Register</tspan><tspan x="2405.0" dy="15">complaint</tspan></text>
-<rect x="2510.0" y="875.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="2575.0" y="906.0" text-anchor="middle" font-size="13" font-weight="400">Escalate courier</text>
-<rect x="2420.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
-<text x="2485.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Archive order</text>
-<circle cx="2618.0" cy="217.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="4"/>
-<text x="2618.0" y="253.0" text-anchor="middle" font-size="12" font-weight="400">Order closed</text>
+<rect x="0" y="0" width="3000.0" height="1385.0" fill="#fff"/>
+<rect class="pool" x="16" y="18.0" width="2968.0" height="122.0"/>
+<text class="pool-label" x="36" y="79.0" text-anchor="middle" font-size="14" transform="rotate(-90 36 79.0)">Customer</text>
+<rect class="pool-alt" x="16" y="155.0" width="2968.0" height="420.0"/>
+<text class="pool-label" x="36" y="365.0" text-anchor="middle" font-size="14" transform="rotate(-90 36 365.0)">E-Commerce Operations</text>
+<rect class="lane" x="58" y="155.0" width="2926.0" height="245.0"/>
+<text x="130.0" y="273.5" text-anchor="middle" font-size="13" font-weight="700"><tspan x="130.0" dy="0">Marketplace</tspan><tspan x="130.0" dy="15">system</tspan></text>
+<rect class="lane-alt" x="58" y="405.0" width="2926.0" height="170.0"/>
+<text x="130.0" y="486.0" text-anchor="middle" font-size="13" font-weight="700"><tspan x="130.0" dy="0">Customer</tspan><tspan x="130.0" dy="15">support</tspan></text>
+<rect class="pool" x="16" y="610.0" width="2968.0" height="180.0"/>
+<text class="pool-label" x="36" y="700.0" text-anchor="middle" font-size="14" transform="rotate(-90 36 700.0)">Payment Service</text>
+<rect class="pool-alt" x="16" y="825.0" width="2968.0" height="185.0"/>
+<text class="pool-label" x="36" y="917.5" text-anchor="middle" font-size="14" transform="rotate(-90 36 917.5)">Warehouse/Fulfillment</text>
+<rect class="pool" x="16" y="1045.0" width="2968.0" height="205.0"/>
+<text class="pool-label" x="36" y="1147.5" text-anchor="middle" font-size="14" transform="rotate(-90 36 1147.5)">Courier/Shipment</text>
+<polyline class="assoc" points="328.0,88.0 263.0,50.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="597.0,297.0 625.0,217.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1193.0,230.0 1163.0,230.0 1163.0,287.0 1045.0,287.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1175.0,362.0 1193.0,230.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1795.0,662.0 1763.0,740.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1965.0,662.0 1933.0,740.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1625.0,882.0 1593.0,955.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="1795.0,1112.0 1767.0,1192.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="2645.0,452.0 2583.0,525.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="assoc" points="2725.0,217.0 2797.0,282.0" fill="none" marker-end="url(#assocArrow)"/>
+<polyline class="message-flow" points="344.3,106.0 416.0,185.0" fill="none" marker-end="url(#msgArrow)"/>
+<polyline class="flow" points="510.0,217.0 535.0,217.0 535.0,217.0 560.0,217.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="690.0,217.0 715.0,217.0 715.0,217.0 740.0,217.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="790.0,217.0 815.0,217.0 815.0,187.0 840.0,187.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="801.0" y="194.0" width="38.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="820.0" y="209.0" text-anchor="middle">No</text>
+<polyline class="flow" points="970.0,187.0 995.0,187.0 995.0,187.0 1020.0,187.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="765.0,242.0 765.0,264.5 840.0,264.5 840.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="780.0" y="245.0" width="38.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="799.0" y="260.0" text-anchor="middle">Yes</text>
+<polyline class="flow" points="970.0,287.0 995.0,287.0 995.0,287.0 1020.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1070.0,287.0 1170.0,287.0 1170.0,287.0 1270.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="1081.0" y="264.0" width="38.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="1100.0" y="279.0" text-anchor="middle">Yes</text>
+<polyline class="flow" points="1045.0,312.0 1045.0,337.0 1110.0,337.0 1110.0,362.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="1060.0" y="315.0" width="38.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="1079.0" y="330.0" text-anchor="middle">No</text>
+<polyline class="flow" points="1240.0,362.0 1255.0,362.0 1255.0,287.0 1270.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1400.0,287.0 1430.0,287.0 1430.0,287.0 1460.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1510.0,287.0 1535.0,287.0 1535.0,237.0 1560.0,237.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1690.0,237.0 1795.0,237.0 1795.0,237.0 1900.0,237.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2030.0,237.0 2055.0,237.0 2055.0,287.0 2080.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1510.0,287.0 1535.0,287.0 1535.0,347.0 1560.0,347.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1690.0,347.0 1795.0,347.0 1795.0,347.0 1900.0,347.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2030.0,347.0 2055.0,347.0 2055.0,287.0 2080.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="message-flow" points="1625.0,269.0 1625.0,630.0" fill="none" marker-end="url(#msgArrow)"/>
+<rect class="label-bg" x="1566.5" y="607.0" width="117.0" height="18" rx="2" ry="2"/>
+<text class="message-label" x="1625.0" y="622.0" text-anchor="middle">Payment request</text>
+<polyline class="flow" points="1690.0,662.0 1710.0,662.0 1710.0,662.0 1730.0,662.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="1860.0,662.0 1880.0,662.0 1880.0,662.0 1900.0,662.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="message-flow" points="1965.0,630.0 1965.0,269.0" fill="none" marker-end="url(#msgArrow)"/>
+<rect class="label-bg" x="1910.0" y="246.0" width="110.0" height="18" rx="2" ry="2"/>
+<text class="message-label" x="1965.0" y="261.0" text-anchor="middle">Payment status</text>
+<polyline class="message-flow" points="1625.0,379.0 1625.0,850.0" fill="none" marker-end="url(#msgArrow)"/>
+<rect class="label-bg" x="1552.5" y="827.0" width="145.0" height="18" rx="2" ry="2"/>
+<text class="message-label" x="1625.0" y="842.0" text-anchor="middle">Fulfillment request</text>
+<polyline class="message-flow" points="1648.7,914.0 1771.3,1080.0" fill="none" marker-end="url(#msgArrow)"/>
+<rect class="label-bg" x="1716.3" y="1057.0" width="110.0" height="18" rx="2" ry="2"/>
+<text class="message-label" x="1771.3" y="1072.0" text-anchor="middle">Parcel handoff</text>
+<polyline class="message-flow" points="1802.1,1080.0 1957.9,379.0" fill="none" marker-end="url(#msgArrow)"/>
+<rect class="label-bg" x="1899.4" y="356.0" width="117.0" height="18" rx="2" ry="2"/>
+<text class="message-label" x="1957.9" y="371.0" text-anchor="middle">Shipment status</text>
+<polyline class="flow" points="2130.0,287.0 2155.0,287.0 2155.0,287.0 2180.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2310.0,287.0 2340.0,287.0 2340.0,287.0 2370.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2420.0,287.0 2450.0,287.0 2450.0,203.0 2480.0,203.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="2412.5" y="264.0" width="75.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="2450.0" y="279.0" text-anchor="middle">Delivered</text>
+<polyline class="flow" points="2395.0,312.0 2395.0,375.0 2480.0,375.0 2480.0,438.0" fill="none" marker-end="url(#arrow)"/>
+<rect class="label-bg" x="2384.5" y="315.0" width="89.0" height="18" rx="2" ry="2"/>
+<text class="flow-label" x="2429.0" y="330.0" text-anchor="middle">2 days late</text>
+<polyline class="flow" points="2516.0,438.0 2548.0,438.0 2548.0,452.0 2580.0,452.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2710.0,452.0 2730.0,452.0 2730.0,452.0 2750.0,452.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2880.0,452.0 2925.0,452.0 2925.0,402.0 2125.0,402.0 2125.0,287.0 2180.0,287.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2516.0,203.0 2588.0,203.0 2588.0,217.0 2660.0,217.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="flow" points="2790.0,217.0 2815.0,217.0 2815.0,217.0 2840.0,217.0" fill="none" marker-end="url(#arrow)"/>
+<path d="M 230.0 25.0 H 284.0 L 296.0 37.0 V 75.0 H 230.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 284.0 25.0 V 37.0 H 296.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="263.0" y="53.0" text-anchor="middle" font-size="10" font-weight="400">Order request</text>
+<path d="M 560.0 279.0 C 560.0 270.0, 634.0 270.0, 634.0 279.0 V 315.0 C 634.0 324.0, 560.0 324.0, 560.0 315.0 Z" fill="#f0fdfa" stroke="#20242a" stroke-width="1.8"/>
+<ellipse cx="597.0" cy="279.0" rx="37.0" ry="9" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="597.0" y="296.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="597.0" dy="0">Product/stock</tspan><tspan x="597.0" dy="12">data</tspan></text>
+<path d="M 1160.0 205.0 H 1214.0 L 1226.0 217.0 V 255.0 H 1160.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 1214.0 205.0 V 217.0 H 1226.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="1193.0" y="227.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1193.0" dy="0">Customer</tspan><tspan x="1193.0" dy="12">address</tspan></text>
+<path d="M 1900.0 715.0 H 1954.0 L 1966.0 727.0 V 765.0 H 1900.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 1954.0 715.0 V 727.0 H 1966.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="1933.0" y="743.0" text-anchor="middle" font-size="10" font-weight="400">Payment record</text>
+<path d="M 1730.0 715.0 H 1784.0 L 1796.0 727.0 V 765.0 H 1730.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 1784.0 715.0 V 727.0 H 1796.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="1763.0" y="743.0" text-anchor="middle" font-size="10" font-weight="400">Invoice</text>
+<path d="M 1560.0 930.0 H 1614.0 L 1626.0 942.0 V 980.0 H 1560.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 1614.0 930.0 V 942.0 H 1626.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="1593.0" y="958.0" text-anchor="middle" font-size="10" font-weight="400">Pick list</text>
+<path d="M 1730.0 1174.0 C 1730.0 1165.0, 1804.0 1165.0, 1804.0 1174.0 V 1210.0 C 1804.0 1219.0, 1730.0 1219.0, 1730.0 1210.0 Z" fill="#f0fdfa" stroke="#20242a" stroke-width="1.8"/>
+<ellipse cx="1767.0" cy="1174.0" rx="37.0" ry="9" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="1767.0" y="1191.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1767.0" dy="0">Shipment</tspan><tspan x="1767.0" dy="12">tracking</tspan></text>
+<path d="M 2550.0 500.0 H 2604.0 L 2616.0 512.0 V 550.0 H 2550.0 Z" fill="#fffef6" stroke="#20242a" stroke-width="1.8"/>
+<path d="M 2604.0 500.0 V 512.0 H 2616.0" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="2583.0" y="528.0" text-anchor="middle" font-size="10" font-weight="400">Complaint case</text>
+<path d="M 2760.0 264.0 C 2760.0 255.0, 2834.0 255.0, 2834.0 264.0 V 300.0 C 2834.0 309.0, 2760.0 309.0, 2760.0 300.0 Z" fill="#f0fdfa" stroke="#20242a" stroke-width="1.8"/>
+<ellipse cx="2797.0" cy="264.0" rx="37.0" ry="9" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<text x="2797.0" y="287.0" text-anchor="middle" font-size="10" font-weight="400">Order archive</text>
+<circle cx="328.0" cy="88.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="328.0" y="124.0" text-anchor="middle" font-size="12" font-weight="400">Order received</text>
+<rect x="380.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="445.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Capture order</text>
+<rect x="560.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="625.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Check stock</text>
+<polygon points="765.0,192.0 790.0,217.0 765.0,242.0 740.0,217.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="765.0" y="222.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
+<text x="765.0" y="184.0" text-anchor="middle" font-size="12" font-weight="400">Stock available?</text>
+<rect x="840.0" y="155.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="905.0" y="186.0" text-anchor="middle" font-size="13" font-weight="400">Reject order</text>
+<circle cx="1038.0" cy="187.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="4"/>
+<text x="1038.0" y="223.0" text-anchor="middle" font-size="12" font-weight="400">Order rejected</text>
+<rect x="840.0" y="255.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="905.0" y="286.0" text-anchor="middle" font-size="13" font-weight="400">Reserve item</text>
+<polygon points="1045.0,262.0 1070.0,287.0 1045.0,312.0 1020.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1045.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
+<text x="1045.0" y="254.0" text-anchor="middle" font-size="12" font-weight="400">Address known?</text>
+<rect x="1110.0" y="330.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1175.0" y="361.0" text-anchor="middle" font-size="13" font-weight="400">Request address</text>
+<rect x="1270.0" y="255.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1335.0" y="279.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="1335.0" dy="0">Confirm order</tspan><tspan x="1335.0" dy="15">details</tspan></text>
+<polygon points="1485.0,262.0 1510.0,287.0 1485.0,312.0 1460.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1485.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">+</text>
+<text x="1485.0" y="330.0" text-anchor="middle" font-size="12" font-weight="400">Prepare order</text>
+<rect x="1560.0" y="205.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1625.0" y="229.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="1625.0" dy="0">Send payment</tspan><tspan x="1625.0" dy="15">request</tspan></text>
+<rect x="1560.0" y="315.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1625.0" y="339.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="1625.0" dy="0">Send fulfillment</tspan><tspan x="1625.0" dy="15">request</tspan></text>
+<rect x="1900.0" y="205.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1965.0" y="229.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="1965.0" dy="0">Receive payment</tspan><tspan x="1965.0" dy="15">status</tspan></text>
+<rect x="1900.0" y="315.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1965.0" y="339.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="1965.0" dy="0">Receive shipment</tspan><tspan x="1965.0" dy="15">status</tspan></text>
+<rect x="1560.0" y="630.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1625.0" y="661.0" text-anchor="middle" font-size="13" font-weight="400">Authorize payment</text>
+<rect x="1730.0" y="630.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1795.0" y="661.0" text-anchor="middle" font-size="13" font-weight="400">Emit invoice</text>
+<rect x="1900.0" y="630.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1965.0" y="661.0" text-anchor="middle" font-size="13" font-weight="400">Receive payment</text>
+<rect x="1560.0" y="850.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1625.0" y="881.0" text-anchor="middle" font-size="13" font-weight="400">Pick and pack</text>
+<rect x="1730.0" y="1080.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="1795.0" y="1111.0" text-anchor="middle" font-size="13" font-weight="400">Ship product</text>
+<polygon points="2105.0,262.0 2130.0,287.0 2105.0,312.0 2080.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2105.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">+</text>
+<text x="2105.0" y="330.0" text-anchor="middle" font-size="12" font-weight="400">Ready</text>
+<rect x="2180.0" y="255.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2245.0" y="286.0" text-anchor="middle" font-size="13" font-weight="400">Monitor delivery</text>
+<polygon points="2395.0,262.0 2420.0,287.0 2395.0,312.0 2370.0,287.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2395.0" y="292.0" text-anchor="middle" font-size="18" font-weight="700">X</text>
+<text x="2395.0" y="254.0" text-anchor="middle" font-size="12" font-weight="400">Delivery status?</text>
+<circle cx="2498.0" cy="203.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<circle cx="2498.0" cy="203.0" r="13.0" fill="none" stroke="#20242a" stroke-width="1.5"/>
+<rect x="2488.0" y="196.0" width="20" height="14" fill="none" stroke="#20242a" stroke-width="1.3"/>
+<path d="M 2488.0 196.0 L 2498.0 204.0 L 2508.0 196.0" fill="none" stroke="#20242a" stroke-width="1.3"/>
+<text x="2498.0" y="239.0" text-anchor="middle" font-size="12" font-weight="400">Delivery confirmed</text>
+<circle cx="2498.0" cy="438.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<circle cx="2498.0" cy="438.0" r="13.0" fill="none" stroke="#20242a" stroke-width="1.5"/>
+<circle cx="2498.0" cy="438.0" r="8" fill="none" stroke="#20242a" stroke-width="1.4"/>
+<line x1="2498.0" y1="438.0" x2="2498.0" y2="432.0" stroke="#20242a" stroke-width="1.4"/>
+<line x1="2498.0" y1="438.0" x2="2503.0" y2="441.0" stroke="#20242a" stroke-width="1.4"/>
+<text x="2498.0" y="474.0" text-anchor="middle" font-size="12" font-weight="400">Goods delayed</text>
+<rect x="2580.0" y="420.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2645.0" y="444.0" text-anchor="middle" font-size="13" font-weight="400"><tspan x="2645.0" dy="0">Register</tspan><tspan x="2645.0" dy="15">complaint</tspan></text>
+<rect x="2750.0" y="420.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2815.0" y="451.0" text-anchor="middle" font-size="13" font-weight="400">Escalate courier</text>
+<rect x="2660.0" y="185.0" width="130" height="64" rx="8" ry="8" fill="#fff" stroke="#20242a" stroke-width="2"/>
+<text x="2725.0" y="216.0" text-anchor="middle" font-size="13" font-weight="400">Archive order</text>
+<circle cx="2858.0" cy="217.0" r="18.0" fill="#fff" stroke="#20242a" stroke-width="4"/>
+<text x="2858.0" y="253.0" text-anchor="middle" font-size="12" font-weight="400">Order closed</text>
 </svg>

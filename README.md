@@ -14,14 +14,14 @@ This repo contains the source files, exported evidence, and compiled review PDFs
 
 ## Current State
 
-- Assignment 1 includes both BPMN 2.0 and Petri-net approaches, with BPMN swimlanes, corrected merge/split behavior, explicit payment receipt, and delayed-goods loops.
+- Assignment 1 includes both BPMN 2.0 and Petri-net approaches, with BPMN collaboration pools, internal e-commerce lanes, straight dashed message flows, data artifacts, corrected split/join behavior, explicit send/receive status tasks, normal Petri transitions, and delayed-goods loops.
 - Assignment 2 includes the Alpha algorithm explanation, exact computations, a timed PERT/event-network with critical path, and automation evidence.
 - Diagram evidence is exported as SVG, then rendered with Chrome into `reports/svg-cache/*.pdf` so LaTeX does not need TikZ, Inkscape, or shell escape.
 - Wide diagrams are placed on dedicated landscape pages with no visible caption, header, footer, or other report content.
 - The compiled review PDFs are:
   - `reports/assignment1_report.pdf`
   - `reports/assignment2_report.pdf`
-- No submission ZIP has been created yet.
+- The submission ZIP is `BPM_submission.zip`, built from the `submition/` review folder.
 
 ## Rebuild Commands
 

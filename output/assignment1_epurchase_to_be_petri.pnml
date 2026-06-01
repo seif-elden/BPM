@@ -1,11 +1,11 @@
 <?xml version="1.0" ?>
 <pnml>
-  <net id="assignment1_to_be_petri" type="http://www.pnml.org/version-2009/grammar/ptnet">
+  <net id="Net_68764a1" type="http://www.pnml.org/version-2009/grammar/ptnet">
     <name>
       <text>Assignment 1 To-Be E-Purchase Petri Net</text>
     </name>
-    <page id="page1">
-      <place id="p_start">
+    <page id="Page_806e9f4">
+      <place id="Place_937d194">
         <name>
           <text>Checkout submitted</text>
         </name>
@@ -13,286 +13,291 @@
           <text>1</text>
         </initialMarking>
       </place>
-      <place id="p_validated">
+      <place id="Place_65941f6">
         <name>
           <text>Order validated</text>
         </name>
       </place>
-      <place id="p_stock_ready">
+      <place id="Place_400df02">
         <name>
           <text>Stock check ready</text>
         </name>
       </place>
-      <place id="p_payment_ready">
+      <place id="Place_c537cd0">
         <name>
           <text>Payment check ready</text>
         </name>
       </place>
-      <place id="p_stock_checked">
+      <place id="Place_d8d6362">
         <name>
           <text>Stock checked</text>
         </name>
       </place>
-      <place id="p_payment_checked">
+      <place id="Place_50a29d2">
         <name>
           <text>Payment checked</text>
         </name>
       </place>
-      <place id="p_order_decision">
+      <place id="Place_3fccb45">
         <name>
           <text>Order decision</text>
         </name>
       </place>
-      <place id="p_reject_ready">
+      <place id="Place_f202015">
         <name>
           <text>Reject path</text>
         </name>
       </place>
-      <place id="p_reserve_ready">
+      <place id="Place_fbc24cb">
+        <name>
+          <text>Order rejected</text>
+        </name>
+      </place>
+      <place id="Place_1d2e846">
         <name>
           <text>Ready to reserve</text>
         </name>
       </place>
-      <place id="p_fulfillment_reserved">
+      <place id="Place_cf3a162">
         <name>
           <text>Fulfillment reserved</text>
         </name>
       </place>
-      <place id="p_invoice_ready">
+      <place id="Place_7f9ae52">
         <name>
           <text>Invoice branch</text>
         </name>
       </place>
-      <place id="p_label_ready">
+      <place id="Place_0b95593">
         <name>
           <text>Label branch</text>
         </name>
       </place>
-      <place id="p_invoice_done">
+      <place id="Place_876cfb8">
         <name>
           <text>Invoice emitted</text>
         </name>
       </place>
-      <place id="p_payment_received">
+      <place id="Place_ecdeddb">
         <name>
           <text>Payment received</text>
         </name>
       </place>
-      <place id="p_label_created">
+      <place id="Place_17df624">
         <name>
           <text>Label created</text>
         </name>
       </place>
-      <place id="p_packed">
+      <place id="Place_d472ab7">
         <name>
           <text>Packed</text>
         </name>
       </place>
-      <place id="p_shipped">
+      <place id="Place_5ccbc3e">
         <name>
           <text>Shipped</text>
         </name>
       </place>
-      <place id="p_tracking_ready">
+      <place id="Place_fed89b8">
         <name>
           <text>Tracking ready</text>
         </name>
       </place>
-      <place id="p_sla_wait">
+      <place id="Place_4acc915">
         <name>
           <text>Waiting SLA event</text>
         </name>
       </place>
-      <place id="p_delay_case">
+      <place id="Place_cdea373">
         <name>
           <text>Delay active</text>
         </name>
       </place>
-      <place id="p_complaint_open">
+      <place id="Place_f009bfd">
         <name>
           <text>Complaint open</text>
         </name>
       </place>
-      <place id="p_customer_notified">
+      <place id="Place_52e02b9">
         <name>
           <text>Customer notified</text>
         </name>
       </place>
-      <place id="p_delivery_ok">
+      <place id="Place_363f94f">
         <name>
           <text>Delivery confirmed</text>
         </name>
       </place>
-      <place id="p_done">
+      <place id="Place_be39346">
         <name>
           <text>Case closed</text>
         </name>
       </place>
-      <transition id="t_validate_order">
+      <transition id="Transition_f58d150">
         <name>
           <text>Validate order</text>
         </name>
       </transition>
-      <transition id="t_auto_checks_split">
+      <transition id="Transition_1b597ed">
         <name>
-          <text>silent: automated checks split</text>
+          <text>Automated checks split</text>
         </name>
       </transition>
-      <transition id="t_check_stock">
+      <transition id="Transition_4e2358b">
         <name>
           <text>Check stock</text>
         </name>
       </transition>
-      <transition id="t_authorize_payment">
+      <transition id="Transition_876851a">
         <name>
           <text>Authorize payment</text>
         </name>
       </transition>
-      <transition id="t_checks_join">
+      <transition id="Transition_0d185ec">
         <name>
-          <text>silent: checks join</text>
+          <text>Checks join</text>
         </name>
       </transition>
-      <transition id="t_invalid_order">
+      <transition id="Transition_5ff6c1a">
         <name>
-          <text>silent: invalid order</text>
+          <text>Invalid order</text>
         </name>
       </transition>
-      <transition id="t_notify_rejection">
+      <transition id="Transition_10a44cc">
         <name>
           <text>Notify rejection</text>
         </name>
       </transition>
-      <transition id="t_valid_order">
+      <transition id="Transition_4004a3c">
         <name>
-          <text>silent: valid order</text>
+          <text>Valid order</text>
         </name>
       </transition>
-      <transition id="t_reserve_fulfillment">
+      <transition id="Transition_4b83aae">
         <name>
           <text>Reserve fulfillment</text>
         </name>
       </transition>
-      <transition id="t_fulfill_split">
+      <transition id="Transition_fe23ec3">
         <name>
-          <text>silent: fulfillment split</text>
+          <text>Fulfillment split</text>
         </name>
       </transition>
-      <transition id="t_emit_invoice">
+      <transition id="Transition_a1bc3bf">
         <name>
           <text>Emit invoice</text>
         </name>
       </transition>
-      <transition id="t_receive_payment">
+      <transition id="Transition_a47e29b">
         <name>
           <text>Receive payment</text>
         </name>
       </transition>
-      <transition id="t_create_label">
+      <transition id="Transition_ce9bfdc">
         <name>
           <text>Create label</text>
         </name>
       </transition>
-      <transition id="t_pack_order">
+      <transition id="Transition_99f7873">
         <name>
           <text>Pack order</text>
         </name>
       </transition>
-      <transition id="t_ship_product">
+      <transition id="Transition_64d211c">
         <name>
           <text>Ship product</text>
         </name>
       </transition>
-      <transition id="t_fulfillment_join">
+      <transition id="Transition_31edc09">
         <name>
-          <text>silent: fulfillment join</text>
+          <text>Fulfillment join</text>
         </name>
       </transition>
-      <transition id="t_track_shipment">
+      <transition id="Transition_e869c0d">
         <name>
           <text>Track shipment</text>
         </name>
       </transition>
-      <transition id="t_delivery_confirmed">
+      <transition id="Transition_da0d76b">
         <name>
           <text>Message: delivery confirmed</text>
         </name>
       </transition>
-      <transition id="t_sla_breached">
+      <transition id="Transition_3e142fd">
         <name>
           <text>Timer: SLA breached</text>
         </name>
       </transition>
-      <transition id="t_open_complaint">
+      <transition id="Transition_dc05f0e">
         <name>
           <text>Open complaint</text>
         </name>
       </transition>
-      <transition id="t_notify_customer">
+      <transition id="Transition_1e95d91">
         <name>
           <text>Notify customer</text>
         </name>
       </transition>
-      <transition id="t_expedite_courier">
+      <transition id="Transition_c8a7cdf">
         <name>
           <text>Expedite courier</text>
         </name>
       </transition>
-      <transition id="t_archive_order">
+      <transition id="Transition_df8b16a">
         <name>
           <text>Archive order</text>
         </name>
       </transition>
-      <arc id="a001" source="p_start" target="t_validate_order"/>
-      <arc id="a002" source="t_validate_order" target="p_validated"/>
-      <arc id="a003" source="p_validated" target="t_auto_checks_split"/>
-      <arc id="a004" source="t_auto_checks_split" target="p_stock_ready"/>
-      <arc id="a005" source="t_auto_checks_split" target="p_payment_ready"/>
-      <arc id="a006" source="p_stock_ready" target="t_check_stock"/>
-      <arc id="a007" source="t_check_stock" target="p_stock_checked"/>
-      <arc id="a008" source="p_payment_ready" target="t_authorize_payment"/>
-      <arc id="a009" source="t_authorize_payment" target="p_payment_checked"/>
-      <arc id="a010" source="p_stock_checked" target="t_checks_join"/>
-      <arc id="a011" source="p_payment_checked" target="t_checks_join"/>
-      <arc id="a012" source="t_checks_join" target="p_order_decision"/>
-      <arc id="a013" source="p_order_decision" target="t_invalid_order"/>
-      <arc id="a014" source="t_invalid_order" target="p_reject_ready"/>
-      <arc id="a015" source="p_reject_ready" target="t_notify_rejection"/>
-      <arc id="a016" source="t_notify_rejection" target="p_done"/>
-      <arc id="a017" source="p_order_decision" target="t_valid_order"/>
-      <arc id="a018" source="t_valid_order" target="p_reserve_ready"/>
-      <arc id="a019" source="p_reserve_ready" target="t_reserve_fulfillment"/>
-      <arc id="a020" source="t_reserve_fulfillment" target="p_fulfillment_reserved"/>
-      <arc id="a021" source="p_fulfillment_reserved" target="t_fulfill_split"/>
-      <arc id="a022" source="t_fulfill_split" target="p_invoice_ready"/>
-      <arc id="a023" source="t_fulfill_split" target="p_label_ready"/>
-      <arc id="a024" source="p_invoice_ready" target="t_emit_invoice"/>
-      <arc id="a025" source="t_emit_invoice" target="p_invoice_done"/>
-      <arc id="a026" source="p_invoice_done" target="t_receive_payment"/>
-      <arc id="a027" source="t_receive_payment" target="p_payment_received"/>
-      <arc id="a028" source="p_label_ready" target="t_create_label"/>
-      <arc id="a029" source="t_create_label" target="p_label_created"/>
-      <arc id="a030" source="p_label_created" target="t_pack_order"/>
-      <arc id="a031" source="t_pack_order" target="p_packed"/>
-      <arc id="a032" source="p_packed" target="t_ship_product"/>
-      <arc id="a033" source="t_ship_product" target="p_shipped"/>
-      <arc id="a034" source="p_payment_received" target="t_fulfillment_join"/>
-      <arc id="a035" source="p_shipped" target="t_fulfillment_join"/>
-      <arc id="a036" source="t_fulfillment_join" target="p_tracking_ready"/>
-      <arc id="a037" source="p_tracking_ready" target="t_track_shipment"/>
-      <arc id="a038" source="t_track_shipment" target="p_sla_wait"/>
-      <arc id="a039" source="p_sla_wait" target="t_delivery_confirmed"/>
-      <arc id="a040" source="t_delivery_confirmed" target="p_delivery_ok"/>
-      <arc id="a041" source="p_delivery_ok" target="t_archive_order"/>
-      <arc id="a042" source="t_archive_order" target="p_done"/>
-      <arc id="a043" source="p_sla_wait" target="t_sla_breached"/>
-      <arc id="a044" source="t_sla_breached" target="p_delay_case"/>
-      <arc id="a045" source="p_delay_case" target="t_open_complaint"/>
-      <arc id="a046" source="t_open_complaint" target="p_complaint_open"/>
-      <arc id="a047" source="p_complaint_open" target="t_notify_customer"/>
-      <arc id="a048" source="t_notify_customer" target="p_customer_notified"/>
-      <arc id="a049" source="p_customer_notified" target="t_expedite_courier"/>
-      <arc id="a050" source="t_expedite_courier" target="p_sla_wait"/>
+      <arc id="Arc_34d46ab" source="Place_937d194" target="Transition_f58d150"/>
+      <arc id="Arc_db3bb83" source="Transition_f58d150" target="Place_65941f6"/>
+      <arc id="Arc_45b8d66" source="Place_65941f6" target="Transition_1b597ed"/>
+      <arc id="Arc_3672280" source="Transition_1b597ed" target="Place_400df02"/>
+      <arc id="Arc_b242cc0" source="Transition_1b597ed" target="Place_c537cd0"/>
+      <arc id="Arc_3c18588" source="Place_400df02" target="Transition_4e2358b"/>
+      <arc id="Arc_c625ca3" source="Transition_4e2358b" target="Place_d8d6362"/>
+      <arc id="Arc_dda1d07" source="Place_c537cd0" target="Transition_876851a"/>
+      <arc id="Arc_ad1bc9e" source="Transition_876851a" target="Place_50a29d2"/>
+      <arc id="Arc_6931507" source="Place_d8d6362" target="Transition_0d185ec"/>
+      <arc id="Arc_362b958" source="Place_50a29d2" target="Transition_0d185ec"/>
+      <arc id="Arc_2526297" source="Transition_0d185ec" target="Place_3fccb45"/>
+      <arc id="Arc_b744caf" source="Place_3fccb45" target="Transition_5ff6c1a"/>
+      <arc id="Arc_0507e4f" source="Transition_5ff6c1a" target="Place_f202015"/>
+      <arc id="Arc_36912f6" source="Place_f202015" target="Transition_10a44cc"/>
+      <arc id="Arc_eaba8b6" source="Transition_10a44cc" target="Place_fbc24cb"/>
+      <arc id="Arc_be479a1" source="Place_3fccb45" target="Transition_4004a3c"/>
+      <arc id="Arc_624d399" source="Transition_4004a3c" target="Place_1d2e846"/>
+      <arc id="Arc_c82c8a8" source="Place_1d2e846" target="Transition_4b83aae"/>
+      <arc id="Arc_513ccde" source="Transition_4b83aae" target="Place_cf3a162"/>
+      <arc id="Arc_aa14f78" source="Place_cf3a162" target="Transition_fe23ec3"/>
+      <arc id="Arc_31563c2" source="Transition_fe23ec3" target="Place_7f9ae52"/>
+      <arc id="Arc_b5e8f0e" source="Transition_fe23ec3" target="Place_0b95593"/>
+      <arc id="Arc_3608249" source="Place_7f9ae52" target="Transition_a1bc3bf"/>
+      <arc id="Arc_7fd86b3" source="Transition_a1bc3bf" target="Place_876cfb8"/>
+      <arc id="Arc_53bea29" source="Place_876cfb8" target="Transition_a47e29b"/>
+      <arc id="Arc_7f7a50a" source="Transition_a47e29b" target="Place_ecdeddb"/>
+      <arc id="Arc_6c8ce53" source="Place_0b95593" target="Transition_ce9bfdc"/>
+      <arc id="Arc_3393c5e" source="Transition_ce9bfdc" target="Place_17df624"/>
+      <arc id="Arc_97875f7" source="Place_17df624" target="Transition_99f7873"/>
+      <arc id="Arc_65a4886" source="Transition_99f7873" target="Place_d472ab7"/>
+      <arc id="Arc_a0f37f3" source="Place_d472ab7" target="Transition_64d211c"/>
+      <arc id="Arc_c8e5db5" source="Transition_64d211c" target="Place_5ccbc3e"/>
+      <arc id="Arc_0291c34" source="Place_ecdeddb" target="Transition_31edc09"/>
+      <arc id="Arc_53974fe" source="Place_5ccbc3e" target="Transition_31edc09"/>
+      <arc id="Arc_764f1d5" source="Transition_31edc09" target="Place_fed89b8"/>
+      <arc id="Arc_bc9017a" source="Place_fed89b8" target="Transition_e869c0d"/>
+      <arc id="Arc_389d0f4" source="Transition_e869c0d" target="Place_4acc915"/>
+      <arc id="Arc_4dcc7bd" source="Place_4acc915" target="Transition_da0d76b"/>
+      <arc id="Arc_9238375" source="Transition_da0d76b" target="Place_363f94f"/>
+      <arc id="Arc_bd70a50" source="Place_363f94f" target="Transition_df8b16a"/>
+      <arc id="Arc_1bc8363" source="Transition_df8b16a" target="Place_be39346"/>
+      <arc id="Arc_3a147f6" source="Place_4acc915" target="Transition_3e142fd"/>
+      <arc id="Arc_3b0782c" source="Transition_3e142fd" target="Place_cdea373"/>
+      <arc id="Arc_05429a3" source="Place_cdea373" target="Transition_dc05f0e"/>
+      <arc id="Arc_dd0bda3" source="Transition_dc05f0e" target="Place_f009bfd"/>
+      <arc id="Arc_3b208d6" source="Place_f009bfd" target="Transition_1e95d91"/>
+      <arc id="Arc_a1581e6" source="Transition_1e95d91" target="Place_52e02b9"/>
+      <arc id="Arc_45af41d" source="Place_52e02b9" target="Transition_c8a7cdf"/>
+      <arc id="Arc_b4bc4c0" source="Transition_c8a7cdf" target="Place_4acc915"/>
     </page>
   </net>
 </pnml>

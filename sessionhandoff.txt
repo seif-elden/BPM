@@ -1,7 +1,7 @@
 Current handoff
 ===============
 
-Goal: prepare polished Business Process Modeling assignment reports with SVG-based evidence, no TikZ diagrams, no submission ZIP, and no LaTeX build junk.
+Goal: final Business Process Modeling submission package with regenerated reports, synchronized submission folder, and `BPM_submission.zip`.
 
 Prepared report files:
 
@@ -16,7 +16,13 @@ Prepared evidence and generators:
 - Assignment 1 BPMN source:
   - `output/assignment1_epurchase_as_is.bpmn`
   - `output/assignment1_epurchase_to_be.bpmn`
-- Assignment 1 SVG renderer:
+- Assignment 1 SVG evidence:
+  - `screenshots/assignment1/as_is_bpmn.svg`
+  - `screenshots/assignment1/to_be_bpmn.svg`
+  - `screenshots/assignment1/as_is_petri_net.svg`
+  - `screenshots/assignment1/to_be_petri_net.svg`
+- Assignment 1 generators:
+  - `tools/generate_assignment1_bpmn.py`
   - `tools/render_assignment1_svgs.py`
 - Assignment 1 Petri-net source:
   - `output/assignment1_epurchase_as_is_petri.dot`
@@ -43,15 +49,18 @@ Team names in both reports:
 
 Current report behavior:
 
-- Assignment 1 documents both BPMN 2.0 and Petri-net modeling. The BPMN now includes swimlanes, an XOR merge before the as-is payment/fulfillment parallel split, a loop back to a merge before the event-based delivery gateway, and explicit Receive payment tasks.
-- Assignment 2 explains the Alpha algorithm, includes exact generated computations, and now includes PERT O/M/P/E timing, slack, and a highlighted critical path.
+- Assignment 1 documents both BPMN 2.0 and Petri-net modeling.
+- BPMN models use separated pools with visible gaps, internal e-commerce lanes, straight black dashed message flows, no `E` gateways, and exclusive-gateway branches that leave right/bottom for alternatives.
+- The to-be BPMN fills the marketplace-lane gap after automated checks with explicit send/receive stock and payment pre-check tasks before the checks-done join.
+- Petri-net routing transitions are normal transitions with the same styling as the other boxes; no special labels or colors remain.
+- Assignment 2 explains the Alpha algorithm, includes exact generated computations, and includes PERT O/M/P/E timing, slack, and a highlighted critical path.
 - Diagram source exports remain SVG in `screenshots/`.
 - Terminal automation evidence remains PNG.
 - `reports/svg-cache/*.pdf` is generated from the SVGs with headless Chrome so LaTeX does not need TikZ, Inkscape, or shell escape.
 - Wide diagram pages are intentionally clean landscape pages: no visible caption, no header, no footer, and no surrounding report text.
+- The final review folder is `submition/`; the final ZIP is `BPM_submission.zip`.
 
 Next action:
 
 1. Review `reports/assignment1_report.pdf` and `reports/assignment2_report.pdf`.
-2. If changes are needed, edit the sources or replace SVGs, regenerate the cache, and recompile.
-3. Create the submission ZIP only after review approval.
+2. Submit `BPM_submission.zip` if no further edits are needed.

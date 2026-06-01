@@ -4,7 +4,8 @@ Save exports with the exact filenames below. Model diagrams must be exported as 
 
 ## Assignment 1
 
-The current Assignment 1 SVG evidence can be regenerated from the checked-in BPMN/Petri sources:
+The current Assignment 1 SVG evidence can be regenerated from the checked-in BPMN/Petri sources. The BPMN SVGs should show separate participant pools, internal e-commerce lanes, data artifacts, and straight dashed message flows between pools:
+
 
 ```bash
 python3 tools/generate_assignment1_bpmn.py
