@@ -33,9 +33,9 @@ Prepared evidence and generators:
   - `tools/process_mining_alpha.py`
   - `data/event_log.csv`
   - `output/assignment2_generated_tables.tex`
-  - `output/assignment2_pert.mmd`
-  - `output/assignment2_pert.svg`
-  - `output/assignment2_alpha_net.dot`
+  - `output/assignment2_petri_net.dot`
+  - `output/assignment2_petri_net.pnml`
+  - `output/assignment2_petri_net.svg`
   - `output/assignment2_summary.txt`
 - SVG-to-PDF cache renderer:
   - `tools/convert_svg_exports.py`
@@ -53,7 +53,7 @@ Current report behavior:
 - BPMN models use separated pools with visible gaps, internal e-commerce lanes, straight black dashed message flows, no `E` gateways, and exclusive-gateway branches that leave right/bottom for alternatives.
 - The to-be BPMN fills the marketplace-lane gap after automated checks with explicit send/receive stock and payment pre-check tasks before the checks-done join.
 - Petri-net routing transitions are normal transitions with the same styling as the other boxes; no special labels or colors remain.
-- Assignment 2 explains the Alpha algorithm, includes exact generated computations, and includes PERT O/M/P/E timing, slack, and a highlighted critical path.
+- Assignment 2 explains the Alpha algorithm, includes exact generated computations, and maps the mined Alpha places onto a Petri net.
 - Diagram source exports remain SVG in `screenshots/`.
 - Terminal automation evidence remains PNG.
 - `reports/svg-cache/*.pdf` is generated from the SVGs with headless Chrome so LaTeX does not need TikZ, Inkscape, or shell escape.

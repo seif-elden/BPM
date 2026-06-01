@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2475" height="730" viewBox="0 0 2475 730">
+<defs>
+<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+<path d="M0,0 L0,6 L9,3 z" fill="#20242a"/>
+</marker>
+</defs>
+<rect width="100%" height="100%" fill="#fff"/>
+<style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}
+</style>
+<text x="1237.5" y="30.0" text-anchor="middle" font-size="18" font-weight="700">Assignment 2 Alpha-Mined Petri Net</text>
+<polyline class="arc" points="222.0,380.0 284.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="626.0,498.6 757.0,498.6 757.0,445.5 888.0,445.5" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="942.0,445.5 1073.0,445.5 1073.0,498.6 1204.0,498.6" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="888.0,456.4 862.1,456.4 862.1,488.0 836.1,488.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="626.0,510.0 888.0,510.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="974.0,510.0 942.0,510.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="942.0,510.0 1204.0,510.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="396.0,380.0 428.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="478.9,407.0 514.7,407.0 514.7,488.0 550.5,488.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="478.9,353.0 514.7,353.0 514.7,272.0 550.5,272.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1528.9,358.0 1553.5,358.0 1553.5,330.3 1578.0,330.3" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1632.0,299.7 1656.5,299.7 1656.5,272.0 1681.1,272.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1528.9,402.0 1553.5,402.0 1553.5,429.7 1578.0,429.7" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1632.0,460.3 1656.5,460.3 1656.5,488.0 1681.1,488.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1776.0,250.0 1808.0,250.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1862.0,250.0 1894.0,250.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1776.0,510.0 1808.0,510.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1862.0,510.0 1894.0,510.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1221.1,488.0 1139.0,488.0 1139.0,395.3 1057.0,395.3" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="626.0,265.8 814.5,265.8 814.5,372.4 1003.0,372.4" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1057.0,380.0 1434.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1988.9,272.0 2013.5,272.0 2013.5,299.7 2038.0,299.7" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2092.0,330.3 2116.5,330.3 2116.5,358.0 2141.1,358.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="836.1,532.0 862.1,532.0 862.1,563.6 888.0,563.6" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="942.0,563.6 967.9,563.6 967.9,532.0 993.9,532.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="1988.9,488.0 2013.5,488.0 2013.5,460.3 2038.0,460.3" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2092.0,429.7 2116.5,429.7 2116.5,402.0 2141.1,402.0" fill="none" marker-end="url(#arrow)"/>
+<polyline class="arc" points="2236.0,380.0 2298.0,380.0" fill="none" marker-end="url(#arrow)"/>
+<circle class="place" cx="195.0" cy="380.0" r="27" stroke-width="3"/>
+<text x="195.0" y="385.0" text-anchor="middle" font-size="12" font-weight="700">Start</text>
+<circle class="place" cx="915.0" cy="440.0" r="27" stroke-width="1.8"/>
+<text x="915.0" y="445.0" text-anchor="middle" font-size="12" font-weight="700">p1</text>
+<circle class="place" cx="915.0" cy="510.0" r="27" stroke-width="1.8"/>
+<text x="915.0" y="515.0" text-anchor="middle" font-size="12" font-weight="700">p2</text>
+<circle class="place" cx="455.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="455.0" y="385.0" text-anchor="middle" font-size="12" font-weight="700">p3</text>
+<circle class="place" cx="1605.0" cy="315.0" r="27" stroke-width="1.8"/>
+<text x="1605.0" y="320.0" text-anchor="middle" font-size="12" font-weight="700">p4</text>
+<circle class="place" cx="1605.0" cy="445.0" r="27" stroke-width="1.8"/>
+<text x="1605.0" y="450.0" text-anchor="middle" font-size="12" font-weight="700">p5</text>
+<circle class="place" cx="1835.0" cy="250.0" r="27" stroke-width="1.8"/>
+<text x="1835.0" y="255.0" text-anchor="middle" font-size="12" font-weight="700">p6</text>
+<circle class="place" cx="1835.0" cy="510.0" r="27" stroke-width="1.8"/>
+<text x="1835.0" y="515.0" text-anchor="middle" font-size="12" font-weight="700">p7</text>
+<circle class="place" cx="1030.0" cy="380.0" r="27" stroke-width="1.8"/>
+<text x="1030.0" y="385.0" text-anchor="middle" font-size="12" font-weight="700">p8</text>
+<circle class="place" cx="2065.0" cy="315.0" r="27" stroke-width="1.8"/>
+<text x="2065.0" y="320.0" text-anchor="middle" font-size="12" font-weight="700">p9</text>
+<circle class="place" cx="915.0" cy="580.0" r="27" stroke-width="1.8"/>
+<text x="915.0" y="585.0" text-anchor="middle" font-size="12" font-weight="700">p10</text>
+<circle class="place" cx="2065.0" cy="445.0" r="27" stroke-width="1.8"/>
+<text x="2065.0" y="450.0" text-anchor="middle" font-size="12" font-weight="700">p11</text>
+<circle class="place" cx="2325.0" cy="380.0" r="27" stroke-width="3"/>
+<text x="2325.0" y="385.0" text-anchor="middle" font-size="12" font-weight="700">End</text>
+<rect class="transition" x="284.0" y="358.0" width="112" height="44" rx="5" ry="5"/>
+<text x="340.0" y="384.0" text-anchor="middle" font-size="10" font-weight="400">Check stock</text>
+<rect class="transition" x="514.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="570.0" y="507.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="570.0" dy="0">Check</tspan><tspan x="570.0" dy="13">materials</tspan></text>
+<rect class="transition" x="514.0" y="228.0" width="112" height="44" rx="5" ry="5"/>
+<text x="570.0" y="254.0" text-anchor="middle" font-size="10" font-weight="400">Retrieve item</text>
+<rect class="transition" x="744.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="800.0" y="507.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="800.0" dy="0">Request</tspan><tspan x="800.0" dy="13">materials</tspan></text>
+<rect class="transition" x="974.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1030.0" y="507.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1030.0" dy="0">Obtain</tspan><tspan x="1030.0" dy="13">materials</tspan></text>
+<rect class="transition" x="1204.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1260.0" y="514.0" text-anchor="middle" font-size="10" font-weight="400">Manufacture</text>
+<rect class="transition" x="1434.0" y="358.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1490.0" y="384.0" text-anchor="middle" font-size="10" font-weight="400">Confirm order</text>
+<rect class="transition" x="1664.0" y="228.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1720.0" y="254.0" text-anchor="middle" font-size="10" font-weight="400">Emit invoice</text>
+<rect class="transition" x="1664.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1720.0" y="514.0" text-anchor="middle" font-size="10" font-weight="400">Get address</text>
+<rect class="transition" x="1894.0" y="228.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1950.0" y="247.0" text-anchor="middle" font-size="10" font-weight="400"><tspan x="1950.0" dy="0">Receive</tspan><tspan x="1950.0" dy="13">payment</tspan></text>
+<rect class="transition" x="1894.0" y="488.0" width="112" height="44" rx="5" ry="5"/>
+<text x="1950.0" y="514.0" text-anchor="middle" font-size="10" font-weight="400">Ship product</text>
+<rect class="transition" x="2124.0" y="358.0" width="112" height="44" rx="5" ry="5"/>
+<text x="2180.0" y="384.0" text-anchor="middle" font-size="10" font-weight="400">Archive order</text>
+</svg>

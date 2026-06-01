@@ -160,7 +160,7 @@ In this assignment you have to do two main tasks
 Task One
 is to mine the given event log
 • Apply Alpha algorithm to determine the process model of the given log
-• Create the process model as event network diagram (PERT chart)
+• Create the process model as Petri net
 Task Two
 Use VBA/Power bi/excel/other programming languages to automate the above steps
 given a data sheet of the event log
@@ -178,11 +178,10 @@ Application
 - Clear identification of activities and causal
 relationships from the event log
 15
-2. Event Network (PERT
-Chart)
+2. Petri Net Model
 - Accurate translation of the mined process into a
-PERT chart
-- Logical task sequencing and dependency mapping
+Petri net
+- Logical places, transitions, and arc mapping
 - Visual clarity of diagram
 15
 3. Process Understanding
@@ -221,9 +220,9 @@ code or formulas• Outputs intermediate steps where
 needed for transparency
 15
 8. GENERATION OF
-PERT CHART
-• Automated or semi-automated generation of an
-event network or dependency graph• Validated
+PETRI NET
+• Automated or semi-automated generation of a
+Petri net with places, transitions, and arcs• Validated
 against Task 1 model
 10
 9. USABILITY AND

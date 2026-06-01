@@ -3,7 +3,7 @@
 
 The report sources keep SVG as the original evidence format.  This script uses
 Chrome's SVG renderer to create PDF cache files because generic converters can
-drop BPMN arrow markers or Mermaid foreignObject text.
+drop BPMN arrow markers and other diagram details.
 """
 
 from __future__ import annotations
@@ -44,8 +44,8 @@ DIAGRAMS = (
         ROOT / "reports/svg-cache/to_be_petri_net.pdf",
     ),
     Diagram(
-        ROOT / "screenshots/assignment2/pert_chart.svg",
-        ROOT / "reports/svg-cache/pert_chart.pdf",
+        ROOT / "screenshots/assignment2/petri_net.svg",
+        ROOT / "reports/svg-cache/assignment2_petri_net.pdf",
     ),
 )
 

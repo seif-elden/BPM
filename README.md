@@ -8,14 +8,14 @@ This repo contains the source files, exported evidence, and compiled review PDFs
 - `assignment.txt` -- original assignment brief.
 - `data/` -- structured event log for Assignment 2.
 - `tools/` -- Python generators/automation.
-- `output/` -- generated BPMN, Petri-net, process-mining, and PERT evidence files.
+- `output/` -- generated BPMN, Petri-net, and process-mining evidence files.
 - `screenshots/` -- SVG diagram exports and the terminal PNG evidence.
 - `reports/` -- LaTeX report sources, shared style, generated SVG cache PDFs, and compiled reports.
 
 ## Current State
 
 - Assignment 1 includes both BPMN 2.0 and Petri-net approaches, with BPMN collaboration pools, internal e-commerce lanes, straight dashed message flows, data artifacts, corrected split/join behavior, explicit send/receive status tasks, normal Petri transitions, and delayed-goods loops.
-- Assignment 2 includes the Alpha algorithm explanation, exact computations, a timed PERT/event-network with critical path, and automation evidence.
+- Assignment 2 includes the Alpha algorithm explanation, exact computations, a generated Petri net, and automation evidence.
 - Diagram evidence is exported as SVG, then rendered with Chrome into `reports/svg-cache/*.pdf` so LaTeX does not need TikZ, Inkscape, or shell escape.
 - Wide diagrams are placed on dedicated landscape pages with no visible caption, header, footer, or other report content.
 - The compiled review PDFs are:
@@ -31,7 +31,7 @@ From the repo root:
 python3 tools/generate_assignment1_bpmn.py
 python3 tools/render_assignment1_svgs.py
 python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
-cp output/assignment2_pert.svg screenshots/assignment2/pert_chart.svg
+cp output/assignment2_petri_net.svg screenshots/assignment2/petri_net.svg
 python3 tools/convert_svg_exports.py
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=reports reports/assignment1_report.tex
 pdflatex -interaction=nonstopmode -halt-on-error -output-directory=reports reports/assignment1_report.tex

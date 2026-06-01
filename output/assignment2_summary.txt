@@ -1,16 +1,16 @@
-Alpha Algorithm Summary
+Alpha Algorithm Petri-Net Summary
 Cases: 4
 Events: 36
-Activities: 12
+Activities/transitions: 12
 Direct succession pairs: 18
 Causal pairs: 14
 Parallel ordered pairs: 4
 Parallel unordered pairs: 2
 Choice ordered pairs: 100
 Maximal Alpha places: 11
+Petri-net places including source/sink: 13
+Petri-net arcs: 28
 Average cycle time: 5.28 days
-PERT critical path expected duration: 134.84 hours
-PERT critical path: Check stock availability -> Check materials availability -> Request raw materials -> Obtain raw materials -> Manufacture product -> Confirm order -> Emit invoice -> Receive payment -> Archive order
 
 Causal relations:
 - Check materials availability -> Manufacture product
@@ -28,15 +28,17 @@ Causal relations:
 - Retrieve product from warehouse -> Confirm order
 - Ship product -> Archive order
 
-Maximal places:
-- {Check materials availability} -> {Manufacture product, Request raw materials}
-- {Check materials availability, Obtain raw materials} -> {Manufacture product}
-- {Check stock availability} -> {Check materials availability, Retrieve product from warehouse}
-- {Confirm order} -> {Emit invoice}
-- {Confirm order} -> {Get shipping address}
-- {Emit invoice} -> {Receive payment}
-- {Get shipping address} -> {Ship product}
-- {Manufacture product, Retrieve product from warehouse} -> {Confirm order}
-- {Receive payment} -> {Archive order}
-- {Request raw materials} -> {Obtain raw materials}
-- {Ship product} -> {Archive order}
+Petri places:
+- Start: {} -> {Check stock}
+- p1: {Check materials} -> {Manufacture, Request materials}
+- p2: {Check materials, Obtain materials} -> {Manufacture}
+- p3: {Check stock} -> {Check materials, Retrieve item}
+- p4: {Confirm order} -> {Emit invoice}
+- p5: {Confirm order} -> {Get address}
+- p6: {Emit invoice} -> {Receive payment}
+- p7: {Get address} -> {Ship product}
+- p8: {Manufacture, Retrieve item} -> {Confirm order}
+- p9: {Receive payment} -> {Archive order}
+- p10: {Request materials} -> {Obtain materials}
+- p11: {Ship product} -> {Archive order}
+- End: {Archive order} -> {}

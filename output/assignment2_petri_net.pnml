@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='utf-8'?>
+<pnml>
+  <net id="assignment2_alpha_mined_petri_net" type="http://www.pnml.org/version-2009/grammar/ptnet">
+    <name>
+      <text>Assignment 2 Alpha-Mined Petri Net</text>
+    </name>
+    <page id="page_1">
+      <place id="p_start">
+        <name>
+          <text>Start</text>
+        </name>
+        <initialMarking>
+          <text>1</text>
+        </initialMarking>
+      </place>
+      <place id="p_01">
+        <name>
+          <text>p1</text>
+        </name>
+      </place>
+      <place id="p_02">
+        <name>
+          <text>p2</text>
+        </name>
+      </place>
+      <place id="p_03">
+        <name>
+          <text>p3</text>
+        </name>
+      </place>
+      <place id="p_04">
+        <name>
+          <text>p4</text>
+        </name>
+      </place>
+      <place id="p_05">
+        <name>
+          <text>p5</text>
+        </name>
+      </place>
+      <place id="p_06">
+        <name>
+          <text>p6</text>
+        </name>
+      </place>
+      <place id="p_07">
+        <name>
+          <text>p7</text>
+        </name>
+      </place>
+      <place id="p_08">
+        <name>
+          <text>p8</text>
+        </name>
+      </place>
+      <place id="p_09">
+        <name>
+          <text>p9</text>
+        </name>
+      </place>
+      <place id="p_10">
+        <name>
+          <text>p10</text>
+        </name>
+      </place>
+      <place id="p_11">
+        <name>
+          <text>p11</text>
+        </name>
+      </place>
+      <place id="p_end">
+        <name>
+          <text>End</text>
+        </name>
+      </place>
+      <transition id="t_Check_stock">
+        <name>
+          <text>Check stock</text>
+        </name>
+      </transition>
+      <transition id="t_Check_materials">
+        <name>
+          <text>Check materials</text>
+        </name>
+      </transition>
+      <transition id="t_Retrieve_item">
+        <name>
+          <text>Retrieve item</text>
+        </name>
+      </transition>
+      <transition id="t_Request_materials">
+        <name>
+          <text>Request materials</text>
+        </name>
+      </transition>
+      <transition id="t_Obtain_materials">
+        <name>
+          <text>Obtain materials</text>
+        </name>
+      </transition>
+      <transition id="t_Manufacture">
+        <name>
+          <text>Manufacture</text>
+        </name>
+      </transition>
+      <transition id="t_Confirm_order">
+        <name>
+          <text>Confirm order</text>
+        </name>
+      </transition>
+      <transition id="t_Emit_invoice">
+        <name>
+          <text>Emit invoice</text>
+        </name>
+      </transition>
+      <transition id="t_Get_address">
+        <name>
+          <text>Get address</text>
+        </name>
+      </transition>
+      <transition id="t_Receive_payment">
+        <name>
+          <text>Receive payment</text>
+        </name>
+      </transition>
+      <transition id="t_Ship_product">
+        <name>
+          <text>Ship product</text>
+        </name>
+      </transition>
+      <transition id="t_Archive_order">
+        <name>
+          <text>Archive order</text>
+        </name>
+      </transition>
+      <arc id="a_001" source="p_start" target="t_Check_stock" />
+      <arc id="a_002" source="t_Check_materials" target="p_01" />
+      <arc id="a_003" source="p_01" target="t_Manufacture" />
+      <arc id="a_004" source="p_01" target="t_Request_materials" />
+      <arc id="a_005" source="t_Check_materials" target="p_02" />
+      <arc id="a_006" source="t_Obtain_materials" target="p_02" />
+      <arc id="a_007" source="p_02" target="t_Manufacture" />
+      <arc id="a_008" source="t_Check_stock" target="p_03" />
+      <arc id="a_009" source="p_03" target="t_Check_materials" />
+      <arc id="a_010" source="p_03" target="t_Retrieve_item" />
+      <arc id="a_011" source="t_Confirm_order" target="p_04" />
+      <arc id="a_012" source="p_04" target="t_Emit_invoice" />
+      <arc id="a_013" source="t_Confirm_order" target="p_05" />
+      <arc id="a_014" source="p_05" target="t_Get_address" />
+      <arc id="a_015" source="t_Emit_invoice" target="p_06" />
+      <arc id="a_016" source="p_06" target="t_Receive_payment" />
+      <arc id="a_017" source="t_Get_address" target="p_07" />
+      <arc id="a_018" source="p_07" target="t_Ship_product" />
+      <arc id="a_019" source="t_Manufacture" target="p_08" />
+      <arc id="a_020" source="t_Retrieve_item" target="p_08" />
+      <arc id="a_021" source="p_08" target="t_Confirm_order" />
+      <arc id="a_022" source="t_Receive_payment" target="p_09" />
+      <arc id="a_023" source="p_09" target="t_Archive_order" />
+      <arc id="a_024" source="t_Request_materials" target="p_10" />
+      <arc id="a_025" source="p_10" target="t_Obtain_materials" />
+      <arc id="a_026" source="t_Ship_product" target="p_11" />
+      <arc id="a_027" source="p_11" target="t_Archive_order" />
+      <arc id="a_028" source="t_Archive_order" target="p_end" />
+    </page>
+  </net>
+</pnml>

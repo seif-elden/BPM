@@ -3,9 +3,9 @@
 
 \newcommand{\ReportType}{Assignment 2}
 \newcommand{\ReportTitle}{Assignment 2: Process Mining and Automation}
-\newcommand{\ReportSubtitle}{Alpha-algorithm computation, PERT/event-network evidence, and Python automation}
+\newcommand{\ReportSubtitle}{Alpha-algorithm computation, Petri-net generation, and Python automation}
 \newcommand{\ReportShortTitle}{Assignment 2: Process Mining}
-\newcommand{\ReportFocus}{This report explains the Alpha algorithm, shows the exact computations from the event log, converts the mined relations into a PERT/event-network view, and documents a reusable Python automation workflow.}
+\newcommand{\ReportFocus}{This report explains the Alpha algorithm, shows the exact computations from the event log, maps the mined relations onto a Petri net, and documents a reusable Python automation workflow.}
 \input{reports/report_style.tex}
 
 \begin{document}
@@ -13,23 +13,23 @@
 \makefrontmatter
 
 \section{Executive Scope}
-The assignment has two required tasks. Task One mines the provided event log using the Alpha algorithm and translates the mined relations into a PERT/event-network chart. Task Two automates the same work from a structured CSV file. The implementation uses Python because it can parse timestamps, group cases, compute relations exactly, generate reusable evidence files, and rebuild the report tables without manual spreadsheet copying.
+The assignment has two required tasks. Task One mines the provided event log using the Alpha algorithm and converts the discovered relations into a Petri net. Task Two automates the same steps from a structured CSV file. The implementation uses Python because it can parse timestamps, group cases, compute relations exactly, generate Petri-net source files, and rebuild the report tables without manual spreadsheet copying.
 
 \section{Evaluation Criteria Coverage}
-The assignment rubric is used as an explicit checklist. The report covers each marking category as follows:
+The assignment rubric is used as an explicit checklist. This submission applies the lecture process-mining material by generating a Petri net from the Alpha algorithm.
 
 \begin{ReportLongTable}{L{0.28\linewidth}C{0.08\linewidth}L{0.54\linewidth}}
 \toprule
 \rowcolor{BPMTableHead}\textbf{Criteria category} & \textbf{Marks} & \textbf{How this report covers it} \\
 \midrule
 Alpha algorithm application & 15 & The report states the Alpha definitions, builds $T_W$, $T_I$, $T_O$, direct succession, causality, parallelism, choice, candidate places, maximal places, source/sink places, and exact counts. Intermediate relations are included in generated tables. \\
-Event network / PERT chart & 15 & The mined causal pairs are translated into a PERT/event-network chart with expected durations, early/late times, slack, and a highlighted critical path. The Mermaid, DOT, and SVG sources are included, and the SVG export is rendered into the PDF with readable labels. \\
+Petri-net process model & 15 & The mined Alpha places are translated into a Petri net with source and sink places, one transition per activity, and arcs from places to transitions and transitions to places. DOT, PNML, and SVG outputs are included. \\
 Process understanding and interpretation & 10 & The interpretation discusses stock/manufacturing choices, convergence at confirmation, invoice/address concurrency, payment/shipment concurrency, archive readiness, and the Case 3 event-ID anomaly. \\
-Clarity of documentation & 10 & The report includes a cover page, contents, list of figures, preprocessing explanation, exact computation tables, generated visual evidence, command evidence, and clear rerun instructions. \\
+Clarity of documentation & 10 & The report includes a cover page, contents, list of figures, preprocessing explanation, exact computation tables, generated Petri-net evidence, command evidence, and clear rerun instructions. \\
 Tool selection and justification & 5 & Python is justified because it supports CSV import, timestamp parsing, grouping by case, deterministic relation computation, generated evidence files, and reuse on new logs. \\
 Data preprocessing & 10 & The event log is structured into \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}; events are sorted by timestamp per case; the Case 3 label/prefix inconsistency is documented and handled. \\
-Alpha algorithm automation & 15 & \path{tools/process_mining_alpha.py} implements the Alpha logic and outputs traces, relation counts, maximal places, timing metrics, Mermaid, DOT, CSV, and text summaries. \\
-Generation of PERT chart & 10 & The automation writes \path{output/assignment2_pert.mmd}, \path{output/assignment2_alpha_net.dot}, and \path{output/assignment2_pert.svg}; the visual chart is validated against the same causal pairs and timing statistics used in Task One. \\
+Alpha algorithm automation & 15 & \path{tools/process_mining_alpha.py} implements the Alpha logic and outputs traces, relation counts, maximal places, Petri-net DOT/PNML/SVG, timing metrics, CSV, and text summaries. \\
+Generation of Petri net & 10 & The automation writes \path{output/assignment2_petri_net.dot}, \path{output/assignment2_petri_net.pnml}, and \path{output/assignment2_petri_net.svg}; the visual model is validated against the same Alpha places and arcs shown in Task One. \\
 Usability and reusability & 10 & The script accepts an input CSV and output directory from the command line, has a stable input schema, and can be rerun on a different event log with the same fields. \\
 \bottomrule
 \end{ReportLongTable}
@@ -45,16 +45,16 @@ The Alpha relations used in the computation are:
   \item Choice: $x \# y$ when neither $x > y$ nor $y > x$.
 \end{itemize}
 
-The implemented Alpha algorithm follows these steps:
+The report follows the lecture conversion sequence:
 \begin{enumerate}
-  \item Build $T_W$, the set of all activities in the workflow log.
-  \item Build $T_I$, the activities that appear first in at least one trace.
-  \item Build $T_O$, the activities that appear last in at least one trace.
-  \item Compute direct succession, causality, parallelism, and choice.
-  \item Build candidate pairs $(A,B)$ where every $a \in A$ causes every $b \in B$, activities inside $A$ are pairwise choice, and activities inside $B$ are pairwise choice.
-  \item Keep only maximal pairs $Y_W$ and convert them into Alpha places.
-  \item Add source and sink places to produce the mined workflow net.
+  \item Get process instances by grouping the log by case and sorting every case by timestamp.
+  \item Project each instance into directly-following pairs.
+  \item Aggregate the projected pairs across all instances.
+  \item Build the Alpha relation sets and maximal pairs $(A,B)$.
+  \item Map the maximal pairs onto a Petri net.
 \end{enumerate}
+
+In the Petri-net mapping, each activity becomes a transition. A source place feeds every start transition in $T_I$, a sink place receives every end transition in $T_O$, and every maximal Alpha pair $(A,B)$ becomes a place with input arcs from all transitions in $A$ and output arcs to all transitions in $B$.
 
 \section{Preprocessing}
 The raw assignment text was converted into \path{data/event_log.csv}, one row per event. Events are sorted by timestamp inside each case. One naming inconsistency in Case 3 was handled by trusting the activity label instead of the event ID prefix: the event ID beginning with \texttt{Sh} is labeled ``Get shipping address'', and the event ID beginning with \texttt{Ge} is labeled ``Ship product''. This preserves the activity sequence stated in the assignment text.
@@ -74,7 +74,7 @@ Quality issue & Case 3 has two event IDs whose prefixes do not match their label
 \input{output/assignment2_generated_tables.tex}
 
 \section{Mined Process Interpretation}
-The mined process has one start activity, \textit{Check stock availability}, and one end activity, \textit{Archive order}. The exact computations show 4 cases, 36 events, 12 activities, 18 observed direct-succession pairs, 14 causal pairs, 2 unordered parallel pairs, and 11 maximal Alpha places.
+The mined process has one start activity, \textit{Check stock availability}, and one end activity, \textit{Archive order}. The exact computations show 4 cases, 36 events, 12 activities, 18 observed direct-succession pairs, 14 causal pairs, 2 unordered parallel pairs, and 11 maximal Alpha places. The generated Petri net contains 13 places including source and sink, 12 transitions, and 28 arcs.
 
 The behavior discovered from the traces is:
 \begin{itemize}
@@ -83,36 +83,34 @@ The behavior discovered from the traces is:
   \item Warehouse retrieval and manufacturing converge at confirming the order.
   \item Invoice/address order differs across traces, so the Alpha algorithm detects \textit{Emit invoice} and \textit{Get shipping address} as parallel.
   \item Payment/shipment order also differs across traces, so \textit{Receive payment} and \textit{Ship product} are parallel.
-  \item Archiving is possible only after payment and shipment completion evidence exists in the log.
+  \item Archiving is reached after the payment and shipment branches provide archive-ready evidence in the log.
 \end{itemize}
 
 The log does not show a repeated-activity loop inside a case, so the mined model focuses on choices and concurrency rather than loop behavior. The main anomaly is the Case 3 event-ID prefix mismatch documented in preprocessing; it is treated as a data-quality issue rather than a behavioral exception because the activity names remain consistent with the overall process.
 
-\section{PERT/Event-Network Chart}
-The generated event network is stored in Mermaid and DOT so it can be opened in online tools rather than drawn in LaTeX:
+\section{Generated Petri Net}
+The generated process model is stored in standard and review-friendly formats:
 \begin{itemize}
-  \item \path{output/assignment2_pert.mmd}
-  \item \path{output/assignment2_alpha_net.dot}
-  \item \path{output/assignment2_pert.svg}
+  \item \path{output/assignment2_petri_net.dot}
+  \item \path{output/assignment2_petri_net.pnml}
+  \item \path{output/assignment2_petri_net.svg}
 \end{itemize}
 
-The PERT dependencies are the causal pairs from the Alpha calculation. Start connects to \textit{Check stock}; \textit{Check stock} branches to either \textit{Retrieve item} or \textit{Check materials}; raw materials may be requested and obtained before manufacturing; \textit{Manufacture} and \textit{Retrieve item} converge at \textit{Confirm order}; invoice/address and payment/shipment are represented as concurrent branches; \textit{Archive order} is the terminal activity.
+The source place connects to \textit{Check stock}. The \textit{Check stock} transition leads to a place that enables either \textit{Retrieve item} or \textit{Check materials}. The manufacturing branch includes places for requesting and obtaining raw materials when required. \textit{Manufacture} and \textit{Retrieve item} converge before \textit{Confirm order}. After confirmation, separate places enable the invoice and address transitions. Later places model payment and shipment behavior before \textit{Archive order} reaches the sink place.
 
-For timing, each causal edge uses observed elapsed hours from the event log: optimistic is the minimum, most-likely is the median, pessimistic is the maximum, and expected duration is computed with $E=(O+4M+P)/6$. The critical path found by the automation is shown in orange in the SVG.
-
-\WideFigure{reports/svg-cache/pert_chart.pdf}{PERT/event-network chart exported as SVG from Mermaid and rendered into the report cache.}
+\WideFigure{reports/svg-cache/assignment2_petri_net.pdf}{Alpha-mined Petri net generated from the event log.}
 
 \section{Automation Design}
 The automation script is \path{tools/process_mining_alpha.py}. It performs the following reusable workflow:
 \begin{enumerate}
   \item Read any CSV containing \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}.
   \item Sort events per case by timestamp.
-  \item Extract traces, start activities $T_I$, end activities $T_O$, and task set $T_W$.
-  \item Count direct succession pairs.
-  \item Derive causality, parallel, and choice using the lecture definitions.
+  \item Get process instances from the sorted cases.
+  \item Project each instance into directly-following pairs.
+  \item Aggregate the projected pairs and derive causality, parallelism, and choice using the lecture definitions.
   \item Build maximal Alpha places $(A,B)$.
-  \item Compute case cycle times and average waiting times between directly successive activities.
-  \item Generate documentation outputs and online-visualization files.
+  \item Map the places and activities onto a Petri net.
+  \item Generate documentation outputs and reusable visualization files.
 \end{enumerate}
 
 Run command:
@@ -129,11 +127,11 @@ python3 tools/process_mining_alpha.py \
 \rowcolor{BPMTableHead}\textbf{Generated file} & \textbf{Purpose} \\
 \midrule
 \path{output/event_log_sorted.csv} & Clean sorted event log for checking preprocessing. \\
-\path{output/assignment2_generated_tables.tex} & Exact Alpha evidence tables included in this report. \\
-\path{output/assignment2_pert.mmd} & Mermaid PERT/event-network chart with expected durations and critical-path styling. \\
-\path{output/assignment2_alpha_net.dot} & DOT dependency graph with expected-duration edge labels. \\
-\path{output/assignment2_pert.svg} & SVG chart rendered into this report after validation. \\
-\path{output/assignment2_summary.txt} & Plain-text summary of counts, relations, and maximal places. \\
+\path{output/assignment2_generated_tables.tex} & Exact Alpha and Petri-net conversion evidence tables included in this report. \\
+\path{output/assignment2_petri_net.dot} & Graphviz source for the generated Petri net. \\
+\path{output/assignment2_petri_net.pnml} & PNML source for Petri-net review or import into Petri-net tools. \\
+\path{output/assignment2_petri_net.svg} & SVG Petri-net diagram rendered into this report after validation. \\
+\path{output/assignment2_summary.txt} & Plain-text summary of counts, relations, places, transitions, and arcs. \\
 \bottomrule
 \end{ReportTable}
 
@@ -144,15 +142,15 @@ python3 tools/process_mining_alpha.py \
 \midrule
 Input schema & Any CSV can be used if it contains \texttt{case\_id}, \texttt{timestamp}, \texttt{activity}, and \texttt{resource}. An optional \texttt{event\_id} column is read when present. \\
 Configurable paths & The command-line options \texttt{--input} and \texttt{--output-dir} let the user run the script on another log without changing the code. \\
-Transparent outputs & The script writes the sorted log, generated LaTeX tables, Mermaid chart, DOT chart, and text summary so intermediate steps can be checked. \\
-Validation method & Counts in the summary must match the generated report tables; the PERT chart must use the same causal relations as the Alpha relation table. \\
+Transparent outputs & The script writes the sorted log, generated LaTeX tables, Petri-net DOT, Petri-net PNML, Petri-net SVG, and text summary so intermediate steps can be checked. \\
+Validation method & Counts in the summary must match the generated report tables; the Petri-net places and arcs must match the Step 5 mapping table. \\
 \bottomrule
 \end{ReportTable}
 
 \PortraitFigure{screenshots/assignment2/automation_run.png}{Automation run screenshot showing the Python script and generated output files.}
 
 \section{Timing Findings and Improvements}
-The average observed cycle time is 5.28 days. The longest average waits are \textit{Ship product} to \textit{Receive payment} at 76.28 hours, \textit{Emit invoice} to \textit{Receive payment} at 57.32 hours, and \textit{Get shipping address} to \textit{Emit invoice} at 46.76 hours. These delays are waiting periods between handoffs, not the short system tasks themselves.
+Timing metrics are used only to interpret bottlenecks in the event log; they are not used to define the Petri-net structure. The average observed cycle time is 5.28 days. The longest average waits are \textit{Ship product} to \textit{Receive payment} at 76.28 hours, \textit{Emit invoice} to \textit{Receive payment} at 57.32 hours, and \textit{Get shipping address} to \textit{Emit invoice} at 46.76 hours. These delays are waiting periods between handoffs, not the short system tasks themselves.
 
 Recommended improvements are:
 \begin{itemize}
@@ -163,6 +161,6 @@ Recommended improvements are:
 \end{itemize}
 
 \section{Conclusion}
-The Alpha algorithm discovers an order-fulfillment process with stock/manufacturing choices and two concurrent sections. The automation produces the same evidence needed for Task One and reusable files for Task Two. The included PERT SVG and automation screenshot document the online visualization and script execution evidence.
+The Alpha algorithm discovers an order-fulfillment process with stock/manufacturing choices and two concurrent sections. The automation produces the same evidence needed for Task One and reusable files for Task Two. The included Petri-net SVG and automation screenshot document the generated process model and script execution evidence.
 
 \end{document}

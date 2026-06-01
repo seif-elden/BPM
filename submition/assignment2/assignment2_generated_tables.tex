@@ -1,8 +1,9 @@
-\section{Generated Alpha-Algorithm Evidence}
-\subsection{Traces}
+\section{Generated Petri-Net Conversion Evidence}
+\subsection{Step 1: Get Process Instances}
+The event log is grouped by case ID and sorted by timestamp. Each case becomes one ordered process instance.
 \begin{ReportLongTable}{C{0.08\linewidth}L{0.84\linewidth}}
 \toprule
-\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Trace} \\
+\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Process instance trace} \\
 \midrule
 1 & Check stock $\rightarrow$ Retrieve item $\rightarrow$ Confirm order $\rightarrow$ Get address $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Ship product $\rightarrow$ Archive order \\
 2 & Check stock $\rightarrow$ Check materials $\rightarrow$ Request materials $\rightarrow$ Obtain materials $\rightarrow$ Manufacture $\rightarrow$ Confirm order $\rightarrow$ Emit invoice $\rightarrow$ Get address $\rightarrow$ Ship product $\rightarrow$ Receive payment $\rightarrow$ Archive order \\
@@ -10,28 +11,21 @@
 4 & Check stock $\rightarrow$ Retrieve item $\rightarrow$ Confirm order $\rightarrow$ Get address $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Ship product $\rightarrow$ Archive order \\
 \bottomrule
 \end{ReportLongTable}
-\subsection{Exact Computation Totals}
-\begin{ReportLongTable}{L{0.64\linewidth}r}
+\subsection{Step 2: Project Each Instance}
+Each instance is projected to the directly-following activity pairs observed inside that single trace.
+\begin{ReportLongTable}{C{0.08\linewidth}L{0.84\linewidth}}
 \toprule
-\rowcolor{BPMTableHead}\textbf{Computed item} & \textbf{Value} \\
+\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Projected direct-succession pairs} \\
 \midrule
-Cases in the log & 4 \\
-Events in the log & 36 \\
-Activities in $T_W$ & 12 \\
-Start activities in $T_I$ & 1 \\
-End activities in $T_O$ & 1 \\
-Observed direct-succession pairs $>$ & 18 \\
-Causal pairs $\rightarrow$ & 14 \\
-Parallel ordered pairs $\parallel$ & 4 \\
-Parallel unordered pairs & 2 \\
-Choice ordered pairs $\#$ & 100 \\
-Maximal Alpha places $Y_W$ & 11 \\
-Average cycle time & 5.28 days \\
+1 & Check stock > Retrieve item; Retrieve item > Confirm order; Confirm order > Get address; Get address > Emit invoice; Emit invoice > Receive payment; Receive payment > Ship product; Ship product > Archive order \\
+2 & Check stock > Check materials; Check materials > Request materials; Request materials > Obtain materials; Obtain materials > Manufacture; Manufacture > Confirm order; Confirm order > Emit invoice; Emit invoice > Get address; Get address > Ship product; Ship product > Receive payment; Receive payment > Archive order \\
+3 & Check stock > Check materials; Check materials > Manufacture; Manufacture > Confirm order; Confirm order > Emit invoice; Emit invoice > Get address; Get address > Ship product; Ship product > Receive payment; Receive payment > Archive order \\
+4 & Check stock > Retrieve item; Retrieve item > Confirm order; Confirm order > Get address; Get address > Emit invoice; Emit invoice > Receive payment; Receive payment > Ship product; Ship product > Archive order \\
 \bottomrule
 \end{ReportLongTable}
-Choice is counted as an ordered Alpha relation: $x \# y$ and $y \# x$ are both included when two activities never directly follow one another. Thus 100 ordered choice relations correspond to 50 unordered activity pairs.
-\subsection{Direct Succession and Causality}
-\begin{ReportLongTable}{L{0.31\linewidth}L{0.31\linewidth}r L{0.16\linewidth}}
+\subsection{Step 3: Aggregate Projected Relations}
+The projected pairs are aggregated across all instances. The relation column is then derived using the Alpha definitions.
+\begin{ReportLongTable}{L{0.29\linewidth}L{0.29\linewidth}r L{0.18\linewidth}}
 \toprule
 \rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{Count} & \textbf{Alpha relation} \\
 \midrule
@@ -55,15 +49,32 @@ Ship product & Archive order & 2 & $\rightarrow$ \\
 Ship product & Receive payment & 2 & $\parallel$ \\
 \bottomrule
 \end{ReportLongTable}
-\subsection{Alpha Sets}
+\subsection{Step 4: Build Alpha Relations and Places}
+\begin{ReportLongTable}{L{0.64\linewidth}r}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Computed item} & \textbf{Value} \\
+\midrule
+Cases in the log & 4 \\
+Events in the log & 36 \\
+Activities in $T_W$ & 12 \\
+Start activities in $T_I$ & 1 \\
+End activities in $T_O$ & 1 \\
+Observed direct-succession pairs $>$ & 18 \\
+Causal pairs $\rightarrow$ & 14 \\
+Parallel ordered pairs $\parallel$ & 4 \\
+Parallel unordered pairs & 2 \\
+Choice ordered pairs $\#$ & 100 \\
+Maximal Alpha places $Y_W$ & 11 \\
+Average cycle time & 5.28 days \\
+\bottomrule
+\end{ReportLongTable}
+Choice is counted as an ordered Alpha relation: $x \# y$ and $y \# x$ are both included when two activities never directly follow one another.
 \begin{itemize}
 \item $T_W$ activities: Archive order, Check materials, Check stock, Confirm order, Emit invoice, Get address, Manufacture, Obtain materials, Receive payment, Request materials, Retrieve item, Ship product
 \item $T_I$ start activities: Check stock
 \item $T_O$ end activities: Archive order
 \item Parallel pairs: (Emit invoice, Get address), (Receive payment, Ship product)
-\item Main exclusive choices: available stock path versus manufacturing path; raw materials already available versus raw materials requested and obtained.
 \end{itemize}
-\subsection{Maximal Alpha Places}
 \begin{ReportLongTable}{L{0.45\linewidth}L{0.45\linewidth}}
 \toprule
 \rowcolor{BPMTableHead}\textbf{Input activity set $A$} & \textbf{Output activity set $B$} \\
@@ -81,7 +92,37 @@ Ship product & Receive payment & 2 & $\parallel$ \\
 \{Ship product\} & \{Archive order\} \\
 \bottomrule
 \end{ReportLongTable}
-\subsection{Timing Metrics}
+\subsection{Step 5: Map Onto Petri Net}
+Each activity becomes a transition. The source place feeds the start transition. Each maximal Alpha pair becomes a place between its input and output transitions. The sink place receives the end transition.
+\begin{ReportLongTable}{L{0.12\linewidth}L{0.38\linewidth}L{0.38\linewidth}}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Place} & \textbf{Input transitions} & \textbf{Output transitions} \\
+\midrule
+Start & $\emptyset$ & \{Check stock\} \\
+p1 & \{Check materials\} & \{Manufacture, Request materials\} \\
+p2 & \{Check materials, Obtain materials\} & \{Manufacture\} \\
+p3 & \{Check stock\} & \{Check materials, Retrieve item\} \\
+p4 & \{Confirm order\} & \{Emit invoice\} \\
+p5 & \{Confirm order\} & \{Get address\} \\
+p6 & \{Emit invoice\} & \{Receive payment\} \\
+p7 & \{Get address\} & \{Ship product\} \\
+p8 & \{Manufacture, Retrieve item\} & \{Confirm order\} \\
+p9 & \{Receive payment\} & \{Archive order\} \\
+p10 & \{Request materials\} & \{Obtain materials\} \\
+p11 & \{Ship product\} & \{Archive order\} \\
+End & \{Archive order\} & $\emptyset$ \\
+\bottomrule
+\end{ReportLongTable}
+\begin{ReportTable}{L{0.35\linewidth}r}
+\toprule
+\rowcolor{BPMTableHead}\textbf{Petri-net element} & \textbf{Count} \\
+\midrule
+Places, including source and sink & 13 \\
+Transitions & 12 \\
+Arcs & 28 \\
+\bottomrule
+\end{ReportTable}
+\subsection{Timing Metrics for Interpretation}
 \begin{ReportLongTable}{C{0.09\linewidth}L{0.26\linewidth}L{0.26\linewidth}L{0.18\linewidth}}
 \toprule
 \rowcolor{BPMTableHead}\textbf{Case} & \textbf{Start} & \textbf{End} & \textbf{Cycle time} \\
@@ -114,28 +155,5 @@ Check stock & Check materials & 2 & 0.22 \\
 Emit invoice & Get address & 2 & 0.20 \\
 Manufacture & Confirm order & 2 & 0.13 \\
 Receive payment & Archive order & 2 & 0.12 \\
-\bottomrule
-\end{ReportLongTable}
-\subsection{PERT Timing and Critical Path}
-The PERT/event-network timing is edge-weighted from observed elapsed hours between directly successive activities. For each causal dependency, $O$ is the minimum observed duration, $M$ is the median duration, $P$ is the maximum duration, and $E=(O+4M+P)/6$.
-The computed critical path is: Check stock $\rightarrow$ Check materials $\rightarrow$ Request materials $\rightarrow$ Obtain materials $\rightarrow$ Manufacture $\rightarrow$ Confirm order $\rightarrow$ Emit invoice $\rightarrow$ Receive payment $\rightarrow$ Archive order. Expected path duration: 134.84 hours.
-\begin{ReportLongTable}{L{0.21\linewidth}L{0.21\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}}
-\toprule
-\rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{O h} & \textbf{M h} & \textbf{P h} & \textbf{E h} & \textbf{Slack} \\
-\midrule
-Check materials & Manufacture & 5.88 & 5.88 & 5.88 & 5.88 & 70.73 \\
-Check materials & Request materials & 1.10 & 1.10 & 1.10 & 1.10 & \textbf{0.00} \\
-Check stock & Check materials & 0.08 & 0.22 & 0.37 & 0.22 & \textbf{0.00} \\
-Check stock & Retrieve item & 3.10 & 3.46 & 3.82 & 3.46 & 73.05 \\
-Confirm order & Emit invoice & 0.35 & 0.42 & 0.48 & 0.42 & \textbf{0.00} \\
-Confirm order & Get address & 0.20 & 0.32 & 0.43 & 0.32 & 45.26 \\
-Emit invoice & Receive payment & 0.35 & 57.32 & 114.30 & 57.32 & \textbf{0.00} \\
-Get address & Ship product & 0.13 & 1.07 & 2.02 & 1.07 & 45.26 \\
-Manufacture & Confirm order & 0.13 & 0.13 & 0.13 & 0.13 & \textbf{0.00} \\
-Obtain materials & Manufacture & 30.88 & 30.88 & 30.88 & 30.88 & \textbf{0.00} \\
-Receive payment & Archive order & 0.08 & 0.12 & 0.17 & 0.12 & \textbf{0.00} \\
-Request materials & Obtain materials & 44.63 & 44.63 & 44.63 & 44.63 & \textbf{0.00} \\
-Retrieve item & Confirm order & 0.10 & 0.47 & 0.83 & 0.47 & 73.05 \\
-Ship product & Archive order & 0.42 & 11.22 & 22.02 & 11.22 & 45.26 \\
 \bottomrule
 \end{ReportLongTable}

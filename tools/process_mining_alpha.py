@@ -1,8 +1,14 @@
 #!/usr/bin/env python3
-"""Alpha-algorithm and PERT helper for the Assignment 2 event log.
+"""Alpha-algorithm Petri-net mining helper for Assignment 2.
 
-The script is intentionally dependency-free so it can be rerun on any CSV with
-the columns: case_id, timestamp, activity, resource.
+The script is dependency-free and can be rerun on any CSV with the columns:
+case_id, timestamp, activity, resource. It implements the lecture workflow:
+
+1. Get process instances.
+2. Project each instance into directly-following activity pairs.
+3. Aggregate the projected relations.
+4. Derive Alpha relations and maximal places.
+5. Map the result onto a Petri net.
 """
 
 from __future__ import annotations
@@ -10,11 +16,11 @@ from __future__ import annotations
 import argparse
 import csv
 import itertools
+import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from statistics import median
 
 
 TIME_FMT = "%Y-%m-%d %H:%M"
@@ -30,13 +36,20 @@ class Event:
 
 
 @dataclass(frozen=True)
-class PertEdge:
-    source: str
-    target: str
-    optimistic: float
-    most_likely: float
-    pessimistic: float
-    expected: float
+class PetriPlace:
+    place_id: str
+    label: str
+    inputs: tuple[str, ...]
+    outputs: tuple[str, ...]
+
+
+@dataclass(frozen=True)
+class PetriNet:
+    places: list[PetriPlace]
+    transitions: list[str]
+    arcs: list[tuple[str, str]]
+    initial_place: str
+    final_places: set[str]
 
 
 SHORT = {
@@ -52,6 +65,37 @@ SHORT = {
     "Receive payment": "Receive payment",
     "Ship product": "Ship product",
     "Archive order": "Archive order",
+}
+
+
+TRANSITION_COLUMNS = {
+    "Check stock availability": 1,
+    "Retrieve product from warehouse": 2,
+    "Check materials availability": 2,
+    "Request raw materials": 3,
+    "Obtain raw materials": 4,
+    "Manufacture product": 5,
+    "Confirm order": 6,
+    "Get shipping address": 7,
+    "Emit invoice": 7,
+    "Receive payment": 8,
+    "Ship product": 8,
+    "Archive order": 9,
+}
+
+TRANSITION_ROWS = {
+    "Check stock availability": 2,
+    "Retrieve product from warehouse": 1,
+    "Check materials availability": 3,
+    "Request raw materials": 3,
+    "Obtain raw materials": 3,
+    "Manufacture product": 3,
+    "Confirm order": 2,
+    "Get shipping address": 3,
+    "Emit invoice": 1,
+    "Receive payment": 1,
+    "Ship product": 3,
+    "Archive order": 2,
 }
 
 
@@ -79,7 +123,10 @@ def read_log(path: Path) -> dict[str, list[Event]]:
                 resource=row["resource"],
             )
             cases[event.case_id].append(event)
-    return {case_id: sorted(events, key=lambda e: e.timestamp) for case_id, events in cases.items()}
+    return {
+        case_id: sorted(events, key=lambda event: event.timestamp)
+        for case_id, events in cases.items()
+    }
 
 
 def pairs_directly_follow(cases: dict[str, list[Event]]) -> Counter[tuple[str, str]]:
@@ -111,8 +158,12 @@ def non_empty_subsets(items: list[str]):
         yield from itertools.combinations(items, size)
 
 
-def alpha_places(tasks: set[str], causality: set[tuple[str, str]], choice: set[tuple[str, str]]):
-    """Return the maximal (A, B) Alpha-algorithm pairs."""
+def alpha_places(
+    tasks: set[str],
+    causality: set[tuple[str, str]],
+    choice: set[tuple[str, str]],
+) -> list[tuple[frozenset[str], frozenset[str]]]:
+    """Return maximal Alpha-algorithm pairs (A, B)."""
     task_list = sorted(tasks)
     candidates: list[tuple[frozenset[str], frozenset[str]]] = []
     for left in non_empty_subsets(task_list):
@@ -139,7 +190,45 @@ def alpha_places(tasks: set[str], causality: set[tuple[str, str]], choice: set[t
                 break
         if not is_subsumed:
             maximal.append(candidate)
-    return sorted(maximal, key=lambda p: (sorted(p[0]), sorted(p[1])))
+    return sorted(maximal, key=lambda pair: (sorted(pair[0]), sorted(pair[1])))
+
+
+def build_petri_net(
+    tasks: set[str],
+    starts: set[str],
+    ends: set[str],
+    places: list[tuple[frozenset[str], frozenset[str]]],
+) -> PetriNet:
+    transitions = sorted(tasks, key=lambda activity: (TRANSITION_COLUMNS.get(activity, 99), SHORT.get(activity, activity)))
+    petri_places = [
+        PetriPlace("p_start", "Start", tuple(), tuple(sorted(starts))),
+    ]
+    arcs: list[tuple[str, str]] = []
+    for start in sorted(starts):
+        arcs.append(("p_start", transition_id(start)))
+
+    for index, (left, right) in enumerate(places, start=1):
+        place_id = f"p_{index:02d}"
+        label = f"p{index}"
+        inputs = tuple(sorted(left))
+        outputs = tuple(sorted(right))
+        petri_places.append(PetriPlace(place_id, label, inputs, outputs))
+        for activity in inputs:
+            arcs.append((transition_id(activity), place_id))
+        for activity in outputs:
+            arcs.append((place_id, transition_id(activity)))
+
+    petri_places.append(PetriPlace("p_end", "End", tuple(sorted(ends)), tuple()))
+    for end in sorted(ends):
+        arcs.append((transition_id(end), "p_end"))
+
+    return PetriNet(
+        places=petri_places,
+        transitions=transitions,
+        arcs=arcs,
+        initial_place="p_start",
+        final_places={"p_end"},
+    )
 
 
 def case_metrics(cases: dict[str, list[Event]]):
@@ -147,7 +236,8 @@ def case_metrics(cases: dict[str, list[Event]]):
     for case_id, events in sorted(cases.items(), key=lambda item: case_sort_key(item[0])):
         start = events[0].timestamp
         end = events[-1].timestamp
-        durations.append((case_id, start, end, end - start, [e.activity for e in events]))
+        trace = [event.activity for event in events]
+        durations.append((case_id, start, end, end - start, trace))
     return durations
 
 
@@ -160,91 +250,13 @@ def edge_durations(cases: dict[str, list[Event]]):
     return waits
 
 
-def activity_id(activity: str) -> str:
-    words = "".join(ch if ch.isalnum() else "_" for ch in SHORT.get(activity, activity))
-    return words.strip("_")
+def transition_id(activity: str) -> str:
+    value = "".join(ch if ch.isalnum() else "_" for ch in SHORT.get(activity, activity)).strip("_")
+    return f"t_{value}"
 
 
-def pert_edge_stats(causality: set[tuple[str, str]], waits: dict[tuple[str, str], list[float]]) -> dict[tuple[str, str], PertEdge]:
-    stats: dict[tuple[str, str], PertEdge] = {}
-    for a, b in sorted(causality):
-        values = sorted(waits[(a, b)])
-        optimistic = min(values)
-        most_likely = median(values)
-        pessimistic = max(values)
-        expected = (optimistic + 4 * most_likely + pessimistic) / 6
-        stats[(a, b)] = PertEdge(a, b, optimistic, most_likely, pessimistic, expected)
-    return stats
-
-
-def critical_path_analysis(
-    causality: set[tuple[str, str]],
-    starts: set[str],
-    ends: set[str],
-    edge_stats: dict[tuple[str, str], PertEdge],
-):
-    start_node = "__START__"
-    end_node = "__END__"
-    nodes = {start_node, end_node} | starts | ends | {activity for edge in causality for activity in edge}
-    weighted_edges: list[tuple[str, str, float]] = []
-    weighted_edges.extend((start_node, start, 0.0) for start in starts)
-    weighted_edges.extend((edge.source, edge.target, edge.expected) for edge in edge_stats.values())
-    weighted_edges.extend((end, end_node, 0.0) for end in ends)
-
-    incoming: dict[str, set[str]] = {node: set() for node in nodes}
-    outgoing: dict[str, list[tuple[str, float]]] = {node: [] for node in nodes}
-    for source, target, duration in weighted_edges:
-        incoming[target].add(source)
-        outgoing[source].append((target, duration))
-
-    ready = sorted(node for node in nodes if not incoming[node])
-    topo: list[str] = []
-    incoming_copy = {node: set(values) for node, values in incoming.items()}
-    while ready:
-        node = ready.pop(0)
-        topo.append(node)
-        for target, _duration in outgoing[node]:
-            incoming_copy[target].discard(node)
-            if not incoming_copy[target]:
-                ready.append(target)
-                ready.sort()
-    if len(topo) != len(nodes):
-        raise ValueError("PERT critical-path calculation requires an acyclic dependency graph.")
-
-    earliest = {node: float("-inf") for node in nodes}
-    previous: dict[str, str] = {}
-    earliest[start_node] = 0.0
-    for node in topo:
-        for target, duration in outgoing[node]:
-            candidate = earliest[node] + duration
-            if candidate > earliest[target]:
-                earliest[target] = candidate
-                previous[target] = node
-
-    project_duration = earliest[end_node]
-    latest = {node: float("inf") for node in nodes}
-    latest[end_node] = project_duration
-    for node in reversed(topo):
-        for target, duration in outgoing[node]:
-            latest[node] = min(latest[node], latest[target] - duration)
-
-    slack: dict[tuple[str, str], float] = {}
-    critical_edges: set[tuple[str, str]] = set()
-    for source, target, duration in weighted_edges:
-        value = latest[target] - earliest[source] - duration
-        slack[(source, target)] = value
-        if abs(value) < 0.01:
-            critical_edges.add((source, target))
-
-    path: list[str] = []
-    node = end_node
-    while node in previous:
-        path.append(node)
-        node = previous[node]
-    path.append(start_node)
-    path.reverse()
-    visible_path = [node for node in path if node not in {start_node, end_node}]
-    return earliest, latest, slack, critical_edges, visible_path, project_duration
+def safe_dot_id(identifier: str) -> str:
+    return "".join(ch if ch.isalnum() else "_" for ch in identifier).strip("_")
 
 
 def tex_escape(text: object) -> str:
@@ -264,138 +276,7 @@ def tex_escape(text: object) -> str:
     return "".join(replacements.get(ch, ch) for ch in raw)
 
 
-def format_set(items: set[str] | frozenset[str]) -> str:
-    return r"\{" + ", ".join(tex_escape(SHORT.get(item, item)) for item in sorted(items)) + r"\}"
-
-
-def write_sorted_log(cases: dict[str, list[Event]], out: Path):
-    with out.open("w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["case_id", "timestamp", "activity", "resource"])
-        for case_id, events in sorted(cases.items(), key=lambda item: case_sort_key(item[0])):
-            for e in events:
-                writer.writerow([case_id, e.timestamp.strftime(TIME_FMT), e.activity, e.resource])
-
-
-def write_mermaid(
-    causality: set[tuple[str, str]],
-    starts: set[str],
-    ends: set[str],
-    waits: dict[tuple[str, str], list[float]],
-    out: Path,
-):
-    edge_stats = pert_edge_stats(causality, waits)
-    earliest, latest, _slack, critical_edges, _path, project_duration = critical_path_analysis(
-        causality, starts, ends, edge_stats
-    )
-    lines = [
-        "flowchart LR",
-        f'    Start((Start<br/>0.00h))',
-        f'    End((End<br/>{project_duration:.2f}h))',
-    ]
-    for activity in sorted({x for edge in causality for x in edge} | starts | ends):
-        lines.append(
-            f'    {activity_id(activity)}["{SHORT.get(activity, activity)}<br/>ES {earliest[activity]:.2f}h | LS {latest[activity]:.2f}h"]'
-        )
-    link_index = 0
-    critical_link_indexes: list[int] = []
-    for start in sorted(starts):
-        lines.append(f"    Start -->|0.00h| {activity_id(start)}")
-        if ("__START__", start) in critical_edges:
-            critical_link_indexes.append(link_index)
-        link_index += 1
-    for a, b in sorted(causality):
-        edge = edge_stats[(a, b)]
-        lines.append(f"    {activity_id(a)} -->|E={edge.expected:.2f}h| {activity_id(b)}")
-        if (a, b) in critical_edges:
-            critical_link_indexes.append(link_index)
-        link_index += 1
-    for end in sorted(ends):
-        lines.append(f"    {activity_id(end)} -->|0.00h| End")
-        if (end, "__END__") in critical_edges:
-            critical_link_indexes.append(link_index)
-        link_index += 1
-    critical_nodes = sorted(
-        activity_id(activity)
-        for activity in ({x for edge in causality for x in edge} | starts | ends)
-        if abs(earliest[activity] - latest[activity]) < 0.01
-    )
-    lines.append("    classDef critical fill:#fff7ed,stroke:#c2410c,stroke-width:3px;")
-    if critical_nodes:
-        lines.append("    class " + ",".join(critical_nodes) + " critical;")
-    for index in critical_link_indexes:
-        lines.append(f"    linkStyle {index} stroke:#c2410c,stroke-width:4px;")
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-def write_dot(
-    causality: set[tuple[str, str]],
-    starts: set[str],
-    ends: set[str],
-    waits: dict[tuple[str, str], list[float]],
-    out: Path,
-):
-    edge_stats = pert_edge_stats(causality, waits)
-    earliest, latest, _slack, critical_edges, _path, project_duration = critical_path_analysis(
-        causality, starts, ends, edge_stats
-    )
-    lines = ["digraph alpha_net {", "  rankdir=LR;", '  node [shape=box, style="rounded"];']
-    lines.append('  start [label="Start\\n0.00h", shape=circle];')
-    lines.append(f'  end [label="End\\n{project_duration:.2f}h", shape=doublecircle];')
-    for activity in sorted({x for edge in causality for x in edge} | starts | ends):
-        color = ' color="#c2410c" penwidth=3' if abs(earliest[activity] - latest[activity]) < 0.01 else ""
-        lines.append(
-            f'  "{activity}" [label="{SHORT.get(activity, activity)}\\nES {earliest[activity]:.2f}h | LS {latest[activity]:.2f}h"{color}];'
-        )
-    for start in sorted(starts):
-        color = ' color="#c2410c" penwidth=3' if ("__START__", start) in critical_edges else ""
-        lines.append(f'  start -> "{start}" [label="0.00h"{color}];')
-    for a, b in sorted(causality):
-        edge = edge_stats[(a, b)]
-        color = ' color="#c2410c" penwidth=3' if (a, b) in critical_edges else ""
-        lines.append(f'  "{a}" -> "{b}" [label="E={edge.expected:.2f}h"{color}];')
-    for end in sorted(ends):
-        color = ' color="#c2410c" penwidth=3' if (end, "__END__") in critical_edges else ""
-        lines.append(f'  "{end}" -> end [label="0.00h"{color}];')
-    lines.append("}")
-    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-
-PERT_POSITIONS = {
-    "__START__": (70, 260),
-    "Check stock availability": (240, 260),
-    "Check materials availability": (470, 125),
-    "Retrieve product from warehouse": (470, 395),
-    "Request raw materials": (720, 125),
-    "Obtain raw materials": (970, 125),
-    "Manufacture product": (1210, 125),
-    "Confirm order": (1440, 260),
-    "Emit invoice": (1680, 125),
-    "Get shipping address": (1680, 395),
-    "Receive payment": (1930, 125),
-    "Ship product": (1930, 395),
-    "Archive order": (2170, 260),
-    "__END__": (2350, 260),
-}
-
-
-def svg_lines(text: str, width: int = 18) -> list[str]:
-    return [text[index : index + width] for index in range(0, len(text), width)] or [text]
-
-
-def write_svg_text(lines: list[str], x: float, y: float, size: int = 13, anchor: str = "middle", weight: str = "400") -> str:
-    attrs = f'x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" font-size="{size}" font-weight="{weight}"'
-    if len(lines) == 1:
-        return f"<text {attrs}>{tex_escape_svg(lines[0])}</text>"
-    out = [f"<text {attrs}>"]
-    for index, line in enumerate(lines):
-        dy = 0 if index == 0 else size + 2
-        out.append(f'<tspan x="{x:.1f}" dy="{dy}">{tex_escape_svg(line)}</tspan>')
-    out.append("</text>")
-    return "".join(out)
-
-
-def tex_escape_svg(text: object) -> str:
+def svg_escape(text: object) -> str:
     return (
         str(text)
         .replace("&", "&amp;")
@@ -405,68 +286,203 @@ def tex_escape_svg(text: object) -> str:
     )
 
 
-def render_pert_node(activity: str, x: float, y: float, earliest: dict[str, float], latest: dict[str, float]) -> str:
-    if activity == "__START__":
-        label = ["Start", "0.00h"]
-        return "\n".join(
-            [
-                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="45" fill="#fff" stroke="#20242a" stroke-width="2"/>',
-                write_svg_text(label, x, y - 4, 13, weight="700"),
-            ]
+def short(activity: str) -> str:
+    return SHORT.get(activity, activity)
+
+
+def format_activity_set(items: set[str] | frozenset[str] | tuple[str, ...]) -> str:
+    if not items:
+        return r"$\emptyset$"
+    return r"\{" + ", ".join(tex_escape(short(item)) for item in sorted(items)) + r"\}"
+
+
+def format_pair_list(pairs: list[tuple[str, str]]) -> str:
+    if not pairs:
+        return "none"
+    return "; ".join(f"{short(a)} > {short(b)}" for a, b in pairs)
+
+
+def write_sorted_log(cases: dict[str, list[Event]], out: Path) -> None:
+    with out.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["case_id", "timestamp", "activity", "resource"])
+        for case_id, events in sorted(cases.items(), key=lambda item: case_sort_key(item[0])):
+            for event in events:
+                writer.writerow(
+                    [case_id, event.timestamp.strftime(TIME_FMT), event.activity, event.resource]
+                )
+
+
+def write_petri_dot(net: PetriNet, out: Path) -> None:
+    lines = [
+        "digraph assignment2_petri_net {",
+        "  rankdir=LR;",
+        '  graph [label="Assignment 2 Alpha-Mined Petri Net", labelloc=t, fontsize=18];',
+        '  node [fontname="Arial"];',
+    ]
+    for place in net.places:
+        shape = "doublecircle" if place.place_id in net.final_places else "circle"
+        stroke = " penwidth=3" if place.place_id in {net.initial_place, *net.final_places} else ""
+        lines.append(
+            f'  {safe_dot_id(place.place_id)} [shape={shape}, label="{place.label}", width=0.75{stroke}];'
         )
-    if activity == "__END__":
-        label = ["End", f"{earliest[activity]:.2f}h"]
-        return "\n".join(
-            [
-                f'<circle cx="{x:.1f}" cy="{y:.1f}" r="45" fill="#fff" stroke="#20242a" stroke-width="4"/>',
-                write_svg_text(label, x, y - 4, 13, weight="700"),
-            ]
+    for activity in net.transitions:
+        lines.append(
+            f'  {safe_dot_id(transition_id(activity))} [shape=box, style="rounded", label="{short(activity)}"];'
         )
-    critical = abs(earliest[activity] - latest[activity]) < 0.01
-    stroke = "#c2410c" if critical else "#20242a"
-    stroke_width = 3 if critical else 2
-    label = svg_lines(SHORT.get(activity, activity), 18)
-    label.append(f"ES {earliest[activity]:.1f}h")
-    label.append(f"LS {latest[activity]:.1f}h")
-    return "\n".join(
-        [
-            f'<rect x="{x-82:.1f}" y="{y-43:.1f}" width="164" height="86" rx="7" ry="7" fill="#fff" stroke="{stroke}" stroke-width="{stroke_width}"/>',
-            write_svg_text(label, x, y - 22, 12, weight="700" if critical else "400"),
-        ]
+    for source, target in net.arcs:
+        lines.append(f"  {safe_dot_id(source)} -> {safe_dot_id(target)};")
+    lines.append("}")
+    out.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def add_pnml_name(parent: ET.Element, text: str) -> None:
+    name = ET.SubElement(parent, "name")
+    child = ET.SubElement(name, "text")
+    child.text = text
+
+
+def write_petri_pnml(net: PetriNet, out: Path) -> None:
+    pnml = ET.Element("pnml")
+    net_el = ET.SubElement(
+        pnml,
+        "net",
+        {"id": "assignment2_alpha_mined_petri_net", "type": "http://www.pnml.org/version-2009/grammar/ptnet"},
     )
+    add_pnml_name(net_el, "Assignment 2 Alpha-Mined Petri Net")
+    page = ET.SubElement(net_el, "page", {"id": "page_1"})
+
+    for place in net.places:
+        place_el = ET.SubElement(page, "place", {"id": place.place_id})
+        add_pnml_name(place_el, place.label)
+        if place.place_id == net.initial_place:
+            marking = ET.SubElement(place_el, "initialMarking")
+            text = ET.SubElement(marking, "text")
+            text.text = "1"
+
+    for activity in net.transitions:
+        transition = ET.SubElement(page, "transition", {"id": transition_id(activity)})
+        add_pnml_name(transition, short(activity))
+
+    for index, (source, target) in enumerate(net.arcs, start=1):
+        ET.SubElement(page, "arc", {"id": f"a_{index:03d}", "source": source, "target": target})
+
+    tree = ET.ElementTree(pnml)
+    ET.indent(tree, space="  ")
+    tree.write(out, encoding="utf-8", xml_declaration=True)
 
 
-def render_pert_edge(source: str, target: str, duration: float, critical: bool) -> str:
-    sx, sy = PERT_POSITIONS[source]
-    tx, ty = PERT_POSITIONS[target]
-    start_x = sx + (45 if source in {"__START__", "__END__"} else 82)
-    end_x = tx - (45 if target in {"__START__", "__END__"} else 82)
-    mid_x = (start_x + end_x) / 2
-    stroke = "#c2410c" if critical else "#20242a"
-    stroke_width = 4 if critical else 2
-    label_y = (sy + ty) / 2 - 8
-    points = f"{start_x:.1f},{sy:.1f} {mid_x:.1f},{sy:.1f} {mid_x:.1f},{ty:.1f} {end_x:.1f},{ty:.1f}"
-    return "\n".join(
-        [
-            f'<polyline points="{points}" fill="none" stroke="{stroke}" stroke-width="{stroke_width}" stroke-linejoin="round" stroke-linecap="round" marker-end="url(#arrow)"/>',
-            f'<text x="{mid_x:.1f}" y="{label_y:.1f}" text-anchor="middle" font-size="12" fill="{stroke}">E={duration:.2f}h</text>',
-        ]
+def transition_position(activity: str) -> tuple[float, float]:
+    return 110 + TRANSITION_COLUMNS.get(activity, 99) * 230, 120 + TRANSITION_ROWS.get(activity, 2) * 130
+
+
+def place_position(place: PetriPlace, transition_positions: dict[str, tuple[float, float]]) -> tuple[float, float]:
+    if place.place_id == "p_start":
+        first_targets = [transition_positions[transition_id(activity)] for activity in place.outputs]
+        y = sum(y for _x, y in first_targets) / len(first_targets)
+        return first_targets[0][0] - 145, y
+    if place.place_id == "p_end":
+        first_sources = [transition_positions[transition_id(activity)] for activity in place.inputs]
+        y = sum(y for _x, y in first_sources) / len(first_sources)
+        return first_sources[0][0] + 145, y
+
+    points = [transition_positions[transition_id(activity)] for activity in place.inputs + place.outputs]
+    min_x = min(x for x, _y in points)
+    max_x = max(x for x, _y in points)
+    avg_y = sum(y for _x, y in points) / len(points)
+    return (min_x + max_x) / 2, avg_y
+
+
+def separate_overlapping_places(
+    place_positions: dict[str, tuple[float, float]],
+    spacing: float = 70.0,
+) -> dict[str, tuple[float, float]]:
+    grouped: dict[tuple[float, float], list[str]] = defaultdict(list)
+    for place_id, position in place_positions.items():
+        grouped[(round(position[0], 1), round(position[1], 1))].append(place_id)
+
+    separated = dict(place_positions)
+    for place_ids in grouped.values():
+        if len(place_ids) == 1:
+            continue
+        place_ids.sort()
+        midpoint = (len(place_ids) - 1) / 2
+        for index, place_id in enumerate(place_ids):
+            x, y = separated[place_id]
+            separated[place_id] = (x, y + (index - midpoint) * spacing)
+    return separated
+
+
+def boundary_point(
+    center: tuple[float, float],
+    size: tuple[float, float],
+    toward: tuple[float, float],
+) -> tuple[float, float]:
+    cx, cy = center
+    width, height = size
+    dx = toward[0] - cx
+    dy = toward[1] - cy
+    if abs(dx) < 0.01 and abs(dy) < 0.01:
+        return center
+    scale = min(
+        (width / 2) / abs(dx) if abs(dx) > 0.01 else float("inf"),
+        (height / 2) / abs(dy) if abs(dy) > 0.01 else float("inf"),
     )
+    return cx + dx * scale, cy + dy * scale
 
 
-def write_pert_svg(
-    causality: set[tuple[str, str]],
-    starts: set[str],
-    ends: set[str],
-    waits: dict[tuple[str, str], list[float]],
-    out: Path,
-):
-    edge_stats = pert_edge_stats(causality, waits)
-    earliest, latest, _slack, critical_edges, path, project_duration = critical_path_analysis(
-        causality, starts, ends, edge_stats
-    )
-    width = 2440
-    height = 520
+def svg_text(
+    lines: list[str],
+    x: float,
+    y: float,
+    size: int = 13,
+    anchor: str = "middle",
+    weight: str = "400",
+) -> str:
+    attrs = f'x="{x:.1f}" y="{y:.1f}" text-anchor="{anchor}" font-size="{size}" font-weight="{weight}"'
+    if len(lines) == 1:
+        return f"<text {attrs}>{svg_escape(lines[0])}</text>"
+    out = [f"<text {attrs}>"]
+    for index, line in enumerate(lines):
+        dy = 0 if index == 0 else size + 3
+        out.append(f'<tspan x="{x:.1f}" dy="{dy}">{svg_escape(line)}</tspan>')
+    out.append("</text>")
+    return "".join(out)
+
+
+def wrap_label(text: str, width: int = 15) -> list[str]:
+    words = text.split()
+    lines: list[str] = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        if len(candidate) <= width:
+            current = candidate
+        else:
+            if current:
+                lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+    return lines or [text]
+
+
+def write_petri_svg(net: PetriNet, out: Path) -> None:
+    transition_positions = {
+        transition_id(activity): transition_position(activity) for activity in net.transitions
+    }
+    place_positions = {
+        place.place_id: place_position(place, transition_positions) for place in net.places
+    }
+    place_positions = separate_overlapping_places(place_positions)
+    positions = {**transition_positions, **place_positions}
+    width = int(max(x for x, _y in positions.values()) + 150)
+    height = int(max(y for _x, y in positions.values()) + 150)
+    place_ids = {place.place_id for place in net.places}
+
+    def node_size(node_id: str) -> tuple[float, float]:
+        return (54, 54) if node_id in place_ids else (112, 44)
+
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<defs>",
@@ -475,19 +491,40 @@ def write_pert_svg(
         "</marker>",
         "</defs>",
         '<rect width="100%" height="100%" fill="#fff"/>',
-        '<style>text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}</style>',
-        write_svg_text(["PERT/Event Network with Expected Durations and Critical Path"], width / 2, 28, 18, weight="700"),
-        write_svg_text([f"Critical path: {' -> '.join(SHORT.get(item, item) for item in path)} | Expected duration {project_duration:.2f} hours"], width / 2, 52, 13),
+        "<style>",
+        "text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}",
+        "</style>",
+        svg_text(["Assignment 2 Alpha-Mined Petri Net"], width / 2, 30, 18, weight="700"),
     ]
-    for start in sorted(starts):
-        parts.append(render_pert_edge("__START__", start, 0.0, ("__START__", start) in critical_edges))
-    for a, b in sorted(causality):
-        parts.append(render_pert_edge(a, b, edge_stats[(a, b)].expected, (a, b) in critical_edges))
-    for end in sorted(ends):
-        parts.append(render_pert_edge(end, "__END__", 0.0, (end, "__END__") in critical_edges))
-    for activity in ["__START__"] + sorted({x for edge in causality for x in edge} | starts | ends) + ["__END__"]:
-        x, y = PERT_POSITIONS[activity]
-        parts.append(render_pert_node(activity, x, y, earliest, latest))
+
+    for source, target in net.arcs:
+        source_center = positions[source]
+        target_center = positions[target]
+        start = boundary_point(source_center, node_size(source), target_center)
+        end = boundary_point(target_center, node_size(target), source_center)
+        if abs(start[1] - end[1]) < 2 or abs(start[0] - end[0]) < 2:
+            points = [start, end]
+        else:
+            mid_x = (start[0] + end[0]) / 2
+            points = [start, (mid_x, start[1]), (mid_x, end[1]), end]
+        value = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
+        parts.append(f'<polyline class="arc" points="{value}" fill="none" marker-end="url(#arrow)"/>')
+
+    place_lookup = {place.place_id: place for place in net.places}
+    for place_id, (x, y) in place_positions.items():
+        stroke_width = 3 if place_id in {net.initial_place, *net.final_places} else 1.8
+        parts.append(f'<circle class="place" cx="{x:.1f}" cy="{y:.1f}" r="27" stroke-width="{stroke_width}"/>')
+        parts.append(svg_text([place_lookup[place_id].label], x, y + 5, 12, weight="700"))
+
+    for activity in net.transitions:
+        transition = transition_id(activity)
+        x, y = transition_positions[transition]
+        parts.append(
+            f'<rect class="transition" x="{x-56:.1f}" y="{y-22:.1f}" width="112" height="44" rx="5" ry="5"/>'
+        )
+        lines = wrap_label(short(activity), 14)
+        parts.append(svg_text(lines, x, y + 4 - (len(lines) - 1) * 7, 10))
+
     parts.append("</svg>")
     out.write_text("\n".join(parts) + "\n", encoding="utf-8")
 
@@ -498,9 +535,10 @@ def write_alpha_tex(
     causality: set[tuple[str, str]],
     parallel: set[tuple[str, str]],
     choice: set[tuple[str, str]],
-    places: list[tuple[frozenset[str], frozenset[str]]],
+    alpha_place_pairs: list[tuple[frozenset[str], frozenset[str]]],
+    net: PetriNet,
     out: Path,
-):
+) -> None:
     starts = {events[0].activity for events in cases.values()}
     ends = {events[-1].activity for events in cases.values()}
     durations = case_metrics(cases)
@@ -508,28 +546,61 @@ def write_alpha_tex(
     tasks = {event.activity for events in cases.values() for event in events}
     event_count = sum(len(events) for events in cases.values())
     avg_days = sum(duration.total_seconds() / 86400 for *_rest, duration, _trace in durations) / len(durations)
-    edge_stats = pert_edge_stats(causality, waits)
-    earliest, latest, slack, critical_edges, critical_path, project_hours = critical_path_analysis(
-        causality, starts, ends, edge_stats
-    )
 
     lines: list[str] = []
-    lines.append(r"\section{Generated Alpha-Algorithm Evidence}")
-    lines.append(r"\subsection{Traces}")
+    lines.append(r"\section{Generated Petri-Net Conversion Evidence}")
+
+    lines.append(r"\subsection{Step 1: Get Process Instances}")
+    lines.append(
+        "The event log is grouped by case ID and sorted by timestamp. Each case becomes one ordered process instance."
+    )
     lines.append(r"\begin{ReportLongTable}{C{0.08\linewidth}L{0.84\linewidth}}")
     lines.append(r"\toprule")
-    lines.append(r"\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Trace} \\")
+    lines.append(r"\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Process instance trace} \\")
     lines.append(r"\midrule")
     for case_id, _start, _end, _duration, trace in durations:
         lines.append(
             f"{tex_escape(case_id)} & "
-            + r" $\rightarrow$ ".join(tex_escape(SHORT.get(activity, activity)) for activity in trace)
+            + r" $\rightarrow$ ".join(tex_escape(short(activity)) for activity in trace)
             + r" \\"
         )
     lines.append(r"\bottomrule")
     lines.append(r"\end{ReportLongTable}")
 
-    lines.append(r"\subsection{Exact Computation Totals}")
+    lines.append(r"\subsection{Step 2: Project Each Instance}")
+    lines.append(
+        "Each instance is projected to the directly-following activity pairs observed inside that single trace."
+    )
+    lines.append(r"\begin{ReportLongTable}{C{0.08\linewidth}L{0.84\linewidth}}")
+    lines.append(r"\toprule")
+    lines.append(r"\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Projected direct-succession pairs} \\")
+    lines.append(r"\midrule")
+    for case_id, events in sorted(cases.items(), key=lambda item: case_sort_key(item[0])):
+        pairs = [(left.activity, right.activity) for left, right in zip(events, events[1:])]
+        lines.append(f"{tex_escape(case_id)} & {tex_escape(format_pair_list(pairs))} \\\\")
+    lines.append(r"\bottomrule")
+    lines.append(r"\end{ReportLongTable}")
+
+    lines.append(r"\subsection{Step 3: Aggregate Projected Relations}")
+    lines.append(
+        "The projected pairs are aggregated across all instances. The relation column is then derived using the Alpha definitions."
+    )
+    lines.append(r"\begin{ReportLongTable}{L{0.29\linewidth}L{0.29\linewidth}r L{0.18\linewidth}}")
+    lines.append(r"\toprule")
+    lines.append(r"\rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{Count} & \textbf{Alpha relation} \\")
+    lines.append(r"\midrule")
+    for (a, b), count in sorted(follows.items(), key=lambda item: (item[0][0], item[0][1])):
+        if (a, b) in causality:
+            rel = r"$\rightarrow$"
+        elif (a, b) in parallel:
+            rel = r"$\parallel$"
+        else:
+            rel = r"$>$"
+        lines.append(f"{tex_escape(short(a))} & {tex_escape(short(b))} & {count} & {rel} \\\\")
+    lines.append(r"\bottomrule")
+    lines.append(r"\end{ReportLongTable}")
+
+    lines.append(r"\subsection{Step 4: Build Alpha Relations and Places}")
     lines.append(r"\begin{ReportLongTable}{L{0.64\linewidth}r}")
     lines.append(r"\toprule")
     lines.append(r"\rowcolor{BPMTableHead}\textbf{Computed item} & \textbf{Value} \\")
@@ -544,70 +615,75 @@ def write_alpha_tex(
     lines.append(f"Parallel ordered pairs $\\parallel$ & {len(parallel)} \\\\")
     lines.append(f"Parallel unordered pairs & {len(parallel) // 2} \\\\")
     lines.append(f"Choice ordered pairs $\\#$ & {len(choice)} \\\\")
-    lines.append(f"Maximal Alpha places $Y_W$ & {len(places)} \\\\")
+    lines.append(f"Maximal Alpha places $Y_W$ & {len(alpha_place_pairs)} \\\\")
     lines.append(f"Average cycle time & {avg_days:.2f} days \\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{ReportLongTable}")
     lines.append(
-        r"Choice is counted as an ordered Alpha relation: $x \# y$ and $y \# x$ are both included when two activities never directly follow one another. Thus 100 ordered choice relations correspond to 50 unordered activity pairs."
+        r"Choice is counted as an ordered Alpha relation: $x \# y$ and $y \# x$ are both included when two activities never directly follow one another."
     )
 
-    lines.append(r"\subsection{Direct Succession and Causality}")
-    lines.append(r"\begin{ReportLongTable}{L{0.31\linewidth}L{0.31\linewidth}r L{0.16\linewidth}}")
-    lines.append(r"\toprule")
-    lines.append(r"\rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{Count} & \textbf{Alpha relation} \\")
-    lines.append(r"\midrule")
-    for (a, b), count in sorted(follows.items(), key=lambda item: (item[0][0], item[0][1])):
-        if (a, b) in causality:
-            rel = r"$\rightarrow$"
-        elif (a, b) in parallel:
-            rel = r"$\parallel$"
-        else:
-            rel = r"$>$"
-        lines.append(
-            f"{tex_escape(SHORT.get(a, a))} & {tex_escape(SHORT.get(b, b))} & {count} & {rel} \\\\"
-        )
-    lines.append(r"\bottomrule")
-    lines.append(r"\end{ReportLongTable}")
-
-    lines.append(r"\subsection{Alpha Sets}")
     lines.append(r"\begin{itemize}")
     lines.append(
         r"\item $T_W$ activities: "
-        + ", ".join(tex_escape(SHORT.get(activity, activity)) for activity in sorted(tasks))
+        + ", ".join(tex_escape(short(activity)) for activity in sorted(tasks))
     )
-    lines.append(r"\item $T_I$ start activities: " + ", ".join(tex_escape(SHORT.get(activity, activity)) for activity in sorted(starts)))
-    lines.append(r"\item $T_O$ end activities: " + ", ".join(tex_escape(SHORT.get(activity, activity)) for activity in sorted(ends)))
+    lines.append(
+        r"\item $T_I$ start activities: "
+        + ", ".join(tex_escape(short(activity)) for activity in sorted(starts))
+    )
+    lines.append(
+        r"\item $T_O$ end activities: "
+        + ", ".join(tex_escape(short(activity)) for activity in sorted(ends))
+    )
     parallel_unique = {tuple(sorted(pair)) for pair in parallel}
     lines.append(
         r"\item Parallel pairs: "
-        + (", ".join(rf"({tex_escape(SHORT[a])}, {tex_escape(SHORT[b])})" for a, b in sorted(parallel_unique)) or "none")
-    )
-    lines.append(
-        r"\item Main exclusive choices: available stock path versus manufacturing path; raw materials already available versus raw materials requested and obtained."
+        + (", ".join(rf"({tex_escape(short(a))}, {tex_escape(short(b))})" for a, b in sorted(parallel_unique)) or "none")
     )
     lines.append(r"\end{itemize}")
 
-    lines.append(r"\subsection{Maximal Alpha Places}")
     lines.append(r"\begin{ReportLongTable}{L{0.45\linewidth}L{0.45\linewidth}}")
     lines.append(r"\toprule")
     lines.append(r"\rowcolor{BPMTableHead}\textbf{Input activity set $A$} & \textbf{Output activity set $B$} \\")
     lines.append(r"\midrule")
-    for left, right in places:
-        lines.append(f"{format_set(left)} & {format_set(right)} \\\\")
+    for left, right in alpha_place_pairs:
+        lines.append(f"{format_activity_set(left)} & {format_activity_set(right)} \\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{ReportLongTable}")
 
-    lines.append(r"\subsection{Timing Metrics}")
+    lines.append(r"\subsection{Step 5: Map Onto Petri Net}")
+    lines.append(
+        "Each activity becomes a transition. The source place feeds the start transition. Each maximal Alpha pair becomes a place between its input and output transitions. The sink place receives the end transition."
+    )
+    lines.append(r"\begin{ReportLongTable}{L{0.12\linewidth}L{0.38\linewidth}L{0.38\linewidth}}")
+    lines.append(r"\toprule")
+    lines.append(r"\rowcolor{BPMTableHead}\textbf{Place} & \textbf{Input transitions} & \textbf{Output transitions} \\")
+    lines.append(r"\midrule")
+    for place in net.places:
+        lines.append(
+            f"{tex_escape(place.label)} & {format_activity_set(place.inputs)} & {format_activity_set(place.outputs)} \\\\"
+        )
+    lines.append(r"\bottomrule")
+    lines.append(r"\end{ReportLongTable}")
+    lines.append(r"\begin{ReportTable}{L{0.35\linewidth}r}")
+    lines.append(r"\toprule")
+    lines.append(r"\rowcolor{BPMTableHead}\textbf{Petri-net element} & \textbf{Count} \\")
+    lines.append(r"\midrule")
+    lines.append(f"Places, including source and sink & {len(net.places)} \\\\")
+    lines.append(f"Transitions & {len(net.transitions)} \\\\")
+    lines.append(f"Arcs & {len(net.arcs)} \\\\")
+    lines.append(r"\bottomrule")
+    lines.append(r"\end{ReportTable}")
+
+    lines.append(r"\subsection{Timing Metrics for Interpretation}")
     lines.append(r"\begin{ReportLongTable}{C{0.09\linewidth}L{0.26\linewidth}L{0.26\linewidth}L{0.18\linewidth}}")
     lines.append(r"\toprule")
     lines.append(r"\rowcolor{BPMTableHead}\textbf{Case} & \textbf{Start} & \textbf{End} & \textbf{Cycle time} \\")
     lines.append(r"\midrule")
     for case_id, start, end, duration, _trace in durations:
         days = duration.total_seconds() / 86400
-        lines.append(
-            f"{tex_escape(case_id)} & {start.strftime(TIME_FMT)} & {end.strftime(TIME_FMT)} & {days:.2f} days \\\\"
-        )
+        lines.append(f"{tex_escape(case_id)} & {start.strftime(TIME_FMT)} & {end.strftime(TIME_FMT)} & {days:.2f} days \\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{ReportLongTable}")
 
@@ -617,32 +693,7 @@ def write_alpha_tex(
     lines.append(r"\midrule")
     for (a, b), values in sorted(waits.items(), key=lambda item: -sum(item[1]) / len(item[1])):
         avg = sum(values) / len(values)
-        lines.append(
-            f"{tex_escape(SHORT.get(a, a))} & {tex_escape(SHORT.get(b, b))} & {len(values)} & {avg:.2f} \\\\"
-        )
-    lines.append(r"\bottomrule")
-    lines.append(r"\end{ReportLongTable}")
-
-    lines.append(r"\subsection{PERT Timing and Critical Path}")
-    lines.append(
-        "The PERT/event-network timing is edge-weighted from observed elapsed hours between directly successive activities. "
-        r"For each causal dependency, $O$ is the minimum observed duration, $M$ is the median duration, $P$ is the maximum duration, and $E=(O+4M+P)/6$."
-    )
-    lines.append(
-        "The computed critical path is: "
-        + r" $\rightarrow$ ".join(tex_escape(SHORT.get(activity, activity)) for activity in critical_path)
-        + f". Expected path duration: {project_hours:.2f} hours."
-    )
-    lines.append(r"\begin{ReportLongTable}{L{0.21\linewidth}L{0.21\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}C{0.07\linewidth}}")
-    lines.append(r"\toprule")
-    lines.append(r"\rowcolor{BPMTableHead}\textbf{From} & \textbf{To} & \textbf{O h} & \textbf{M h} & \textbf{P h} & \textbf{E h} & \textbf{Slack} \\")
-    lines.append(r"\midrule")
-    for (a, b), edge in sorted(edge_stats.items(), key=lambda item: (item[0][0], item[0][1])):
-        critical_marker = r"\textbf{0.00}" if (a, b) in critical_edges else f"{slack[(a, b)]:.2f}"
-        lines.append(
-            f"{tex_escape(SHORT.get(a, a))} & {tex_escape(SHORT.get(b, b))} & "
-            f"{edge.optimistic:.2f} & {edge.most_likely:.2f} & {edge.pessimistic:.2f} & {edge.expected:.2f} & {critical_marker} \\\\"
-        )
+        lines.append(f"{tex_escape(short(a))} & {tex_escape(short(b))} & {len(values)} & {avg:.2f} \\\\")
     lines.append(r"\bottomrule")
     lines.append(r"\end{ReportLongTable}")
 
@@ -655,42 +706,38 @@ def write_summary(
     causality: set[tuple[str, str]],
     parallel: set[tuple[str, str]],
     choice: set[tuple[str, str]],
-    places: list[tuple[frozenset[str], frozenset[str]]],
+    alpha_place_pairs: list[tuple[frozenset[str], frozenset[str]]],
+    net: PetriNet,
     out: Path,
-):
+) -> None:
     durations = case_metrics(cases)
-    waits = edge_durations(cases)
-    starts = {events[0].activity for events in cases.values()}
-    ends = {events[-1].activity for events in cases.values()}
-    edge_stats = pert_edge_stats(causality, waits)
-    _earliest, _latest, _slack, _critical_edges, critical_path, project_hours = critical_path_analysis(
-        causality, starts, ends, edge_stats
-    )
     event_count = sum(len(events) for events in cases.values())
-    avg_days = sum(d.total_seconds() / 86400 for *_rest, d, _trace in durations) / len(durations)
+    avg_days = sum(duration.total_seconds() / 86400 for *_rest, duration, _trace in durations) / len(durations)
     lines = [
-        "Alpha Algorithm Summary",
+        "Alpha Algorithm Petri-Net Summary",
         f"Cases: {len(cases)}",
         f"Events: {event_count}",
-        f"Activities: {len({e.activity for events in cases.values() for e in events})}",
+        f"Activities/transitions: {len(net.transitions)}",
         f"Direct succession pairs: {len(follows)}",
         f"Causal pairs: {len(causality)}",
         f"Parallel ordered pairs: {len(parallel)}",
         f"Parallel unordered pairs: {len(parallel) // 2}",
         f"Choice ordered pairs: {len(choice)}",
-        f"Maximal Alpha places: {len(places)}",
+        f"Maximal Alpha places: {len(alpha_place_pairs)}",
+        f"Petri-net places including source/sink: {len(net.places)}",
+        f"Petri-net arcs: {len(net.arcs)}",
         f"Average cycle time: {avg_days:.2f} days",
-        f"PERT critical path expected duration: {project_hours:.2f} hours",
-        "PERT critical path: " + " -> ".join(critical_path),
         "",
         "Causal relations:",
     ]
     lines.extend(f"- {a} -> {b}" for a, b in sorted(causality))
     lines.append("")
-    lines.append("Maximal places:")
-    lines.extend(
-        f"- {{{', '.join(sorted(left))}}} -> {{{', '.join(sorted(right))}}}" for left, right in places
-    )
+    lines.append("Petri places:")
+    for place in net.places:
+        lines.append(
+            f"- {place.label}: {{{', '.join(short(item) for item in place.inputs)}}} -> "
+            f"{{{', '.join(short(item) for item in place.outputs)}}}"
+        )
     out.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
@@ -705,18 +752,18 @@ def main() -> int:
     tasks = {event.activity for events in cases.values() for event in events}
     follows = pairs_directly_follow(cases)
     causality, parallel, choice = relation_sets(tasks, follows)
-    places = alpha_places(tasks, causality, choice)
+    alpha_place_pairs = alpha_places(tasks, causality, choice)
     starts = {events[0].activity for events in cases.values()}
     ends = {events[-1].activity for events in cases.values()}
-    waits = edge_durations(cases)
+    net = build_petri_net(tasks, starts, ends, alpha_place_pairs)
 
     write_sorted_log(cases, args.output_dir / "event_log_sorted.csv")
-    write_mermaid(causality, starts, ends, waits, args.output_dir / "assignment2_pert.mmd")
-    write_dot(causality, starts, ends, waits, args.output_dir / "assignment2_alpha_net.dot")
-    write_pert_svg(causality, starts, ends, waits, args.output_dir / "assignment2_pert.svg")
-    write_alpha_tex(cases, follows, causality, parallel, choice, places, args.output_dir / "assignment2_generated_tables.tex")
-    write_summary(cases, follows, causality, parallel, choice, places, args.output_dir / "assignment2_summary.txt")
-    print(f"Wrote process mining outputs to {args.output_dir}")
+    write_petri_dot(net, args.output_dir / "assignment2_petri_net.dot")
+    write_petri_pnml(net, args.output_dir / "assignment2_petri_net.pnml")
+    write_petri_svg(net, args.output_dir / "assignment2_petri_net.svg")
+    write_alpha_tex(cases, follows, causality, parallel, choice, alpha_place_pairs, net, args.output_dir / "assignment2_generated_tables.tex")
+    write_summary(cases, follows, causality, parallel, choice, alpha_place_pairs, net, args.output_dir / "assignment2_summary.txt")
+    print(f"Wrote process mining Petri-net outputs to {args.output_dir}")
     return 0
 
 

@@ -15,7 +15,7 @@ This folder is prepared for final review before creating the submission ZIP.
 
 ## Assignment 2 Evidence
 
-- Event-log CSV files, generated Alpha-algorithm tables, timed PERT sources/SVG, and the Python automation script are in `assignment2/`.
-- PERT SVG and terminal automation evidence are in `screenshots/assignment2/`.
+- Event-log CSV files, generated Alpha-algorithm tables, Petri-net DOT/PNML/SVG, and the Python automation script are in `assignment2/`.
+- Petri-net SVG and terminal automation evidence are in `screenshots/assignment2/`.
 
 No LaTeX build junk or ZIP file is included here.

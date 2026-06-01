@@ -31,16 +31,16 @@ For manual online-tool exports, use these filenames:
    python3 tools/process_mining_alpha.py --input data/event_log.csv --output-dir output
    ```
 
-2. Copy the generated timed PERT SVG into the screenshot folder:
+2. Copy the generated Petri-net SVG into the screenshot folder:
 
    ```bash
-   cp output/assignment2_pert.svg screenshots/assignment2/pert_chart.svg
+   cp output/assignment2_petri_net.svg screenshots/assignment2/petri_net.svg
    ```
 
 3. Screenshot the terminal showing the command and successful output, plus generated files if visible.
 4. Save it as `screenshots/assignment2/automation_run.png`.
 
-The Mermaid source `output/assignment2_pert.mmd` can also be opened in <https://mermaid.live/> if a manual online export is needed.
+The DOT source `output/assignment2_petri_net.dot` can also be opened in GraphvizOnline or diagrams.net if a manual online export is needed.
 
 ## After Replacing SVGs
 
