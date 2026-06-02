@@ -1,7 +1,8 @@
 digraph assignment2_petri_net {
   rankdir=LR;
-  graph [label="Assignment 2 Alpha-Mined Petri Net", labelloc=t, fontsize=18];
+  graph [label="Assignment 2 Alpha-Mined Petri Net", labelloc=t, fontsize=18, splines=ortho, ranksep=0.9, nodesep=0.5, outputorder=edgesfirst];
   node [fontname="Arial"];
+  edge [arrowsize=0.8, penwidth=1.4];
   p_start [shape=circle, label="Start", width=0.75 penwidth=3];
   p_01 [shape=circle, label="p1", width=0.75];
   p_02 [shape=circle, label="p2", width=0.75];

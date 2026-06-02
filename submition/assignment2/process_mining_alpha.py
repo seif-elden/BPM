@@ -317,8 +317,9 @@ def write_petri_dot(net: PetriNet, out: Path) -> None:
     lines = [
         "digraph assignment2_petri_net {",
         "  rankdir=LR;",
-        '  graph [label="Assignment 2 Alpha-Mined Petri Net", labelloc=t, fontsize=18];',
+        '  graph [label="Assignment 2 Alpha-Mined Petri Net", labelloc=t, fontsize=18, splines=ortho, ranksep=0.9, nodesep=0.5, outputorder=edgesfirst];',
         '  node [fontname="Arial"];',
+        '  edge [arrowsize=0.8, penwidth=1.4];',
     ]
     for place in net.places:
         shape = "doublecircle" if place.place_id in net.final_places else "circle"
@@ -413,6 +414,92 @@ def separate_overlapping_places(
     return separated
 
 
+def assignment2_visual_layout(
+    net: PetriNet,
+) -> tuple[
+    dict[str, tuple[float, float]],
+    dict[str, tuple[float, float]],
+    dict[tuple[str, str], list[tuple[float, float]]],
+] | None:
+    """Use a hand-tuned readable layout for the fixed Assignment 2 event log."""
+    transition_positions_by_activity = {
+        "Check stock availability": (215.0, 520.0),
+        "Retrieve product from warehouse": (510.0, 245.0),
+        "Check materials availability": (510.0, 760.0),
+        "Request raw materials": (800.0, 870.0),
+        "Obtain raw materials": (1080.0, 870.0),
+        "Manufacture product": (1340.0, 760.0),
+        "Confirm order": (1610.0, 520.0),
+        "Emit invoice": (1870.0, 245.0),
+        "Receive payment": (2130.0, 245.0),
+        "Get shipping address": (1870.0, 760.0),
+        "Ship product": (2130.0, 760.0),
+        "Archive order": (2390.0, 520.0),
+    }
+    if set(net.transitions) != set(transition_positions_by_activity):
+        return None
+
+    place_positions_by_label = {
+        "Start": (80.0, 520.0),
+        "p1": (660.0, 650.0),
+        "p2": (1205.0, 760.0),
+        "p3": (350.0, 520.0),
+        "p4": (1740.0, 340.0),
+        "p5": (1740.0, 700.0),
+        "p6": (2000.0, 245.0),
+        "p7": (2000.0, 760.0),
+        "p8": (1475.0, 520.0),
+        "p9": (2260.0, 365.0),
+        "p10": (940.0, 870.0),
+        "p11": (2260.0, 675.0),
+        "End": (2525.0, 520.0),
+    }
+    place_id_by_label = {place.label: place.place_id for place in net.places}
+    if set(place_positions_by_label) - set(place_id_by_label):
+        return None
+
+    transition_positions = {
+        transition_id(activity): position
+        for activity, position in transition_positions_by_activity.items()
+    }
+    place_positions = {
+        place_id_by_label[label]: position
+        for label, position in place_positions_by_label.items()
+    }
+
+    tid = transition_id
+    pid = place_id_by_label
+    arc_waypoints: dict[tuple[str, str], list[tuple[float, float]]] = {
+        (pid["p3"], tid("Retrieve product from warehouse")): [(420.0, 520.0), (420.0, 245.0)],
+        (pid["p3"], tid("Check materials availability")): [(420.0, 520.0), (420.0, 760.0)],
+        (tid("Check materials availability"), pid["p1"]): [(595.0, 760.0), (595.0, 650.0)],
+        (pid["p1"], tid("Request raw materials")): [(700.0, 650.0), (700.0, 870.0)],
+        (pid["p1"], tid("Manufacture product")): [
+            (660.0, 610.0),
+            (1280.0, 610.0),
+            (1280.0, 735.0),
+        ],
+        (tid("Obtain raw materials"), pid["p2"]): [(1140.0, 815.0), (1205.0, 815.0)],
+        (tid("Retrieve product from warehouse"), pid["p8"]): [
+            (620.0, 245.0),
+            (620.0, 440.0),
+            (1475.0, 440.0),
+        ],
+        (tid("Manufacture product"), pid["p8"]): [
+            (1415.0, 760.0),
+            (1415.0, 600.0),
+            (1475.0, 600.0),
+        ],
+        (tid("Confirm order"), pid["p4"]): [(1685.0, 520.0), (1685.0, 340.0)],
+        (tid("Confirm order"), pid["p5"]): [(1685.0, 520.0), (1685.0, 700.0)],
+        (tid("Receive payment"), pid["p9"]): [(2195.0, 245.0), (2195.0, 365.0)],
+        (tid("Ship product"), pid["p11"]): [(2195.0, 760.0), (2195.0, 675.0)],
+        (pid["p9"], tid("Archive order")): [(2320.0, 365.0), (2320.0, 492.0)],
+        (pid["p11"], tid("Archive order")): [(2320.0, 675.0), (2320.0, 548.0)],
+    }
+    return transition_positions, place_positions, arc_waypoints
+
+
 def boundary_point(
     center: tuple[float, float],
     size: tuple[float, float],
@@ -468,62 +555,88 @@ def wrap_label(text: str, width: int = 15) -> list[str]:
 
 
 def write_petri_svg(net: PetriNet, out: Path) -> None:
-    transition_positions = {
-        transition_id(activity): transition_position(activity) for activity in net.transitions
-    }
-    place_positions = {
-        place.place_id: place_position(place, transition_positions) for place in net.places
-    }
-    place_positions = separate_overlapping_places(place_positions)
+    layout = assignment2_visual_layout(net)
+    if layout is None:
+        transition_positions = {
+            transition_id(activity): transition_position(activity) for activity in net.transitions
+        }
+        place_positions = {
+            place.place_id: place_position(place, transition_positions) for place in net.places
+        }
+        place_positions = separate_overlapping_places(place_positions)
+        arc_waypoints: dict[tuple[str, str], list[tuple[float, float]]] = {}
+    else:
+        transition_positions, place_positions, arc_waypoints = layout
+
     positions = {**transition_positions, **place_positions}
-    width = int(max(x for x, _y in positions.values()) + 150)
-    height = int(max(y for _x, y in positions.values()) + 150)
     place_ids = {place.place_id for place in net.places}
+    place_size = (56.0, 56.0)
+    transition_size = (124.0, 50.0)
 
     def node_size(node_id: str) -> tuple[float, float]:
-        return (54, 54) if node_id in place_ids else (112, 44)
+        return place_size if node_id in place_ids else transition_size
+
+    def clean_points(points: list[tuple[float, float]]) -> list[tuple[float, float]]:
+        cleaned: list[tuple[float, float]] = []
+        for point in points:
+            if not cleaned or abs(cleaned[-1][0] - point[0]) > 0.5 or abs(cleaned[-1][1] - point[1]) > 0.5:
+                cleaned.append(point)
+        return cleaned
+
+    def arc_points(source: str, target: str) -> list[tuple[float, float]]:
+        source_center = positions[source]
+        target_center = positions[target]
+        waypoints = arc_waypoints.get((source, target), [])
+        if waypoints:
+            start = boundary_point(source_center, node_size(source), waypoints[0])
+            end = boundary_point(target_center, node_size(target), waypoints[-1])
+            return clean_points([start, *waypoints, end])
+
+        start = boundary_point(source_center, node_size(source), target_center)
+        end = boundary_point(target_center, node_size(target), source_center)
+        if abs(start[1] - end[1]) < 2 or abs(start[0] - end[0]) < 2:
+            return clean_points([start, end])
+        mid_x = (start[0] + end[0]) / 2
+        return clean_points([start, (mid_x, start[1]), (mid_x, end[1]), end])
+
+    all_arc_points = [arc_points(source, target) for source, target in net.arcs]
+    all_points = list(positions.values()) + [point for points in all_arc_points for point in points]
+    width = int(max(x for x, _y in all_points) + 90)
+    height = int(max(y for _x, y in all_points) + 90)
 
     parts = [
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
         "<defs>",
-        '<marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">',
-        '<path d="M0,0 L0,6 L9,3 z" fill="#20242a"/>',
+        '<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="4" orient="auto" markerUnits="strokeWidth">',
+        '<path d="M0,0 L0,8 L10,4 z" fill="#111827"/>',
         "</marker>",
         "</defs>",
         '<rect width="100%" height="100%" fill="#fff"/>',
         "<style>",
-        "text{font-family:Arial,Helvetica,sans-serif;fill:#20242a}.arc{stroke:#20242a;stroke-width:1.8;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#20242a;stroke-width:1.8}.transition{fill:#f8fafc;stroke:#20242a;stroke-width:1.8}",
+        "text{font-family:'DejaVu Sans',Arial,Helvetica,sans-serif;fill:#111827}.arc{stroke:#111827;stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}.place{fill:#fff;stroke:#111827;stroke-width:2}.transition{fill:#f8fafc;stroke:#111827;stroke-width:2}",
         "</style>",
-        svg_text(["Assignment 2 Alpha-Mined Petri Net"], width / 2, 30, 18, weight="700"),
+        svg_text(["Assignment 2 Alpha-Mined Petri Net"], width / 2, 42, 20, weight="700"),
     ]
 
-    for source, target in net.arcs:
-        source_center = positions[source]
-        target_center = positions[target]
-        start = boundary_point(source_center, node_size(source), target_center)
-        end = boundary_point(target_center, node_size(target), source_center)
-        if abs(start[1] - end[1]) < 2 or abs(start[0] - end[0]) < 2:
-            points = [start, end]
-        else:
-            mid_x = (start[0] + end[0]) / 2
-            points = [start, (mid_x, start[1]), (mid_x, end[1]), end]
+    for points in all_arc_points:
         value = " ".join(f"{x:.1f},{y:.1f}" for x, y in points)
         parts.append(f'<polyline class="arc" points="{value}" fill="none" marker-end="url(#arrow)"/>')
 
     place_lookup = {place.place_id: place for place in net.places}
     for place_id, (x, y) in place_positions.items():
         stroke_width = 3 if place_id in {net.initial_place, *net.final_places} else 1.8
-        parts.append(f'<circle class="place" cx="{x:.1f}" cy="{y:.1f}" r="27" stroke-width="{stroke_width}"/>')
-        parts.append(svg_text([place_lookup[place_id].label], x, y + 5, 12, weight="700"))
+        parts.append(f'<circle class="place" cx="{x:.1f}" cy="{y:.1f}" r="28" stroke-width="{stroke_width}"/>')
+        parts.append(svg_text([place_lookup[place_id].label], x, y + 5, 13, weight="700"))
 
     for activity in net.transitions:
         transition = transition_id(activity)
         x, y = transition_positions[transition]
+        width_t, height_t = transition_size
         parts.append(
-            f'<rect class="transition" x="{x-56:.1f}" y="{y-22:.1f}" width="112" height="44" rx="5" ry="5"/>'
+            f'<rect class="transition" x="{x-width_t / 2:.1f}" y="{y-height_t / 2:.1f}" width="{width_t:.1f}" height="{height_t:.1f}" rx="5" ry="5"/>'
         )
         lines = wrap_label(short(activity), 14)
-        parts.append(svg_text(lines, x, y + 4 - (len(lines) - 1) * 7, 10))
+        parts.append(svg_text(lines, x, y + 4 - (len(lines) - 1) * 7, 11))
 
     parts.append("</svg>")
     out.write_text("\n".join(parts) + "\n", encoding="utf-8")
